@@ -1,22 +1,74 @@
 import { NbMenuItem } from '@nebular/theme';
+import { title } from 'process';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'E-commerce',
-    icon: 'shopping-cart-outline',
+    title: 'Home',
+    icon: 'home',
     link: '/pages/dashboard',
     home: true,
   },
-  {
+  /*{
     title: 'IoT Dashboard',
     icon: 'home-outline',
     link: '/pages/iot-dashboard',
-  },
+  },*/
   {
-    title: 'FEATURES',
+    title: 'GESTÃO:',
     group: true,
   },
   {
+    title: 'Doadores',
+    icon: 'person',
+    link: '/pages/donner/blood-donner',
+  },
+  {
+    title: 'Doações',
+    icon: 'heart',
+    link: '',
+  },
+  {
+    title: 'Funcionários',
+    icon: 'briefcase',
+    link: '',
+  },
+  {
+    title: 'Stock',
+    icon: 'folder-add',
+    children:[
+      {
+        title:'Quarentena',
+        icon: 'slash-outline',
+        link: '',
+      },
+      {
+        title:'Pronto',
+        icon: 'done-all-outline',
+        link: '',
+      },
+    ],
+
+  },
+  {
+    title: 'Transfusões',
+    icon: 'activity',
+    link: '',
+  },
+  {
+    title: 'RECUSA:',
+    group: true,
+  },
+  {
+    title: 'Doações',
+    icon: 'heart-outline',
+    link: '',
+  },
+  {
+    title: 'Pessoas',
+    icon: 'person-remove-outline',
+    link: '',
+  },
+  /*{
     title: 'Layout',
     icon: 'layout-outline',
     children: [
@@ -213,16 +265,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'Doadores',
-    icon: 'person-outline',
-    children: [
-      {
-        title: 'Doadores',
-        link: '/pages/donner/blood-donner',
-      }
-    ],
-  },
-  {
     title: 'Miscellaneous',
     icon: 'shuffle-2-outline',
     children: [
@@ -253,5 +295,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },
+  },*/
 ];

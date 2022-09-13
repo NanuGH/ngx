@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
 
-  themes = [
+  /*themes = [
     {
       value: 'default',
       name: 'Light',
@@ -33,6 +33,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {
       value: 'corporate',
       name: 'Corporate',
+    },
+  ];*/
+  themes = [
+    {
+      value: 'default',
+      name: 'Corporate',
+    },
+    {
+      value: 'dark',
+      name: 'Dark',
     },
   ];
 
