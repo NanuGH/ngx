@@ -1,25 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
+import { SmartTableData } from '../../@core/data/smart-table';
 
-import { SmartTableData } from '../../../@core/data/smart-table';
-import { DonnerService } from '../../../service/blood-donnner/DonnerService';
 
 @Component({
-  selector: 'ngx-smart-table',
-  templateUrl: './blood-donner.component.html',
-  styleUrls: ['./blood-donner.component.scss'],
+  selector: 'ngx-person',
+  templateUrl: "./person.component.html",
+  styleUrls: ["./person.component.scss"],
 })
-export class BloodDonnerComponent implements OnInit{
+export class PersonComponent {
 
   source: LocalDataSource = new LocalDataSource();
+  showForeignList: boolean = false;
+  loadingList: boolean = false;
 
-  constructor(private service: SmartTableData, private donnerService: DonnerService) {
+  constructor(private service: SmartTableData) {
     const data = this.service.getData();
     this.source.load(data);
   }
 
-  ngOnInit(): void {
-    this.getDonner();
+
+  searchResult(event) {
+    this.source.load(event);
+    this.showForeignList = true;
+  }
+
+  loadingResult(event) {
+    this.loadingList = event;
   }
 
     settings = {
@@ -51,16 +58,6 @@ export class BloodDonnerComponent implements OnInit{
 
 
 
-  getDonner(){
-    this.donnerService.getDonner().subscribe(
-      (data: any) => {
-
-        this.source.load(data.details[0]);
-        console.log(data.details);
-      },
-      (err) => {}
-    );
-  }
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {

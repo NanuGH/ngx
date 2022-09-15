@@ -18,6 +18,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     group: true,
   },
   {
+    title: 'Utentes',
+    icon: 'people-outline',
+    link: '/pages/person',
+    home: true,
+  },
+  {
     title: 'Doadores',
     icon: 'person',
     link: '/pages/donner/blood-donner',
@@ -54,6 +60,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'activity',
     link: '',
   },
+
   {
     title: 'RECUSA:',
     group: true,
@@ -65,10 +72,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Pessoas',
-    icon: 'person-remove-outline',
+    icon: 'people-outline',
     link: '',
   },
-  /*{
+  /*
+  {
     title: 'Layout',
     icon: 'layout-outline',
     children: [
@@ -295,5 +303,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
         link: '/auth/reset-password',
       },
     ],
-  },*/
+  },
+  */
 ];

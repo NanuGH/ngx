@@ -1,0 +1,57 @@
+<form (ngSubmit)="onSearchFormSubmit()">
+  <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small">
+    <nb-card-header>Pesquisa de Utentes</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputFirstName">Nome</label>
+            <input type="text" class="form-control" id="inputFirstName" placeholder="Nome" formControlName="name"
+            [ngClass]="{
+              'form-control-danger is-invalid':
+                searchGroup.get('name').invalid && (searchGroup.get('name').dirty || searchGroup.get('name').touched)
+            }" />
+            <div
+              *ngIf="searchGroup.get('name').errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="searchGroup.get('name').errors.pattern">
+                Somente Letras
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="inputLastName">Apelido</label>
+            <input type="text" class="form-control" id="inputLastName" placeholder="Apelido"
+              formControlName="surname"
+              [ngClass]="{
+                'form-control-danger is-invalid':
+                  searchGroup.get('surname').invalid &&
+                  (searchGroup.get('surname').dirty ||
+                  searchGroup.get('surname').touched)
+              }"/>
+              <div
+              *ngIf="searchGroup.get('surname').errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="searchGroup.get('surname').errors.pattern">
+                Somente Letras
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <button nbButton  class="mt-3 mr-2" status="danger" (click)="clearSearch()">
+        Limpar
+      </button>
+      <button nbButton class="mt-3" (click) = "onSearchFormSubmit">
+        Pesquisar
+      </button>
+    </nb-card-body>
+  </nb-card>
+</form>
