@@ -1,28 +1,35 @@
-<div class="row mb-2">
-  <div class="col-lg-12">
-    <button
-      *nbIsGranted="['edit', 'editEstrangeiro']"
-      nbButton
-      type="submit"
-      class="mt-3 float-right moveHover"
-      style="background-color: #003399"
-    >
-      Novo Estrangeiro
-    </button>
-  </div>
-</div>
+<form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
+  <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
+    <nb-card-header>Pesquisa de Utentes</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="namePerson">Nome</label>
+            <input type="text" class="form-control" id="namePerson" placeholder="Nome" formControlName="namePerson" />
+          </div>
+        </div>
 
-<searchPerson
-  (searchFormEvent)="searchResult($event)"
-  (loadingSearchEvent)="loadingResult($event)"
->
-</searchPerson>
+        <div class="form-group">
+          <label for="surnamePerson">Apelido</label>
+          <input type="text" class="form-control" id="surnamePerson" placeholder="Apelido"
+            formControlName="surnamePerson" />
+        </div>
+      </div>
 
+      <button nbButton type="button" class="mt-3 mr-2" status="danger" >
+        Limpar
+      </button>
+      <button nbButton status="primary" type="submit" class="mt-3"
+       (click)="(onSearchFormSubmit)">
+        Pesquisar
+      </button>
+    </nb-card-body>
+  </nb-card>
+</form>
 
-<nb-card >
-  <nb-card-header>
-    Utentes
-  </nb-card-header>
+<nb-card>
+  <nb-card-header> Utentes </nb-card-header>
 
   <nb-card-body>
     <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)">

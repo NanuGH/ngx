@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../@core/data/smart-table';
+import { TreHelper } from '../../helpers/helper';
+import { SearchPerson } from '../../models/searchPerson';
+import { PersonService } from '../../service/person/personService';
 
 
 @Component({
@@ -8,26 +12,28 @@ import { SmartTableData } from '../../@core/data/smart-table';
   templateUrl: "./person.component.html",
   styleUrls: ["./person.component.scss"],
 })
-export class PersonComponent {
+export class PersonComponent implements OnInit{
+
+  searchForm: FormGroup;
 
   source: LocalDataSource = new LocalDataSource();
-  showForeignList: boolean = false;
-  loadingList: boolean = false;
 
-  constructor(private service: SmartTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
+  constructor(//private service: SmartTableData,
+             private formBuilder: FormBuilder,
+             private personService: PersonService) {
+    //const data = this.service.getData();
+    //this.source.load(data);
+  }
+
+  ngOnInit(): void {
+    this.loadSearchForm();
   }
 
 
   searchResult(event) {
     this.source.load(event);
-    this.showForeignList = true;
   }
 
-  loadingResult(event) {
-    this.loadingList = event;
-  }
 
     settings = {
       add: {
@@ -56,9 +62,6 @@ export class PersonComponent {
       },
     };
 
-
-
-
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
       event.confirm.resolve();
@@ -66,4 +69,51 @@ export class PersonComponent {
       event.confirm.reject();
     }
   }
+
+
+  /*************************/////// */
+
+
+
+  loadSearchForm() {
+    this.searchForm = this.formBuilder.group({
+      search: this.formBuilder.group({
+        namePerson: [""],
+        surnamePerson: [""],
+      }),
+    });
+  }
+
+  onSearchFormSubmit() {
+    this.convertFormToModel();
+  }
+
+  searchPersonService(viewModelObject: SearchPerson) {
+    this.personService
+      .getPersonMultipleParams(viewModelObject)
+      .subscribe((data: any) => {
+        this.source.load(data.details[0]);
+        console.log(this.source);
+      });
+  }
+
+  convertFormToModel() {
+    var viewModelObject = <SearchPerson>{
+      namePerson: this.searchGroup.get("namePerson").value,
+      surnamePerson: this.searchGroup.get("surnamePerson").value,
+    };
+    TreHelper.removeProperty(viewModelObject);
+
+    console.log(viewModelObject);
+
+    this.searchPersonService(viewModelObject);
+  }
+
+  public get searchGroup(): FormGroup {
+    return this.searchForm.get("search") as FormGroup;
+  }
+
+
+
+
 }

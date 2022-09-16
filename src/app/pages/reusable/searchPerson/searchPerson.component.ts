@@ -74,11 +74,11 @@ export class SearchPersonComponent implements OnInit {
 
   clearSearch() {
     this.searchForm.reset();
-    //this.loadSearchForm();
+    this.loadSearchForm();
   }
 
   onSearchFormSubmit() {
-    //this.loadingSearchEvent.emit(false);
+    this.loadingSearchEvent.emit(true);
     this.convertFormToModel();
   }
 
@@ -105,12 +105,11 @@ export class SearchPersonComponent implements OnInit {
     };
     TreHelper.removeProperty(viewModelObject);
     this.searchPerson(viewModelObject);
-
   }
 
   private searchPerson(viewModelObject: SearchPerson) {
     const body = JSON.parse(JSON.stringify(viewModelObject));
-    this.personService.getPerson(body).subscribe((data: any) => {
+    this.personService.getPersonMultipleParams(body).subscribe((data: any) => {
       console.log(data);
       this.treatResultOfDataList(data);
       this.loadingSearchEvent.emit(false);
