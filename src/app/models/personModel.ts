@@ -1,6 +1,5 @@
 
 export interface PersonModel {
-  id: string;
   namePerson: string;
   surnamePerson: string;
   dmBloodCode: string;
@@ -12,10 +11,8 @@ export interface PersonModel {
   jobAddress: string;
   profession: string;
   grade: string;
-  insertionDate: string;
-  updateDate: string;
   whoInserted: string;
   whoUpdated: string;
-  status: String;
-  email: String;
+  status: string;
+  email: string;
 }

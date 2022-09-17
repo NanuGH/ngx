@@ -59,6 +59,10 @@ import { PersonModel } from "../../models/personModel";
       return this.http.get<ApiResponse<PersonModel>>(`${this.url}${id}`, this.httpOptions);
     }
 
+    edit(id: String,person: PersonModel): Observable<ApiResponse<PersonModel>> {
+      return this.http.put<ApiResponse<PersonModel>>(`${this.url}${id}`, person, this.httpOptions);
+    }
+
 
    /* getPerson(searchPerson: SearchPerson ):Observable<ApiResponse<PersonModel>> {
       return this.http.get<ApiResponse<PersonModel>>(`${this.url}/${searchPerson.namePerson}
@@ -71,9 +75,7 @@ import { PersonModel } from "../../models/personModel";
       return this.http.post<ResponseApp<Employee>>(`${this.url}`, employee, this.httpOptions);
     }
 
-    edit(employee: Employee): Observable<ResponseApp<Employee>> {
-      return this.http.put<ResponseApp<Employee>>(`${this.url}${employee.id}`, employee, this.httpOptions);
-    }
+
 
     delete(id: string): Observable<ResponseApp<Employee>> {
       return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);

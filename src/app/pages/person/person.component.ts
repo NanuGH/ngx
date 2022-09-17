@@ -43,6 +43,7 @@ export class PersonComponent implements OnInit{
 
 
     settings = {
+      noDataMessage: "Sem Dados",
       add: {
         addButtonContent: '<i class="nb-plus"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
@@ -52,6 +53,7 @@ export class PersonComponent implements OnInit{
         editButtonContent: '<i class="nb-edit"></i>',
         saveButtonContent: '<i class="nb-checkmark"></i>',
         cancelButtonContent: '<i class="nb-close"></i>',
+        confirmSave: true
       },
       delete: {
         deleteButtonContent: '<i class="nb-trash"></i>',
@@ -64,6 +66,14 @@ export class PersonComponent implements OnInit{
         },
         surnamePerson: {
           title: 'Apelido',
+          type: 'string',
+        },
+        dmBloodCode: {
+          title: 'Tipo Sanguineo',
+          type: 'string',
+        },
+        dmSex: {
+          title: 'Sexo',
           type: 'string',
         },
       },
@@ -95,7 +105,7 @@ export class PersonComponent implements OnInit{
   loadSearchForm() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        namePerson: [""],
+        namePerson: ["Adilson"],
         surnamePerson: [""],
       }),
     });
@@ -165,5 +175,38 @@ export class PersonComponent implements OnInit{
 
   public addPerson(){
     this.disableFormSearch=true;
+  }
+
+
+  /**************////// Edit */
+  onEdit($event){
+    const personModel = <PersonModel>{
+      namePerson: $event.newData.namePerson,
+      surnamePerson: $event.newData.surnamePerson,
+      dmBloodCode: $event.newData.dmBloodCode,
+      dmDocIdent: $event.newData.dmDocIdent,
+
+      birthday: $event.newData.birthday,
+      picturePerson: $event.newData.picturePerson,
+      dmSex: $event.newData.dmSex,
+      dmHomeAdd: $event.newData.dmHomeAdd,
+
+      jobAddress: $event.newData.jobAddress,
+      profession: $event.newData.profession,
+      grade: $event.newData.grade,
+      whoInserted: $event.newData.whoInserted,
+
+      whoUpdated: $event.newData.whoUpdated,
+      status: $event.newData.status,
+      email: $event.newData.email,
+    }
+    let idPerson = $event.data.id;
+    this.personService.edit(idPerson,personModel).subscribe(
+      (data: any) => {
+        $event.confirm.resolve();
+        console.log(data);
+
+      }
+    );
   }
 }
