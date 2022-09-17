@@ -14,7 +14,7 @@ import { PersonModel } from "../../models/personModel";
   export class PersonService extends DefaultService {
 
     constructor(private http: HttpClient) {
-     super('person/getPersonOpts')
+     super('person/')
     }
 
     private httpOptions ={
@@ -35,52 +35,37 @@ import { PersonModel } from "../../models/personModel";
 
       let queryJustSurname = new HttpParams().append("surnamePerson",searchPerson.surnamePerson)
 
-
-         //const options = {  params: queryParams, headers: headerss }
          if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null){
            const options = {  params: queryParams, headers: headerss }
-           console.log("os 2");
-
-           return this.http.get<ApiResponse<PersonModel>>(`${this.url}`, options);
+           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
          }
 
         if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null){
           const options = {  params: queryJustName, headers: headerss }
-          console.log("so nome");
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}`, options);
+          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
         if(searchPerson.namePerson==null && searchPerson.surnamePerson != null){
           const options = {  params: queryJustSurname, headers: headerss }
-          console.log("so apelido");
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}`, options);
+          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
         if(searchPerson.namePerson==null && searchPerson.surnamePerson == null){
           const options = {headers: headerss }
-          console.log("nenhum");
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}`, options);
+          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
-
-
-       /* const options = {  params: queryParams, headers: headerss }
-        return this.http.get<ApiResponse<PersonModel>>(`${this.url}`, options);*/
-
-
-
-
     }
 
 
+    findById(id: String): Observable<ApiResponse<PersonModel>> {
+      return this.http.get<ApiResponse<PersonModel>>(`${this.url}${id}`, this.httpOptions);
+    }
 
 
-/*
-    getPerson(searchPerson: SearchPerson ):Observable<ApiResponse<PersonModel>> {
+   /* getPerson(searchPerson: SearchPerson ):Observable<ApiResponse<PersonModel>> {
       return this.http.get<ApiResponse<PersonModel>>(`${this.url}/${searchPerson.namePerson}
                                                                  /${searchPerson.surnamePerson}`, this.httpOptions);
     }
-*/
-    /*findById(id: String): Observable<ResponseApp<Employee>> {
-      return this.http.get<ResponseApp<Employee>>(`${this.url}${id}`, this.httpOptions);
-    }
+
+    /*
 
     create(employee: Employee): Observable<ResponseApp<Employee>> {
       return this.http.post<ResponseApp<Employee>>(`${this.url}`, employee, this.httpOptions);

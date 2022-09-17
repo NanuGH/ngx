@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { LocalDataSource } from 'ng2-smart-table';
 import { SmartTableData } from '../../@core/data/smart-table';
 import { TreHelper } from '../../helpers/helper';
+import { PersonModel } from '../../models/personModel';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
 
@@ -15,6 +16,12 @@ import { PersonService } from '../../service/person/personService';
 export class PersonComponent implements OnInit{
 
   searchForm: FormGroup;
+  resultForm: FormGroup;
+  showResultList:boolean=false;
+  disableFormSearch:boolean=true;
+  showSmarttableList: boolean =false;
+
+  personResponse:PersonModel;
 
   source: LocalDataSource = new LocalDataSource();
 
@@ -74,6 +81,16 @@ export class PersonComponent implements OnInit{
   /*************************/////// */
 
 
+  cleanForm(){
+    this.searchForm.reset();
+    this.showSmarttableList=false;
+  }
+
+  closeResult(){
+    this.disableFormSearch=true;
+    this.showSmarttableList=false;
+    this.showResultList=false;
+  }
 
   loadSearchForm() {
     this.searchForm = this.formBuilder.group({
@@ -82,7 +99,13 @@ export class PersonComponent implements OnInit{
         surnamePerson: [""],
       }),
     });
+
+    this.resultForm = this.formBuilder.group({
+      name:[""],
+      surname:[""]
+    })
   }
+
 
   onSearchFormSubmit() {
     this.convertFormToModel();
@@ -94,7 +117,9 @@ export class PersonComponent implements OnInit{
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
         console.log(this.source);
+        this.showSmarttableList=true;
       });
+
   }
 
   convertFormToModel() {
@@ -113,7 +138,32 @@ export class PersonComponent implements OnInit{
     return this.searchForm.get("search") as FormGroup;
   }
 
+  /******** Get BY ID - Details */
+
+  public setResultForm(){
+    this.resultForm.get("name").setValue(this.personResponse.namePerson);
+    this.resultForm.get("surname").setValue(this.personResponse.surnamePerson);
+  }
+
+  public onPersonIdSelect($event) {
+
+    if ($event.data.id) {
+      let idPerson = $event.data.id;
+      this.personService.findById(idPerson).subscribe(
+        (data: any) => {
+          this.personResponse = data.details[0];
+          this.showResultList=true;
+          this.disableFormSearch=false;
+          this.setResultForm();
+        }
+      );
+    }
+  }
 
 
+  /**////////////////// ADD Person */
 
+  public addPerson(){
+    this.disableFormSearch=true;
+  }
 }
