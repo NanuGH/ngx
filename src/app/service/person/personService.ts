@@ -30,25 +30,31 @@ import { PersonModel } from "../../models/personModel";
 
       let queryParams = new HttpParams().append("namePerson",searchPerson.namePerson)
                                         .append("surnamePerson",searchPerson.surnamePerson)
+                                        .append("birthday",searchPerson.birthday)
 
       let queryJustName = new HttpParams().append("namePerson",searchPerson.namePerson)
-
       let queryJustSurname = new HttpParams().append("surnamePerson",searchPerson.surnamePerson)
+      let queryJustBirthDay = new HttpParams().append("birthday",searchPerson.birthday)
 
-         if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null){
+
+         if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null && searchPerson.surnamePerson !=null){
            const options = {  params: queryParams, headers: headerss }
            return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
          }
 
-        if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null){
+        if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null  && searchPerson.surnamePerson ==null){
           const options = {  params: queryJustName, headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson != null){
+        if(searchPerson.namePerson==null && searchPerson.surnamePerson != null  && searchPerson.surnamePerson ==null){
           const options = {  params: queryJustSurname, headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null){
+        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null  && searchPerson.surnamePerson !=null){
+          const options = {  params: queryJustBirthDay, headers: headerss }
+          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
+        }
+        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null ){
           const options = {headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }

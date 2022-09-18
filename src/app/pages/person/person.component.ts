@@ -105,8 +105,9 @@ export class PersonComponent implements OnInit{
   loadSearchForm() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        namePerson: ["Adilson"],
+        namePerson: [""],
         surnamePerson: [""],
+        birthday: ["2022-09-02"]
       }),
     });
 
@@ -136,6 +137,8 @@ export class PersonComponent implements OnInit{
     var viewModelObject = <SearchPerson>{
       namePerson: this.searchGroup.get("namePerson").value,
       surnamePerson: this.searchGroup.get("surnamePerson").value,
+      birthday: this.searchGroup.get("birthday").value,
+
     };
     TreHelper.removeProperty(viewModelObject);
 
@@ -153,6 +156,8 @@ export class PersonComponent implements OnInit{
   public setResultForm(){
     this.resultForm.get("name").setValue(this.personResponse.namePerson);
     this.resultForm.get("surname").setValue(this.personResponse.surnamePerson);
+    this.resultForm.get("birthday ").setValue(this.personResponse.birthday);
+
   }
 
   public onPersonIdSelect($event) {

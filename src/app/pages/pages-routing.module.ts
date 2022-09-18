@@ -65,8 +65,8 @@ const routes: Routes = [{
     },
     {
       path: 'donner',
-      loadChildren: () => import('./donner/donner.module')
-        .then(m => m.DonnerModule),
+      loadChildren: () => import('./donner/blood-donner/blood-donner.module')
+        .then(m => m.BloodDonnerModule),
     },
     {
       path: 'person',
