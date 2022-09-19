@@ -6,7 +6,8 @@ import { TreHelper } from '../../helpers/helper';
 import { PersonModel } from '../../models/personModel';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
-
+import { SearchComponent } from '../reusable/searchPerson/search.component';
+import { SmartTableComponent } from '../tables/smart-table/smart-table.component';
 
 @Component({
   selector: 'ngx-person',
@@ -20,6 +21,8 @@ export class PersonComponent implements OnInit{
   showResultList:boolean=false;
   disableFormSearch:boolean=true;
   showSmarttableList: boolean =false;
+
+
 
   personResponse:PersonModel;
 
@@ -149,6 +152,13 @@ export class PersonComponent implements OnInit{
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
+  }
+
+
+  public receiveDataForm(searchPerson:SearchPerson ){
+    console.log(searchPerson);
+    this.searchPersonService(searchPerson);
+
   }
 
   /******** Get BY ID - Details */

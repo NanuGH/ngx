@@ -37,20 +37,21 @@ import { PersonModel } from "../../models/personModel";
       let queryJustBirthDay = new HttpParams().append("birthday",searchPerson.birthday)
 
 
-         if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null && searchPerson.surnamePerson !=null){
+
+         if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null && searchPerson.birthday !=null){
            const options = {  params: queryParams, headers: headerss }
            return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
          }
 
-        if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null  && searchPerson.surnamePerson ==null){
+        if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null  && searchPerson.birthday ==null){
           const options = {  params: queryJustName, headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson != null  && searchPerson.surnamePerson ==null){
+        if(searchPerson.namePerson==null && searchPerson.surnamePerson != null  && searchPerson.birthday ==null){
           const options = {  params: queryJustSurname, headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null  && searchPerson.surnamePerson !=null){
+        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null  && searchPerson.birthday !=null){
           const options = {  params: queryJustBirthDay, headers: headerss }
           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
         }
