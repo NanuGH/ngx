@@ -12,10 +12,12 @@ import { SearchPerson } from '../../../models/searchPerson';
 })
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
+  addEvent: Boolean =false;
 
   disableFormSearch:boolean=true;
   @Output() searchFormEvent: EventEmitter<any> = new EventEmitter();
-  @Output() loadingSearchEvent: EventEmitter<boolean> = new EventEmitter();
+  @Output() showFormEvent: EventEmitter<any> = new EventEmitter();
+  //@Output() loadingSearchEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
 
@@ -32,10 +34,9 @@ export class SearchComponent implements OnInit {
       surnamePerson: this.searchGroup.get("surnamePerson").value,
       birthday: this.searchGroup.get("birthday").value,
     };
-    console.log(viewModelObject);
 
     TreHelper.removeProperty(viewModelObject);
-    //this.searchFormEvent.emit(viewModelObject);
+    this.searchFormEvent.emit(viewModelObject);
   }
 
   public get searchGroup(): FormGroup {
@@ -59,6 +60,11 @@ export class SearchComponent implements OnInit {
 
   clearSearch(){
     this.searchForm.reset();
+  }
+
+  /************ ADD **************/
+  add(){
+    this.showFormEvent.emit(this.addEvent= true);
   }
 
 }

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { SmartTableData } from '../../@core/data/smart-table';
-import { TreHelper } from '../../helpers/helper';
 import { PersonModel } from '../../models/personModel';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
@@ -47,6 +45,7 @@ export class PersonComponent implements OnInit{
 
     settings = {
       noDataMessage: "Sem Dados",
+      actions: { columnTitle: 'Ações', add: false },
       add: {
         addButtonContent: '<i class="nb-plus"></i>',
         createButtonContent: '<i class="nb-checkmark"></i>',
@@ -110,33 +109,32 @@ export class PersonComponent implements OnInit{
       search: this.formBuilder.group({
         namePerson: [""],
         surnamePerson: [""],
-        birthday: ["2022-09-02"]
+        birthday: ["2022-09-08"]
       }),
     });
 
     this.resultForm = this.formBuilder.group({
-      name:[""],
-      surname:[""]
+      name:[""],surname:[""],bloodCode:[""],docIdent:[""],birthday:[""],dmSex:[""],
+      homeAdd:[""],jobAddress:[""],profession:[""],grade:[""],email:[""]
     })
   }
 
 
-  onSearchFormSubmit() {
+  /*onSearchFormSubmit() {
     this.convertFormToModel();
-  }
+  }*/
 
   searchPersonService(viewModelObject: SearchPerson) {
     this.personService
       .getPersonMultipleParams(viewModelObject)
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
-        console.log(this.source);
         this.showSmarttableList=true;
       });
 
   }
 
-  convertFormToModel() {
+  /*convertFormToModel() {
     var viewModelObject = <SearchPerson>{
       namePerson: this.searchGroup.get("namePerson").value,
       surnamePerson: this.searchGroup.get("surnamePerson").value,
@@ -148,7 +146,7 @@ export class PersonComponent implements OnInit{
     console.log(viewModelObject);
 
     this.searchPersonService(viewModelObject);
-  }
+  }*/
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
@@ -156,9 +154,7 @@ export class PersonComponent implements OnInit{
 
 
   public receiveDataForm(searchPerson:SearchPerson ){
-    console.log(searchPerson);
     this.searchPersonService(searchPerson);
-
   }
 
   /******** Get BY ID - Details */
@@ -166,7 +162,16 @@ export class PersonComponent implements OnInit{
   public setResultForm(){
     this.resultForm.get("name").setValue(this.personResponse.namePerson);
     this.resultForm.get("surname").setValue(this.personResponse.surnamePerson);
-    this.resultForm.get("birthday ").setValue(this.personResponse.birthday);
+    this.resultForm.get("bloodCode").setValue(this.personResponse.dmBloodCode);
+    this.resultForm.get("docIdent").setValue(this.personResponse.dmDocIdent);
+    this.resultForm.get("birthday").setValue(this.personResponse.birthday);
+    this.resultForm.get("dmSex").setValue(this.personResponse.dmSex);
+    this.resultForm.get("homeAdd").setValue(this.personResponse.dmHomeAdd);
+    this.resultForm.get("jobAddress").setValue(this.personResponse.jobAddress);
+    this.resultForm.get("profession").setValue(this.personResponse.profession);
+    this.resultForm.get("grade").setValue(this.personResponse.grade);
+    this.resultForm.get("email").setValue(this.personResponse.email);
+
 
   }
 
@@ -187,6 +192,10 @@ export class PersonComponent implements OnInit{
 
 
   /**////////////////// ADD Person */
+
+  public showAddForm(showResultList){
+    return showResultList
+  }
 
   public addPerson(){
     this.disableFormSearch=true;
