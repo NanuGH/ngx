@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
-import { NbToastrService } from '@nebular/theme';
 import { TreHelper } from '../../../helpers/helper';
 import { SearchPerson } from '../../../models/searchPerson';
 
@@ -12,12 +11,11 @@ import { SearchPerson } from '../../../models/searchPerson';
 })
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
-  addEvent: Boolean =false;
+  sendAddEvent: Boolean =false;
 
   disableFormSearch:boolean=true;
   @Output() searchFormEvent: EventEmitter<any> = new EventEmitter();
-  @Output() showFormEvent: EventEmitter<any> = new EventEmitter();
-  //@Output() loadingSearchEvent: EventEmitter<boolean> = new EventEmitter();
+  @Output() loadingSearchEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {
 
@@ -60,11 +58,6 @@ export class SearchComponent implements OnInit {
 
   clearSearch(){
     this.searchForm.reset();
-  }
-
-  /************ ADD **************/
-  add(){
-    this.showFormEvent.emit(this.addEvent= true);
   }
 
 }

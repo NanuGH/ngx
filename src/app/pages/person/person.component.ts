@@ -19,11 +19,9 @@ export class PersonComponent implements OnInit{
   showResultList:boolean=false;
   disableFormSearch:boolean=true;
   showSmarttableList: boolean =false;
-
-
+  Searchtable:boolean=true;
 
   personResponse:PersonModel;
-
   source: LocalDataSource = new LocalDataSource();
 
   constructor(//private service: SmartTableData,
@@ -34,7 +32,24 @@ export class PersonComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.loadSearchForm();
+    this.loadForms();
+  }
+
+  loadForms() {
+    this.searchForm = this.formBuilder.group({
+      search: this.formBuilder.group({
+        namePerson: [""],
+        surnamePerson: [""],
+        birthday: ["2022-09-08"]
+      }),
+    });
+
+    this.resultForm = this.formBuilder.group({
+      details: this.formBuilder.group({
+       name:[""],surname:[""],bloodCode:[""],docIdent:[""],birthday:[""],dmSex:[""],
+       homeAdd:[""],jobAddress:[""],profession:[""],grade:[""],email:[""]
+      }),
+    });
   }
 
 
@@ -89,9 +104,7 @@ export class PersonComponent implements OnInit{
     }
   }
 
-
   /*************************/////// */
-
 
   cleanForm(){
     this.searchForm.reset();
@@ -101,28 +114,8 @@ export class PersonComponent implements OnInit{
   closeResult(){
     this.disableFormSearch=true;
     this.showSmarttableList=false;
-    this.showResultList=false;
   }
 
-  loadSearchForm() {
-    this.searchForm = this.formBuilder.group({
-      search: this.formBuilder.group({
-        namePerson: [""],
-        surnamePerson: [""],
-        birthday: ["2022-09-08"]
-      }),
-    });
-
-    this.resultForm = this.formBuilder.group({
-      name:[""],surname:[""],bloodCode:[""],docIdent:[""],birthday:[""],dmSex:[""],
-      homeAdd:[""],jobAddress:[""],profession:[""],grade:[""],email:[""]
-    })
-  }
-
-
-  /*onSearchFormSubmit() {
-    this.convertFormToModel();
-  }*/
 
   searchPersonService(viewModelObject: SearchPerson) {
     this.personService
@@ -134,24 +127,10 @@ export class PersonComponent implements OnInit{
 
   }
 
-  /*convertFormToModel() {
-    var viewModelObject = <SearchPerson>{
-      namePerson: this.searchGroup.get("namePerson").value,
-      surnamePerson: this.searchGroup.get("surnamePerson").value,
-      birthday: this.searchGroup.get("birthday").value,
-
-    };
-    TreHelper.removeProperty(viewModelObject);
-
-    console.log(viewModelObject);
-
-    this.searchPersonService(viewModelObject);
-  }*/
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
   }
-
 
   public receiveDataForm(searchPerson:SearchPerson ){
     this.searchPersonService(searchPerson);
@@ -171,11 +150,12 @@ export class PersonComponent implements OnInit{
     this.resultForm.get("profession").setValue(this.personResponse.profession);
     this.resultForm.get("grade").setValue(this.personResponse.grade);
     this.resultForm.get("email").setValue(this.personResponse.email);
-
-
   }
 
   public onPersonIdSelect($event) {
+
+    this.Searchtable=false;
+    this.showSmarttableList=false;
 
     if ($event.data.id) {
       let idPerson = $event.data.id;
@@ -190,17 +170,50 @@ export class PersonComponent implements OnInit{
     }
   }
 
+  closeDetails(){
+    this.resultForm.reset();
+    this.showResultList=false;
+    this.Searchtable=true;
+    this.showSmarttableList=true;
+  }
 
   /**////////////////// ADD Person */
 
-  public showAddForm(showResultList){
-    return showResultList
+  showAddPerson(){
+    this.showResultList=true;
   }
 
   public addPerson(){
-    this.disableFormSearch=true;
+    this.convertFormToModel();
+    this.personService.create(this.convertFormToModel()).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
   }
 
+  convertFormToModel() {
+    var viewModelObject = <PersonModel>{
+      namePerson: this.searchGroup.get("name").value,
+      surnamePerson: this.searchGroup.get("surname").value,
+      dmBloodCode: this.searchGroup.get("bloodCode").value,
+      dmDocIdent: this.searchGroup.get("docIdent").value,
+      birthday: this.searchGroup.get("birthday").value,
+      picturePerson: "picture",
+      dmSex: this.searchGroup.get("dmSex").value,
+      dmHomeAdd: this.searchGroup.get("homeAdd").value,
+      jobAddress: this.searchGroup.get("jobAddress").value,
+      profession: this.searchGroup.get("profssion").value,
+      grade: this.searchGroup.get("grade").value,
+      whoInserted: "Hernani",
+      whoUpdated: "Hernani",
+      status: "true",
+      email: this.searchGroup.get("email").value,
+      };
+      console.log(viewModelObject);
+    return viewModelObject;
+
+  }
 
   /**************////// Edit */
   onEdit($event){
@@ -229,7 +242,6 @@ export class PersonComponent implements OnInit{
       (data: any) => {
         $event.confirm.resolve();
         console.log(data);
-
       }
     );
   }

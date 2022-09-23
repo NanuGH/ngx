@@ -1,10 +1,11 @@
+import { LocalData } from "ng2-completer";
 
 export interface PersonModel {
   namePerson: string;
   surnamePerson: string;
   dmBloodCode: string;
   dmDocIdent: string;
-  birthday: Date;
+  birthday:Date;
   picturePerson: string;
   dmSex: string;
   dmHomeAdd: string;

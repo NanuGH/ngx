@@ -64,11 +64,6 @@ const routes: Routes = [{
         .then(m => m.TablesModule),
     },
     {
-      path: 'donner',
-      loadChildren: () => import('./person/person.module')
-        .then(m => m.PersonModule),
-    },
-    {
       path: 'person',
       loadChildren: () => import('./person/person.module')
         .then(m => m.PersonModule),
