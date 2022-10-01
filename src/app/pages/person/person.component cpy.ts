@@ -1,8 +1,7 @@
-import { PersonModel } from './../../models/personModel';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Row } from 'ng2-smart-table/lib/lib/data-set/row';
+import { PersonModel } from '../../models/personModel';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
 import { SearchComponent } from '../reusable/searchPerson/search.component';
@@ -17,8 +16,6 @@ export class PersonComponent implements OnInit{
 
   searchForm: FormGroup;
   //resultForm: FormGroup;
-  //details: FormGroup;
-
   showResultList:boolean=true;
   disableFormSearch:boolean=false;
   showSmarttableList: boolean =false;
@@ -47,13 +44,16 @@ export class PersonComponent implements OnInit{
         birthday: ["2022-09-08"]
       }),
     });
+
+
   }
 
-  resultForm= this.formBuilder.group({
+  resultForm = this.formBuilder.group({
+    details: this.formBuilder.group({
      name:[""],surname:[""],bloodCode:[""],docIdent:[""],birthday:[""],dmSex:[""],
      homeAdd:[""],jobAddress:[""],profession:[""],grade:[""],email:[""]
+    }),
   });
-
 
 
   searchResult(event) {
@@ -141,7 +141,7 @@ export class PersonComponent implements OnInit{
 
   /******** Get BY ID - Details */
 
- /*  public setResultForm(){
+  public setResultForm(){
     this.resultForm.get("name").setValue(this.personResponse.namePerson);
     this.resultForm.get("surname").setValue(this.personResponse.surnamePerson);
     this.resultForm.get("bloodCode").setValue(this.personResponse.dmBloodCode);
@@ -154,7 +154,7 @@ export class PersonComponent implements OnInit{
     this.resultForm.get("grade").setValue(this.personResponse.grade);
     this.resultForm.get("email").setValue(this.personResponse.email);
     console.log(this.resultForm.value);
-  } */
+  }
 
   public onPersonIdSelect($event) {
 
@@ -163,26 +163,13 @@ export class PersonComponent implements OnInit{
 
     if ($event.data.id) {
       let idPerson = $event.data.id;
-      console.log($event.data);
-
+      console.log(idPerson);
 
       this.personService.findById(idPerson).subscribe(
         (data: any) => {
           console.log(data.details[0]);
           this.personResponse = data.details[0];
-
-
-   this.resultForm.get("name").setValue($event.data.namePerson);
-    this.resultForm.get("surname").setValue($event.data.surnamePerson);
-    this.resultForm.get("bloodCode").setValue($event.data.dmBloodCode);
-    this.resultForm.get("docIdent").setValue($event.data.dmDocIdent);
-    this.resultForm.get("birthday").setValue($event.data.birthday);
-    this.resultForm.get("dmSex").setValue($event.data.dmSex);
-    this.resultForm.get("homeAdd").setValue($event.data.dmHomeAdd);
-    this.resultForm.get("jobAddress").setValue($event.data.jobAddress);
-    this.resultForm.get("profession").setValue($event.data.profession);
-    this.resultForm.get("grade").setValue($event.data.grade);
-    this.resultForm.get("email").setValue($event.data.email);
+          this.setResultForm();
 
           this.showResultList=true;
           this.disableFormSearch=false;
@@ -217,21 +204,21 @@ export class PersonComponent implements OnInit{
 
   convertFormToModel() {
     var viewModelObject = <PersonModel>{
-      namePerson: this.resultForm.get("name").value,
-      surnamePerson: this.resultForm.get("surname").value,
-      dmBloodCode: this.resultForm.get("bloodCode").value,
-      dmDocIdent: this.resultForm.get("docIdent").value,
-      birthday: this.resultForm.get("birthday").value,
+      namePerson: this.searchGroup.get("name").value,
+      surnamePerson: this.searchGroup.get("surname").value,
+      dmBloodCode: this.searchGroup.get("bloodCode").value,
+      dmDocIdent: this.searchGroup.get("docIdent").value,
+      birthday: this.searchGroup.get("birthday").value,
       picturePerson: "picture",
-      dmSex: this.resultForm.get("dmSex").value,
-      dmHomeAdd: this.resultForm.get("homeAdd").value,
-      jobAddress: this.resultForm.get("jobAddress").value,
-      profession: this.resultForm.get("profession").value,
-      grade: this.resultForm.get("grade").value,
+      dmSex: this.searchGroup.get("dmSex").value,
+      dmHomeAdd: this.searchGroup.get("homeAdd").value,
+      jobAddress: this.searchGroup.get("jobAddress").value,
+      profession: this.searchGroup.get("profssion").value,
+      grade: this.searchGroup.get("grade").value,
       whoInserted: "Hernani",
       whoUpdated: "Hernani",
       status: "true",
-      email: this.resultForm.get("email").value,
+      email: this.searchGroup.get("email").value,
       };
       console.log(viewModelObject);
     return viewModelObject;

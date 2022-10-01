@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse";
-import { DonnerModel } from "../../models/donnerModel";
 import { SearchPerson } from "../../models/searchPerson";
 import { Observable } from "rxjs";
 import { PersonModel } from "../../models/personModel";

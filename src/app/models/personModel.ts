@@ -5,7 +5,7 @@ export interface PersonModel {
   surnamePerson: string;
   dmBloodCode: string;
   dmDocIdent: string;
-  birthday:Date;
+  birthday:string;
   picturePerson: string;
   dmSex: string;
   dmHomeAdd: string;

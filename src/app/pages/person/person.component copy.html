@@ -1,5 +1,5 @@
 <form [formGroup]="resultForm" [source]="srcPersonDtls" *ngIf="showResultList">
-  <nb-card accent="primary">
+  <nb-card formGroupName="details" accent="primary">
     <nb-card-header>Detalhes:</nb-card-header>
     <nb-card-body>
       <div class="row">
