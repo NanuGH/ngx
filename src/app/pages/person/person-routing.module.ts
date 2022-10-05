@@ -1,3 +1,4 @@
+import { SearchPersonComponent } from './../reusable/searchPerson/searchPerson.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PersonComponent } from './person.component';
@@ -6,10 +7,12 @@ import { PersonComponent } from './person.component';
 
 
 
-const routes: Routes = [{
+const routes: Routes = [
+  {
   path: '',
   component: PersonComponent,
-}];
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

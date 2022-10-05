@@ -31,7 +31,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Funcionários',
     icon: 'briefcase',
-    link: '',
+    link: '/pages/employee',
   },
   {
     title: 'Stock',

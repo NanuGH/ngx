@@ -2,35 +2,33 @@ import { PersonModel } from './../../models/personModel';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Row } from 'ng2-smart-table/lib/lib/data-set/row';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
-import { SearchComponent } from '../reusable/searchPerson/search.component';
-import { SmartTableComponent } from '../tables/smart-table/smart-table.component';
 
 @Component({
   selector: 'ngx-person',
   templateUrl: "./person.component.html",
   styleUrls: ["./person.component.scss"],
 })
-export class PersonComponent implements OnInit{
+export class PersonComponent implements OnInit {
 
+  idPerson:string;
   searchForm: FormGroup;
   //resultForm: FormGroup;
   //details: FormGroup;
 
-  showResultList:boolean=true;
-  disableFormSearch:boolean=false;
-  showSmarttableList: boolean =false;
-  Searchtable:boolean=true;
+  showResultList: boolean = false;
+  disableFormSearch: boolean = false;
+  showSmarttableList: boolean = false;
+  Searchtable: boolean = true;
 
-  personResponse:PersonModel;
+  personResponse: PersonModel;
   source: LocalDataSource = new LocalDataSource();
   sourcePersonDtls: LocalDataSource = new LocalDataSource();
 
   constructor(//private service: SmartTableData,
-             private formBuilder: FormBuilder,
-             private personService: PersonService) {
+    private formBuilder: FormBuilder,
+    private personService: PersonService) {
     //const data = this.service.getData();
     //this.source.load(data);
   }
@@ -44,14 +42,15 @@ export class PersonComponent implements OnInit{
       search: this.formBuilder.group({
         namePerson: [""],
         surnamePerson: [""],
-        birthday: ["2022-09-08"]
+        birthday: ["2022-09-17"]
       }),
     });
   }
 
-  resultForm= this.formBuilder.group({
-     name:[""],surname:[""],bloodCode:[""],docIdent:[""],birthday:[""],dmSex:[""],
-     homeAdd:[""],jobAddress:[""],profession:[""],grade:[""],email:[""]
+  resultForm = this.formBuilder.group({
+    id: [""],name: [""], surname: [""], bloodCode: [""],
+    docIdent: [""], birthday: [""], dmSex: [""],homeAdd: [""],
+    jobAddress: [""], profession: [""], grade: [""], email: [""]
   });
 
 
@@ -61,43 +60,44 @@ export class PersonComponent implements OnInit{
   }
 
 
-    settings = {
-      noDataMessage: "Sem Dados",
-      actions: { columnTitle: 'Ações', add: false },
-      add: {
-        addButtonContent: '<i class="nb-plus"></i>',
-        createButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
+  settings = {
+    noDataMessage: "Sem Dados",
+    mode: 'external',
+    actions: { columnTitle: 'Ações', add: false },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      //confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      namePerson: {
+        title: 'Nome',
+        type: 'string',
       },
-      edit: {
-        editButtonContent: '<i class="nb-edit"></i>',
-        saveButtonContent: '<i class="nb-checkmark"></i>',
-        cancelButtonContent: '<i class="nb-close"></i>',
-        confirmSave: true
+      surnamePerson: {
+        title: 'Apelido',
+        type: 'string',
       },
-      delete: {
-        deleteButtonContent: '<i class="nb-trash"></i>',
-        confirmDelete: true,
+      dmBloodCode: {
+        title: 'Tipo Sanguineo',
+        type: 'string',
       },
-      columns: {
-        namePerson: {
-          title: 'Nome',
-          type: 'string',
-        },
-        surnamePerson: {
-          title: 'Apelido',
-          type: 'string',
-        },
-        dmBloodCode: {
-          title: 'Tipo Sanguineo',
-          type: 'string',
-        },
-        dmSex: {
-          title: 'Sexo',
-          type: 'string',
-        },
+      dmSex: {
+        title: 'Sexo',
+        type: 'string',
       },
-    };
+    },
+  };
 
   onDeleteConfirm(event): void {
     if (window.confirm('Are you sure you want to delete?')) {
@@ -109,14 +109,14 @@ export class PersonComponent implements OnInit{
 
   /*************************/////// */
 
-  cleanForm(){
+  cleanForm() {
     this.searchForm.reset();
-    this.showSmarttableList=false;
+    this.showSmarttableList = false;
   }
 
-  closeResult(){
-    this.disableFormSearch=true;
-    this.showSmarttableList=false;
+  closeResult() {
+    this.disableFormSearch = true;
+    this.showSmarttableList = false;
   }
 
 
@@ -125,7 +125,7 @@ export class PersonComponent implements OnInit{
       .getPersonMultipleParams(viewModelObject)
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
-        this.showSmarttableList=true;
+        this.showSmarttableList = true;
       });
 
   }
@@ -135,57 +135,40 @@ export class PersonComponent implements OnInit{
     return this.searchForm.get("search") as FormGroup;
   }
 
-  public receiveDataForm(searchPerson:SearchPerson ){
+  public receiveDataForm(searchPerson: SearchPerson) {
     this.searchPersonService(searchPerson);
   }
 
   /******** Get BY ID - Details */
 
- /*  public setResultForm(){
-    this.resultForm.get("name").setValue(this.personResponse.namePerson);
-    this.resultForm.get("surname").setValue(this.personResponse.surnamePerson);
-    this.resultForm.get("bloodCode").setValue(this.personResponse.dmBloodCode);
-    this.resultForm.get("docIdent").setValue(this.personResponse.dmDocIdent);
-    this.resultForm.get("birthday").setValue(this.personResponse.birthday);
-    this.resultForm.get("dmSex").setValue(this.personResponse.dmSex);
-    this.resultForm.get("homeAdd").setValue(this.personResponse.dmHomeAdd);
-    this.resultForm.get("jobAddress").setValue(this.personResponse.jobAddress);
-    this.resultForm.get("profession").setValue(this.personResponse.profession);
-    this.resultForm.get("grade").setValue(this.personResponse.grade);
-    this.resultForm.get("email").setValue(this.personResponse.email);
-    console.log(this.resultForm.value);
-  } */
-
   public onPersonIdSelect($event) {
 
-    this.Searchtable=false;
-    this.showSmarttableList=false;
+    this.Searchtable = false;
+    this.showSmarttableList = false;
 
     if ($event.data.id) {
-      let idPerson = $event.data.id;
+      this.idPerson = $event.data.id;
       console.log($event.data);
 
 
-      this.personService.findById(idPerson).subscribe(
+      this.personService.findById(this.idPerson).subscribe(
         (data: any) => {
           console.log(data.details[0]);
           this.personResponse = data.details[0];
+          this.resultForm.get("name").setValue($event.data.namePerson);
+          this.resultForm.get("surname").setValue($event.data.surnamePerson);
+          this.resultForm.get("bloodCode").setValue($event.data.dmBloodCode);
+          this.resultForm.get("docIdent").setValue($event.data.dmDocIdent);
+          this.resultForm.get("birthday").setValue($event.data.birthday);
+          this.resultForm.get("dmSex").setValue($event.data.dmSex);
+          this.resultForm.get("homeAdd").setValue($event.data.dmHomeAdd);
+          this.resultForm.get("jobAddress").setValue($event.data.jobAddress);
+          this.resultForm.get("profession").setValue($event.data.profession);
+          this.resultForm.get("grade").setValue($event.data.grade);
+          this.resultForm.get("email").setValue($event.data.email);
 
-
-   this.resultForm.get("name").setValue($event.data.namePerson);
-    this.resultForm.get("surname").setValue($event.data.surnamePerson);
-    this.resultForm.get("bloodCode").setValue($event.data.dmBloodCode);
-    this.resultForm.get("docIdent").setValue($event.data.dmDocIdent);
-    this.resultForm.get("birthday").setValue($event.data.birthday);
-    this.resultForm.get("dmSex").setValue($event.data.dmSex);
-    this.resultForm.get("homeAdd").setValue($event.data.dmHomeAdd);
-    this.resultForm.get("jobAddress").setValue($event.data.jobAddress);
-    this.resultForm.get("profession").setValue($event.data.profession);
-    this.resultForm.get("grade").setValue($event.data.grade);
-    this.resultForm.get("email").setValue($event.data.email);
-
-          this.showResultList=true;
-          this.disableFormSearch=false;
+          this.showResultList = true;
+          this.disableFormSearch = false;
         }
       );
     }
@@ -193,20 +176,20 @@ export class PersonComponent implements OnInit{
 
   }
 
-  closeDetails(){
+  closeDetails() {
     this.resultForm.reset();
-    this.showResultList=false;
-    this.Searchtable=true;
-    this.showSmarttableList=true;
+    this.showResultList = false;
+    this.Searchtable = true;
+    this.showSmarttableList = false;
   }
 
   /**////////////////// ADD Person */
 
-  showAddPerson(){
-    this.showResultList=true;
+  showAddPerson() {
+    this.showResultList = true;
   }
 
-  public addPerson(){
+  public addPerson() {
     this.convertFormToModel();
     this.personService.create(this.convertFormToModel()).subscribe(
       (data: any) => {
@@ -232,15 +215,15 @@ export class PersonComponent implements OnInit{
       whoUpdated: "Hernani",
       status: "true",
       email: this.resultForm.get("email").value,
-      };
-      console.log(viewModelObject);
+    };
+    //console.log(viewModelObject);
     return viewModelObject;
 
   }
 
   /**************////// Edit */
-  onEdit($event){
-    const personModel = <PersonModel>{
+  public onEdit($event) {
+/*     const personModel = <PersonModel>{
       namePerson: $event.newData.namePerson,
       surnamePerson: $event.newData.surnamePerson,
       dmBloodCode: $event.newData.dmBloodCode,
@@ -261,11 +244,47 @@ export class PersonComponent implements OnInit{
       email: $event.newData.email,
     }
     let idPerson = $event.data.id;
-    this.personService.edit(idPerson,personModel).subscribe(
+    this.personService.edit(idPerson, personModel).subscribe(
       (data: any) => {
         $event.confirm.resolve();
         console.log(data);
       }
-    );
+    );*/
+
+    this.showResultList=true; this.Searchtable=false;
+    this.idPerson = $event.data.id;
+
+    if (this.idPerson) {
+          this.resultForm.get("name").setValue($event.data.namePerson);
+          this.resultForm.get("surname").setValue($event.data.surnamePerson);
+          this.resultForm.get("bloodCode").setValue($event.data.dmBloodCode);
+          this.resultForm.get("docIdent").setValue($event.data.dmDocIdent);
+          this.resultForm.get("birthday").setValue($event.data.birthday);
+          this.resultForm.get("dmSex").setValue($event.data.dmSex);
+          this.resultForm.get("homeAdd").setValue($event.data.dmHomeAdd);
+          this.resultForm.get("jobAddress").setValue($event.data.jobAddress);
+          this.resultForm.get("profession").setValue($event.data.profession);
+          this.resultForm.get("grade").setValue($event.data.grade);
+          this.resultForm.get("email").setValue($event.data.email);
+
+          this.showResultList = true; this.disableFormSearch = false;
+    }
   }
+
+  public editPerson(){
+    this.showResultList = true; this.disableFormSearch = false;
+    this.convertFormToModel();
+    console.log(this.convertFormToModel());
+
+
+   /* this.personService.edit(this.convertFormToModel()).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    );
+ */
+  }
+
 }
+
+

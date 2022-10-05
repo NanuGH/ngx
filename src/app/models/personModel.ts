@@ -1,6 +1,7 @@
 import { LocalData } from "ng2-completer";
 
 export interface PersonModel {
+  id:string;
   namePerson: string;
   surnamePerson: string;
   dmBloodCode: string;

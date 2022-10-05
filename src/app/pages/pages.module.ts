@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbFormFieldModule, NbMenuModule } from '@nebular/theme';
 
@@ -7,7 +8,6 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
-import { SearchComponent } from './reusable/searchPerson/search.component';
 
 @NgModule({
   imports: [
@@ -23,9 +23,8 @@ import { SearchComponent } from './reusable/searchPerson/search.component';
   ],
   declarations: [
     PagesComponent,
-
   ],
-  exports: [
+  entryComponents:[
 
   ],
 })

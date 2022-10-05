@@ -1,4 +1,4 @@
-<form [formGroup]="resultForm" [source]="srcPersonDtls" *ngIf="showResultList">
+<!-- <form [formGroup]="resultForm" [source]="srcPersonDtls" *ngIf="showResultList">
   <nb-card accent="primary">
     <nb-card-header>Detalhes:</nb-card-header>
     <nb-card-body>
@@ -91,42 +91,43 @@
   </nb-card>
 </form>
 
-<!-- <form [formGroup]="resultForm" (ngSubmit)="onSearchFormSubmit()" *ngIf="showResultList">
-  <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
-    <nb-card-header>Detalhes:</nb-card-header>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group">
-            <input type="text" class="form-control" id="name" placeholder="Nome" formControlName="name"/>
-          </div>
-          </div>
+ -->
+
+<nb-card *ngIf="showSearchCard">
+  <button nbButton size="small" status="primary" type="button" >Novo Funcionário</button>
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
+    <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
+      <nb-card-header>Pesquisa:</nb-card-header>
+      <nb-card-body>
+        <div class="row">
           <div class="col-sm-4">
-          <div class="form-group">
-            <input type="text" class="form-control" id="surname" placeholder="Apelido" formControlName="surname"/>
+            <div class="form-group">
+              <label for="namePerson">Número de Identificação</label>
+              <input type="text" class="form-control" id="identifNumber" placeholder="identifNumber" formControlName="identifNumber" />
+            </div>
           </div>
-          </div>
+
           <div class="col-sm-4">
-          <div class="form-group">
-            <input type="text" class="form-control" id="birthday" placeholder="Tipo Sanguíneo" formControlName="Tipo Sanguíneo">
+            <div class="form-group">
+              <label for="surnamePerson">Email</label>
+              <input type="text" class="form-control" id="email" placeholder="email"  formControlName="email" />
+            </div>
           </div>
+
         </div>
-      </div>
-      <button nbButton type="button" class="mt-3 mr-2" status="danger" (click)="closeResult()">Fechar</button>
-      <button nbButton status="primary" type="submit" class="mt-3 mr-2" (click)="(onSearchFormSubmit)">Pesquisar</button>
-      <button nbButton status="primary" type="submit" class="mt-3 mr-2" (click)="(addPerson)">Adicionar</button>
-    </nb-card-body>
-  </nb-card>
-</form> -->
 
+      </nb-card-body>
+      <nb-card-footer>
+        <button nbButton size="small" status="danger" type="button" class="mt-3 mr-2" (click)="clearSearchForm()">Limpar</button>
+        <button nbButton size="small" status="primary" type="submit" class="mt-3 mr-2" (click)="onSearchFormSubmit()">Pesquisar</button>
+      </nb-card-footer>
+    </nb-card>
+  </form>
 
-
-<nb-card *ngIf="Searchtable">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddPerson()">Novo Utente</button>
-  <searchPersoncomponent (searchFormEvent)="receiveDataForm($event)"></searchPersoncomponent>
 </nb-card>
 
-<nb-card *ngIf="showSmarttableList" accent="primary">
+<!-- <nb-card *ngIf="showSmarttableList" accent="primary">
   <nb-card-header>
     <div class="headerList">
       Utentes
@@ -141,4 +142,4 @@
       (edit)="onEdit($event)" (deleteConfirm)="onDeleteConfirm($event)">
     </ng2-smart-table>
   </nb-card-body>
-</nb-card>
+</nb-card> -->

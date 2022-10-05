@@ -4,7 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/personModel';
 import { SearchPerson } from '../../models/searchPerson';
 import { PersonService } from '../../service/person/personService';
-import { SearchComponent } from '../reusable/searchPerson/search.component';
+import { SearchComponent } from '../reusable/searchPerson/searchPerson.component';
 import { SmartTableComponent } from '../tables/smart-table/smart-table.component';
 
 @Component({

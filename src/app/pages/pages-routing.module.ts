@@ -44,11 +44,6 @@ const routes: Routes = [{
         .then(m => m.ExtraComponentsModule),
     },
     {
-      path: 'maps',
-      loadChildren: () => import('./maps/maps.module')
-        .then(m => m.MapsModule),
-    },
-    {
       path: 'charts',
       loadChildren: () => import('./charts/charts.module')
         .then(m => m.ChartsModule),
@@ -67,6 +62,11 @@ const routes: Routes = [{
       path: 'person',
       loadChildren: () => import('./person/person.module')
         .then(m => m.PersonModule),
+    },
+    {
+      path: 'employee',
+      loadChildren: () => import('./employee/employee.module')
+        .then(m => m.EmployeeModule),
     },
     {
       path: 'miscellaneous',

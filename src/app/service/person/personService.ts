@@ -69,6 +69,10 @@ import { PersonModel } from "../../models/personModel";
       return this.http.put<ApiResponse<PersonModel>>(`${this.url}${id}`, person, this.httpOptions);
     }
 
+    /* edit(person: PersonModel): Observable<ApiResponse<PersonModel>> {
+      return this.http.put<ApiResponse<PersonModel>>(`${this.url}${person.id}`, person, this.httpOptions);
+    }*/
+
     create(person: PersonModel): Observable<ApiResponse<PersonModel>> {
       return this.http.post<ApiResponse<PersonModel>>(`${this.url}`, person, this.httpOptions);
     }
