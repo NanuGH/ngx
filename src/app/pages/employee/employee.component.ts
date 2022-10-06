@@ -1,9 +1,8 @@
-import { PersonModel } from '../../models/personModel';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { EmployeeService } from '../../service/employee/employeeService';
 import { TreHelper } from '../../helpers/helper';
-import { SearchEmployee } from '../../models/searchEmployee';
+import { SearchEmployee } from '../../models/request/searchEmployee';
 
 @Component({
   selector: 'ngx-person',
@@ -29,13 +28,10 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        namePerson: [""],
-        surnamePerson: [""],
-        birthday: ["2022-09-17"]
+        identifNumber: ["1vU30v"],
+        email: [""]
       }),
     });
-
-
   }
 
 
@@ -44,7 +40,6 @@ export class EmployeeComponent implements OnInit {
       identifNumber: this.searchGroup.get("identifNumber").value,
       email: this.searchGroup.get("email").value,
     };
-
     TreHelper.removeProperty(viewModelObject);
   }
 
@@ -56,7 +51,6 @@ export class EmployeeComponent implements OnInit {
 
   onSearchFormSubmit() {
     this.convertFormToModel();
-    console.log(this.convertFormToModel);
 
   }
 

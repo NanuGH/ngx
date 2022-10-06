@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse";
-import { DonnerModel } from "../../models/donnerModel";
+import { DonnerModel } from "../../models/response/donnerModel";
 
 
 

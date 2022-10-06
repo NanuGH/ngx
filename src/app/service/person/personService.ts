@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse";
-import { SearchPerson } from "../../models/searchPerson";
+import { SearchPerson } from "../../models/request/searchPerson";
 import { Observable } from "rxjs";
-import { PersonModel } from "../../models/personModel";
+import { PersonModel } from "../../models/response/personModel";
 
 
 @Injectable({

@@ -2,9 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse";
-import { SearchPerson } from "../../models/searchPerson";
 import { Observable } from "rxjs";
-import { PersonModel } from "../../models/personModel";
+import { SearchEmployee } from "../../models/request/searchEmployee";
+import { EmployeeModel } from "../../models/response/EmployeeModel";
 
 
 @Injectable({
@@ -13,7 +13,7 @@ import { PersonModel } from "../../models/personModel";
   export class EmployeeService extends DefaultService {
 
     constructor(private http: HttpClient) {
-     super('person/')
+     super('employee/')
     }
 
     private httpOptions ={
@@ -23,68 +23,53 @@ import { PersonModel } from "../../models/personModel";
       })
     };
 
-    getPersonMultipleParams(searchPerson: SearchPerson ):Observable<ApiResponse<PersonModel>> {
+    getEmployeeMultipleParams(searchEmployee: SearchEmployee ):Observable<ApiResponse<EmployeeModel>> {
 
       const headerss = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
 
-      let queryParams = new HttpParams().append("namePerson",searchPerson.namePerson)
-                                        .append("surnamePerson",searchPerson.surnamePerson)
-                                        .append("birthday",searchPerson.birthday)
+      let queryParams = new HttpParams().append("identifNumber",searchEmployee.identifNumber)
+                                        .append("surnamePerson",searchEmployee.email)
 
-      let queryJustName = new HttpParams().append("namePerson",searchPerson.namePerson)
-      let queryJustSurname = new HttpParams().append("surnamePerson",searchPerson.surnamePerson)
-      let queryJustBirthDay = new HttpParams().append("birthday",searchPerson.birthday)
+      let queryJustIdentifNumber = new HttpParams().append("identifNumber",searchEmployee.identifNumber)
+      let queryJustEmail = new HttpParams().append("surnamePerson",searchEmployee.email)
 
 
 
-         if(searchPerson.namePerson!=null && searchPerson.surnamePerson !=null && searchPerson.birthday !=null){
+         if(searchEmployee.identifNumber!=null && searchEmployee.email !=null){
            const options = {  params: queryParams, headers: headerss }
-           return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
+           return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}getEmplOpts`, options);
          }
 
-        if(searchPerson.namePerson!=null && searchPerson.surnamePerson ==null  && searchPerson.birthday ==null){
-          const options = {  params: queryJustName, headers: headerss }
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
+        if(searchEmployee.identifNumber!=null && searchEmployee.email ==null){
+          const options = {  params: queryJustIdentifNumber, headers: headerss }
+          return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}getEmplOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson != null  && searchPerson.birthday ==null){
-          const options = {  params: queryJustSurname, headers: headerss }
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
+        if(searchEmployee.identifNumber==null && searchEmployee.email != null){
+          const options = {  params: queryJustEmail, headers: headerss }
+          return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}getEmplOpts`, options);
         }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null  && searchPerson.birthday !=null){
-          const options = {  params: queryJustBirthDay, headers: headerss }
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
-        }
-        if(searchPerson.namePerson==null && searchPerson.surnamePerson == null ){
+        if(searchEmployee.identifNumber==null && searchEmployee.email == null ){
           const options = {headers: headerss }
-          return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonOpts`, options);
+          return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}getEmplOpts`, options);
         }
     }
 
 
-    findById(id: String): Observable<ApiResponse<PersonModel>> {
-      return this.http.get<ApiResponse<PersonModel>>(`${this.url}${id}`, this.httpOptions);
+    findById(id: String): Observable<ApiResponse<EmployeeModel>> {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}${id}`, this.httpOptions);
     }
 
-    edit(id: String,person: PersonModel): Observable<ApiResponse<PersonModel>> {
-      return this.http.put<ApiResponse<PersonModel>>(`${this.url}${id}`, person, this.httpOptions);
-    }
-
-    /* edit(person: PersonModel): Observable<ApiResponse<PersonModel>> {
-      return this.http.put<ApiResponse<PersonModel>>(`${this.url}${person.id}`, person, this.httpOptions);
-    }*/
-
-    create(person: PersonModel): Observable<ApiResponse<PersonModel>> {
-      return this.http.post<ApiResponse<PersonModel>>(`${this.url}`, person, this.httpOptions);
+    edit(id: String,employee: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
+      return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}${id}`, employee, this.httpOptions);
     }
 
 
-   /* getPerson(searchPerson: SearchPerson ):Observable<ApiResponse<PersonModel>> {
-      return this.http.get<ApiResponse<PersonModel>>(`${this.url}/${searchPerson.namePerson}
-                                                                 /${searchPerson.surnamePerson}`, this.httpOptions);
+    create(person: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
+      return this.http.post<ApiResponse<EmployeeModel>>(`${this.url}`, person, this.httpOptions);
     }
+
 
     /*
-
     delete(id: string): Observable<ResponseApp<Employee>> {
       return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);
     }*/

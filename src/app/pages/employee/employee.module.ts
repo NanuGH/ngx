@@ -4,7 +4,6 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbTreeGridMo
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { EmployeeService } from '../../service/employee/employeeService';
-import { SearchPersonComponent } from '../reusable/searchPerson/searchPerson.component';
 import { EmployeeRoutingModule, routedComponents } from './employee-routing.module';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { EmployeeRoutingModule, routedComponents } from './employee-routing.modu
     ReactiveFormsModule,
     FormsModule,
     EmployeeRoutingModule,
-
   ],
   declarations: [
     ...routedComponents,

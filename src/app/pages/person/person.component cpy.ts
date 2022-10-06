@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { PersonModel } from '../../models/personModel';
-import { SearchPerson } from '../../models/searchPerson';
+import { SearchPerson } from '../../models/request/searchPerson';
+import { PersonModel } from '../../models/response/personModel';
 import { PersonService } from '../../service/person/personService';
-import { SearchComponent } from '../reusable/searchPerson/searchPerson.component';
-import { SmartTableComponent } from '../tables/smart-table/smart-table.component';
 
 @Component({
   selector: 'ngx-person',

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import { TreHelper } from '../../../helpers/helper';
-import { SearchPerson } from '../../../models/searchPerson';
+import { SearchPerson } from '../../../models/request/searchPerson';
 
 
 @Component({

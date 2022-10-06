@@ -1,4 +1,5 @@
-import { PersonModel } from "../models/personModel";
+import { PersonModel } from "./personModel";
+
 
 export interface DonnerModel {
 
