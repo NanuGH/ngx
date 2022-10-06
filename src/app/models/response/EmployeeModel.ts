@@ -1,7 +1,7 @@
 import { PersonModel } from "./personModel";
 
 export interface EmployeeModel {
-  person:PersonModel;
+  idPerson:PersonModel;
   id: string;
   whoInserted: string;
   status: string;

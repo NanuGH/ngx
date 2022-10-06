@@ -26,11 +26,9 @@ export class PersonComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   sourcePersonDtls: LocalDataSource = new LocalDataSource();
 
-  constructor(//private service: SmartTableData,
+  constructor(
     private formBuilder: FormBuilder,
     private personService: PersonService) {
-    //const data = this.service.getData();
-    //this.source.load(data);
   }
 
   ngOnInit(): void {
@@ -53,12 +51,9 @@ export class PersonComponent implements OnInit {
     jobAddress: [""], profession: [""], grade: [""], email: [""]
   });
 
-
-
   searchResult(event) {
     this.source.load(event);
   }
-
 
   settings = {
     noDataMessage: "Sem Dados",
@@ -119,7 +114,6 @@ export class PersonComponent implements OnInit {
     this.showSmarttableList = false;
   }
 
-
   searchPersonService(viewModelObject: SearchPerson) {
     this.personService
       .getPersonMultipleParams(viewModelObject)
@@ -127,9 +121,7 @@ export class PersonComponent implements OnInit {
         this.source.load(data.details[0]);
         this.showSmarttableList = true;
       });
-
   }
-
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
