@@ -4,6 +4,7 @@ import { EmployeeService } from '../../service/employee/employeeService';
 import { TreHelper } from '../../helpers/helper';
 import { SearchEmployee } from '../../models/request/searchEmployee';
 import { LocalDataSource } from 'ng2-smart-table';
+import { EmployeeModel } from '../../models/response/EmployeeModel';
 
 @Component({
   selector: 'ngx-person',
@@ -15,6 +16,8 @@ export class EmployeeComponent implements OnInit {
   showSearchCard: boolean = true;
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
+  idEmpl: string;
+  employeeResponse: EmployeeModel;
 
 
   constructor(
@@ -30,16 +33,17 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["1hEeTD"],
-        email: ["adilson@gmail.com"]
+        identifNumber: ["1vU30v"],
+        email: ["aff@edfaf.com"]
       }),
     });
   }
 
   resultForm = this.formBuilder.group({
-    id: [""],name: [""], surname: [""], bloodCode: [""],
-    docIdent: [""], birthday: [""], dmSex: [""],homeAdd: [""],
-    jobAddress: [""], profession: [""], grade: [""], email: [""]
+    id: [""],name: [""], surname: [""], bloodCode: [""],docIdent: [""], birthday: [""], dmSex: [""],
+    homeAdd: [""],jobAddress: [""], profession: [""], grade: [""], email: [""],
+
+    identifNumber: [""], dmFunction: [""],
   });
 
 
@@ -99,7 +103,7 @@ export class EmployeeComponent implements OnInit {
   };
 
 
-  ////////        GET          ///////
+  ////////        GET  with Params        ///////
 
   onSearchFormSubmit() {
     this.employeeService
@@ -113,6 +117,40 @@ export class EmployeeComponent implements OnInit {
 
   clearSearchForm() {
     this.searchForm.reset();
+  }
+
+
+  /******** Get BY ID - Details */
+
+  public onEmploIdSelect($event) {
+
+    if ($event.data.id) {
+      this.idEmpl = $event.data.id;
+
+      this.employeeService.findById(this.idEmpl).subscribe(
+        (data: any) => {
+          console.log(data.details[0]);
+
+          //person fields
+          this.employeeResponse = data.details[0];
+          this.resultForm.get("name").setValue($event.data.idPerson.namePerson);
+          this.resultForm.get("surname").setValue($event.data.idPerson.surnamePerson);
+          this.resultForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
+          this.resultForm.get("docIdent").setValue($event.data.idPerson.dmDocIdent);
+          this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
+          this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+          this.resultForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
+          this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+          this.resultForm.get("profession").setValue($event.data.idPerson.profession);
+          this.resultForm.get("grade").setValue($event.data.idPerson.grade);
+          //employee fields
+          this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
+          this.resultForm.get("dmFunction").setValue($event.data.dmFunction);
+          this.resultForm.get("email").setValue($event.data.email);
+
+        }
+      );
+    }
   }
 
 
