@@ -1,16 +1,15 @@
 import { PersonModel } from "./personModel";
 
 export interface EmployeeModel {
-  idPerson:PersonModel;
+  Person:PersonModel;
   id: string;
   whoInserted: string;
   status: string;
-  dmCodeDisabled: string
-  updateDate: string;
-  identifNumber: string;
+  dmCodeDisabled: string;
+  identNumber: string;
   pw: string;
   dmFunction: string;
-  idRole: string;
+  idRoles: string;
   email: string;
   whoUpdated: string;
 }

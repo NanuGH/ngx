@@ -6,7 +6,7 @@ export interface PersonModel {
   surnamePerson: string;
   dmBloodCode: string;
   dmDocIdent: string;
-  birthday:string;
+  birthday:LocalData;
   picturePerson: string;
   dmSex: string;
   dmHomeAdd: string;
