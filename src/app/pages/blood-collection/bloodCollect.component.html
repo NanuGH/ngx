@@ -105,7 +105,7 @@
 
 
 <nb-card *ngIf="showSearchCard">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddEmpl()">Novo Funcionário</button>
+  <button nbButton size="small" status="primary" type="button" (click)="showAddEmpl()">Nova Doação</button>
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
@@ -121,8 +121,8 @@
 
           <div class="col-sm-4">
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="text" class="form-control" id="email" formControlName="email" />
+              <label for="email">Data Colheita</label>
+              <input type="text" class="form-control" id="email" formControlName="insertionDate" />
             </div>
           </div>
 

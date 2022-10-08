@@ -4,7 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SearchEmployee } from '../../models/request/searchEmployee';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
-import { EmployeeService } from '../../service/employee/employeeService';
+import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 
 @Component({
   selector: 'ngx-person',
@@ -28,7 +28,7 @@ export class BloodCollectComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private employeeService: EmployeeService) {
+    private bloodCollectService: BloodCollectService) {
 
   }
 
@@ -128,7 +128,7 @@ export class BloodCollectComponent implements OnInit {
 
     this.showSmartTable = true
 
-    this.employeeService
+    this.bloodCollectService
       .getEmployeeMultipleParams(this.convertFormToModel())
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
