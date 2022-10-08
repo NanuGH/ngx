@@ -69,6 +69,11 @@ const routes: Routes = [{
         .then(m => m.EmployeeModule),
     },
     {
+      path: 'blood-collection',
+      loadChildren: () => import('./blood-collection/bloodCollect.module')
+        .then(m => m.BloodCollectModule),
+    },
+    {
       path: 'miscellaneous',
       loadChildren: () => import('./miscellaneous/miscellaneous.module')
         .then(m => m.MiscellaneousModule),

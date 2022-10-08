@@ -164,8 +164,6 @@ export class PersonComponent implements OnInit {
         }
       );
     }
-
-
   }
 
   closeDetails() {

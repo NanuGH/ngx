@@ -1,18 +1,17 @@
-import { EmployeeModel } from './../../models/response/EmployeeModel';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
-import { EmployeeService } from '../../service/employee/employeeService';
-import { TreHelper } from '../../helpers/helper';
-import { SearchEmployee } from '../../models/request/searchEmployee';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
+import { SearchEmployee } from '../../models/request/searchEmployee';
+import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
+import { EmployeeService } from '../../service/employee/employeeService';
 
 @Component({
   selector: 'ngx-person',
-  templateUrl: "./employee.component.html",
-  styleUrls: ["./employee.component.scss"],
+  templateUrl: "./bloodCollect.component.html",
+  styleUrls: ["./bloodCollect.component.scss"],
 })
-export class EmployeeComponent implements OnInit {
+export class BloodCollectComponent implements OnInit {
 
   showSearchCard: boolean = true;
   showResultForm: boolean = false;
@@ -271,4 +270,7 @@ export class EmployeeComponent implements OnInit {
   }
 
 
+
 }
+
+
