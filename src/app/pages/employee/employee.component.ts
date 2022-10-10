@@ -40,8 +40,8 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["jDhj7l"],
-        email: ["email@email.com"]
+        identifNumber: ["1hEeTD"],
+        email: ["adilson@gmail.com"]
       }),
     });
   }

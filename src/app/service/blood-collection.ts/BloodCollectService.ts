@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { LocalData } from 'ng2-completer';
+import { BloodCollectModule } from './../../pages/blood-collection/bloodCollect.module';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
-import { ApiResponse } from "../../models/apiResponse";
-import { DonnerModel } from "../../models/response/donnerModel";
-
-
+import { ApiResponse } from "../../models/apiResponse"
+import { SearchBloodCollect } from '../../models/request/searchbloodCollect';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ import { DonnerModel } from "../../models/response/donnerModel";
   export class BloodCollectService extends DefaultService {
 
     constructor(private http: HttpClient) {
-     super('blooddonor')
+     super('bloodcollection/')
     }
 
     private httpOptions ={
@@ -22,24 +23,39 @@ import { DonnerModel } from "../../models/response/donnerModel";
       })
     };
 
-    getDonner() {
-      return this.http.get<ApiResponse<DonnerModel[]>>(`${this.url}`, this.httpOptions);
+
+    getBloodColectMultParams(searchBloodCollect: SearchBloodCollect): Observable<ApiResponse<BloodCollectModule>> {
+      const headerss = new HttpHeaders().set("Authorization","Basic bmFudTpuYW51" );
+
+      let queryParams = new HttpParams().append("collectionNumber", searchBloodCollect.collectionNumber)
+                                        .append("insertionDate", searchBloodCollect.insertionDate);
+
+      let queryJustCollectionNumber = new HttpParams().append("collectionNumber",searchBloodCollect.collectionNumber);
+
+      let queryJustInsertionDate = new HttpParams().append("insertionDate", searchBloodCollect.insertionDate);
+      /********/
+
+      if ( searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate != null) {
+        const options = { params: queryParams, headers: headerss };
+
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
+      }
+
+      if (searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate == null) {
+        const options = { params: queryJustCollectionNumber, headers: headerss };
+        console.log("seg");
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`, options);
+      }
+      if (searchBloodCollect.collectionNumber == null && searchBloodCollect.insertionDate != null) {
+        const options = { params: queryJustInsertionDate, headers: headerss };
+        console.log("terce");
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
+      }
+      if (searchBloodCollect.collectionNumber == null && searchBloodCollect.insertionDate == null) {
+        const options = { headers: headerss };
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
+      }
     }
 
-    /*findById(id: String): Observable<ResponseApp<Employee>> {
-      return this.http.get<ResponseApp<Employee>>(`${this.url}${id}`, this.httpOptions);
-    }
-
-    create(employee: Employee): Observable<ResponseApp<Employee>> {
-      return this.http.post<ResponseApp<Employee>>(`${this.url}`, employee, this.httpOptions);
-    }
-
-    edit(employee: Employee): Observable<ResponseApp<Employee>> {
-      return this.http.put<ResponseApp<Employee>>(`${this.url}${employee.id}`, employee, this.httpOptions);
-    }
-
-    delete(id: string): Observable<ResponseApp<Employee>> {
-      return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);
-    }*/
 
   }

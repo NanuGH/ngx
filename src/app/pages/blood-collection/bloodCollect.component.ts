@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
+import { SearchBloodCollect } from '../../models/request/searchbloodCollect';
 import { SearchEmployee } from '../../models/request/searchEmployee';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
@@ -18,7 +19,6 @@ export class BloodCollectComponent implements OnInit {
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
 
-
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
   idEmpl: string;
@@ -29,7 +29,6 @@ export class BloodCollectComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private bloodCollectService: BloodCollectService) {
-
   }
 
   ngOnInit(): void {
@@ -39,8 +38,8 @@ export class BloodCollectComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["jDhj7l"],
-        email: ["email@email.com"]
+        collectionNumber: ["sd42"],
+        insertionDate: [""]
       }),
     });
   }
@@ -53,9 +52,9 @@ export class BloodCollectComponent implements OnInit {
   });
 
   convertFormToModel() {
-    var viewModelObject = <SearchEmployee>{
-      identifNumber: this.searchGroup.get("identifNumber").value,
-      email: this.searchGroup.get("email").value,
+    var viewModelObject = <SearchBloodCollect>{
+      collectionNumber: this.searchGroup.get("collectionNumber").value,
+      insertionDate: this.searchGroup.get("insertionDate").value,
     };
     return viewModelObject;
   }
@@ -127,13 +126,11 @@ export class BloodCollectComponent implements OnInit {
   onSearchFormSubmit() {
 
     this.showSmartTable = true
-
-    this.bloodCollectService
-      .getEmployeeMultipleParams(this.convertFormToModel())
+       this.bloodCollectService
+      .getBloodColectMultParams(this.convertFormToModel())
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
       });
-
   }
 
 
@@ -151,7 +148,7 @@ export class BloodCollectComponent implements OnInit {
     if ($event.data.id) {
       this.idEmpl = $event.data.id;
 
-      this.employeeService.findById(this.idEmpl).subscribe(
+      /* this.bloodCollectService.findById(this.idEmpl).subscribe(
         (data: any) => {
           console.log(data.details[0]);
 
@@ -173,14 +170,14 @@ export class BloodCollectComponent implements OnInit {
           this.resultForm.get("email").setValue($event.data.email);
 
         }
-      );
+      ); */
     }
   }
 
 
   /******** ADD  *************** */
 
-  showAddEmpl() {
+  showAddBloodCollect() {
     this.showAddOrEditForm = true;
   }
 
@@ -207,13 +204,13 @@ export class BloodCollectComponent implements OnInit {
 
   addEmployee() {
     this.convertFormToModel();
-    this.employeeService.create(this.convertAddFormToModel()).subscribe(
+    /* this.bloodCollectService.create(this.convertAddFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
     )
     console.log(this.convertFormToModel());
-
+ */
   }
 
 
@@ -242,7 +239,7 @@ export class BloodCollectComponent implements OnInit {
   public onEdit($event) {
     this.idEmpl = $event.data.id;
 
-    this.employeeService.findById(this.idEmpl).subscribe(
+    /* this.bloodCollectService.findById(this.idEmpl).subscribe(
       (data: any) => {
         console.log(data.details[0]);
 
@@ -263,7 +260,7 @@ export class BloodCollectComponent implements OnInit {
         this.addForm.get("dmFunction").setValue($event.data.dmFunction);
         this.addForm.get("email").setValue($event.data.email);
       }
-    );
+    ); */
 
     this.showAddOrEditForm = true; this.showSmartTable = false;
 
