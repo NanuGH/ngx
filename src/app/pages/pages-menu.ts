@@ -3,7 +3,7 @@ import { title } from 'process';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
-    title: 'Home',
+    title: 'HOME',
     icon: 'home',
     link: '/pages/dashboard',
     home: true,
@@ -14,36 +14,32 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/iot-dashboard',
   },*/
   {
-    title: 'GESTÃO:',
-    group: true,
-  },
-  {
-    title: 'Utentes',
+    title: 'UTENTES',
     icon: 'people-outline',
     link: '/pages/person',
     home: true,
   },
   {
-    title: 'Doações',
+    title: 'DOAÇÕES',
     icon: 'heart',
     link: '/pages/blood-collection',
   },
   {
-    title: 'Funcionários',
+    title: 'FUNCIONÁRIOS',
     icon: 'briefcase',
     link: '/pages/employee',
   },
   {
-    title: 'Stock',
+    title: 'STOCK',
     icon: 'folder-add',
-    children:[
+    children: [
       {
-        title:'Quarentena',
+        title: 'Quarentena',
         icon: 'slash-outline',
         link: '',
       },
       {
-        title:'Pronto',
+        title: 'Pronto',
         icon: 'done-all-outline',
         link: '',
       },
@@ -51,25 +47,59 @@ export const MENU_ITEMS: NbMenuItem[] = [
 
   },
   {
-    title: 'Transfusões',
+    title: 'TRANSFUSÕES',
     icon: 'activity',
     link: '',
   },
 
   {
-    title: 'RECUSA:',
-    group: true,
+    title: 'RECUSAS',
+    icon: 'slash-outline',
+    children: [
+      {
+        title: 'Doações',
+        icon: 'heart-outline',
+        link: '',
+      },
+      {
+        title: 'Pessoas',
+        icon: 'people-outline',
+        link: '',
+      },
+    ],
   },
   {
-    title: 'Doações',
-    icon: 'heart-outline',
-    link: '',
+    title: 'PARAMETRIZAÇÕES',
+    icon: 'settings-2-outline',
+    children: [
+      {
+        title: 'Grupo Sanguíneo',
+        icon: 'droplet-outline',
+        link: '/pages/bloodtype',
+      },
+      {
+        title: 'Sexo',
+        icon: 'people-outline',
+        link: '/pages/sex',
+      },
+      {
+        title: 'Motivo Descarte',
+        icon: 'trash-2-outline',
+        link: '/pages/unitilization',
+      },
+      {
+        title: 'Motivo Recusa',
+        icon: 'slash-outline',
+        link: '/pages/rejection',
+      },
+      {
+        title: 'Sintomas Transfusão',
+        icon: 'activity-outline',
+        link: '/pages/sintoms',
+      },
+    ],
   },
-  {
-    title: 'Pessoas',
-    icon: 'people-outline',
-    link: '',
-  },
+
   /*
   {
     title: 'Layout',

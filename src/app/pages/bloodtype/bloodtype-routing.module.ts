@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PersonComponent } from './person.component';
+import { BloodtypeComponent } from './bloodtype.component';
 
 
-const routes: Routes = [
-  {
+
+
+
+const routes: Routes = [{
   path: '',
-  component: PersonComponent,
-  },
-];
+  component: BloodtypeComponent,
+}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PersonRoutingModule { }
+export class BloodtypeRoutingModule { }
 
 export const routedComponents = [
-  PersonComponent,
+  BloodtypeComponent,
 ];

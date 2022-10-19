@@ -74,6 +74,12 @@ const routes: Routes = [{
         .then(m => m.BloodCollectModule),
     },
     {
+      path: 'bloodtype',
+      loadChildren: () => import('./bloodtype/bloodtype.module')
+        .then(m => m.BloodtypeModule),
+    },
+
+    {
       path: 'miscellaneous',
       loadChildren: () => import('./miscellaneous/miscellaneous.module')
         .then(m => m.MiscellaneousModule),

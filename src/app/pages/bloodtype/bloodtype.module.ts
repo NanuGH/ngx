@@ -1,23 +1,21 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbSpinnerModule} from '@nebular/theme';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { EmployeeService } from '../../service/employee/employeeService';
-import { EmployeeRoutingModule, routedComponents } from './employee-routing.module';
+import { BloodtypeRoutingModule, routedComponents } from './bloodtype-routing.module';
 
 @NgModule({
   imports: [
     NbCardModule,
     NbButtonModule,
-    NbTreeGridModule,
-    NbIconModule,
-    NbInputModule,
     ThemeModule,
     Ng2SmartTableModule,
+    BloodtypeRoutingModule,
+    NbSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
-    EmployeeRoutingModule,
   ],
   declarations: [
     ...routedComponents,
@@ -26,4 +24,4 @@ import { EmployeeRoutingModule, routedComponents } from './employee-routing.modu
   entryComponents:[],
   providers: [EmployeeService],
 })
-export class EmployeeModule { }
+export class BloodtypeModule { }
