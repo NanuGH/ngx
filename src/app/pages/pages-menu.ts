@@ -69,35 +69,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     ],
   },
   {
-    title: 'PARAMETRIZAÇÕES',
+    title: 'PARAMETRIZAÇÃO',
     icon: 'settings-2-outline',
-    children: [
-      {
-        title: 'Grupo Sanguíneo',
-        icon: 'droplet-outline',
-        link: '/pages/bloodtype',
-      },
-      {
-        title: 'Sexo',
-        icon: 'people-outline',
-        link: '/pages/sex',
-      },
-      {
-        title: 'Motivo Descarte',
-        icon: 'trash-2-outline',
-        link: '/pages/unitilization',
-      },
-      {
-        title: 'Motivo Recusa',
-        icon: 'slash-outline',
-        link: '/pages/rejection',
-      },
-      {
-        title: 'Sintomas Transfusão',
-        icon: 'activity-outline',
-        link: '/pages/sintoms',
-      },
-    ],
+    link: '/pages/bloodtype',
   },
 
   /*

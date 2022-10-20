@@ -1,4 +1,4 @@
-import { DomainModel } from './../../models/response/domainModel';
+import { DomainModel } from "./../../models/response/domainModel";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { LocalDataSource } from "ng2-smart-table";
@@ -13,13 +13,16 @@ export class BloodtypeComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   loadingList: boolean = false;
   searchForm: FormGroup;
+  domainName: any;
+  domainSelfId: DomainModel[];
 
-  constructor(private domainService: DomainService,
-              private formBuilder: FormBuilder) {
-  }
+  constructor(
+    private domainService: DomainService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.getDomain();
+    this.getBySelfId();
     this.loadForms();
   }
 
@@ -33,110 +36,119 @@ export class BloodtypeComponent implements OnInit {
 
   convertFormToModel() {
     var viewModelObject = <DomainModel>{
-      domain: this.searchGroup.get("domain").value
+      domain: this.searchGroup.get("domain").value,
     };
     return viewModelObject;
   }
 
-  clearSearchForm(){
-  }
-
+  clearSearchForm() {}
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
   }
   /////    SMART TABLE     //////////
 
-   settings = {
-     noDataMessage: "Sem Dados",
-     //mode: 'external',
-     actions: { columnTitle: 'Ações', add: true },
-     add: {
-       addButtonContent: '<i class="nb-plus"></i>',
-       createButtonContent: '<i class="nb-checkmark"></i>',
-       cancelButtonContent: '<i class="nb-close"></i>',
-     },
-     edit: {
-       editButtonContent: '<i class="nb-edit"></i>',
-       saveButtonContent: '<i class="nb-checkmark"></i>',
-       cancelButtonContent: '<i class="nb-close"></i>',
-       confirmSave: true
-     },
-     delete: {
-       deleteButtonContent: '<i class="nb-trash"></i>',
-       confirmDelete: true,
-     },
-     columns: {
-       domain: {
-         title: 'Dominio',
-         type: 'string',
-       },
-       dmName: {
-         title: 'Descrição',
-         type: 'string',
-       },
-       dmCode: {
-         title: 'Cod.',
-         type: 'string',
-       }
-     },
-   };
-
+  settings = {
+    noDataMessage: "Sem Dados",
+    //mode: 'external',
+    //actions: { columnTitle: 'Ações', add: true },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmCreate: true,
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      domain: {
+        title: "Dominio",
+        editor: {
+          type: "list",
+          config: {
+            list: [],
+          },
+        },
+      },
+      dmName: {
+        title: "Descrição",
+        type: "string",
+      },
+      dmCode: {
+        title: "Cod.",
+        type: "string",
+      },
+      dmOrder: {
+        title: "Ordem.",
+        type: "string",
+      },
+      selfId: {
+        title: "Selfid.",
+        type: "string",
+      },
+    },
+  };
   /******** GET  *************** */
+  private getBySelfId() {
+    this.domainService.getBySelfId("0").subscribe((data) => {
+      this.domainSelfId = data.details;
+      for (const i of this.domainSelfId) {
+        this.settings.columns.domain.editor.config.list.push({
+          value: i.domain,
+          title: i.domain,
+        });
+        this.settings = Object.assign({}, this.settings);
+      }
+    });
+  }
 
-  onSearchFormSubmit(){
-    this.domainService.getByDomain(this.convertFormToModel())
-                                     .subscribe((data:any)=>{
-      this.source.load(data.details);
-      console.log("zdsfgdg");
-
-    })
+  onSearchFormSubmit() {
+    this.loadingList = true;
+    this.domainService
+      .getByDomain(this.convertFormToModel())
+      .subscribe((data: any) => {
+        this.source.load(data.details);
+      });
+    this.loadingList = false;
   }
 
   private getDomain() {
     this.domainService.get().subscribe((data) => {
+      this.domainName = data.details;
       this.source.load(data.details);
     });
   }
 
   /******** ADD  *************** */
-  onAdd($event) {}
+  onAdd(event) {
+    const domain = <DomainModel>{
+      domain: event.newData.domain,
+      dmName: event.newData.dmName,
+      dmCode: event.newData.dmCode,
+      dmOrder: "1",
+      selfId: "0",
+    };
+
+    this.domainService.create(domain).subscribe((data) => {
+      this.domainService
+        .getByDomain(event.newData.domain)
+        .subscribe((data: any) => {
+          this.source.load(data.details);
+        });
+    });
+  }
 
   /************** Edit ***********/
+
   onEdit($event) {}
 
   onDelete($event) {}
-
-  /*settings = {
-    columns: {
-      id: {
-        title: "ID",
-      },
-      name: {
-        title: "Full Name",
-      },
-      username: {
-        title: "User Name",
-      },
-      email: {
-        title: "Email",
-      },
-    },
-  };
-
-  data = [
-    {
-      id: 1,
-      name: "Leanne Graham",
-      username: "Bret",
-      email: "Sincere@april.biz",
-    },
-    // ... other rows here
-    {
-      id: 11,
-      name: "Nicholas DuBuque",
-      username: "Nicholas.Stanton",
-      email: "Rey.Padberg@rosamond.biz",
-    },
-  ];*/
 }

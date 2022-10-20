@@ -35,8 +35,27 @@ import { PersonModel } from "../../models/response/personModel";
       return this.http.get<ApiResponse<DomainModel>>(`${this.url}getByDomain`, options);
     }
 
+    getBySelfId(selfId:string):Observable<ApiResponse<DomainModel>> {
+      const headers = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
+      let querySelfId = new HttpParams().append("selfId",selfId)
+      const options = {  params: querySelfId, headers: headers }
+      return this.http.get<ApiResponse<DomainModel>>(`${this.url}getBySelfId`, options);
+    }
 
-    findById(id: String): Observable<ApiResponse<PersonModel>> {
+    create(domain: DomainModel): Observable<ApiResponse<DomainModel>> {
+      return this.http.post<ApiResponse<DomainModel>>(`${this.url}`,domain, this.httpOptions);
+    }
+
+    delete(id: string): Observable<ApiResponse<DomainModel>> {
+      return this.http.delete<ApiResponse<DomainModel>>(`${this.url}/${id}`);
+    }
+
+    edit(id: String,domain: DomainModel): Observable<ApiResponse<DomainModel>> {
+      return this.http.put<ApiResponse<DomainModel>>(`${this.url}${id}`, domain, this.httpOptions);
+    }
+
+
+   /* findById(id: String): Observable<ApiResponse<PersonModel>> {
       return this.http.get<ApiResponse<PersonModel>>(`${this.url}${id}`, this.httpOptions);
     }
 

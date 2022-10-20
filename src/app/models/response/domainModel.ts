@@ -6,3 +6,5 @@ export interface DomainModel {
   dmOrder:string;
   selfId:string;
 }
+
+
