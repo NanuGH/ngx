@@ -69,44 +69,27 @@ export class BloodtypeComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      domain: {
-        title: "Dominio",
-        editor: {
-          type: "list",
-          config: {
-            list: [],
-          },
-        },
+      domain: { title: "Dominio",type: "string",
+                /* editor: {
+                  type: "list",
+                  config: { list: [] },
+                }, */
       },
-      dmName: {
-        title: "Descrição",
-        type: "string",
-      },
-      dmCode: {
-        title: "Cod.",
-        type: "string",
-      },
-      dmOrder: {
-        title: "Ordem.",
-        type: "string",
-      },
-      selfId: {
-        title: "Selfid.",
-        type: "string",
-      },
+      dmName: {title: "Descrição", type: "string",},
+      dmCode: {title: "Cod.",type: "string",},
     },
   };
   /******** GET  *************** */
   private getBySelfId() {
-    this.domainService.getBySelfId("0").subscribe((data) => {
+    this.domainService.getBySelfId(null).subscribe((data) => {
       this.domainSelfId = data.details;
-      for (const i of this.domainSelfId) {
+      /* for (const i of this.domainSelfId) {
         this.settings.columns.domain.editor.config.list.push({
           value: i.domain,
           title: i.domain,
         });
         this.settings = Object.assign({}, this.settings);
-      }
+      } */
     });
   }
 
@@ -133,11 +116,12 @@ export class BloodtypeComponent implements OnInit {
       domain: event.newData.domain,
       dmName: event.newData.dmName,
       dmCode: event.newData.dmCode,
-      dmOrder: "1",
-      selfId: "0",
+      dmOrder:event.newData.dmOrder,
+      selfId: event.newData.selfId,
     };
 
-    this.domainService.create(domain).subscribe((data) => {
+    this.domainService.create(domain).subscribe(
+      (data) => {
       this.domainService
         .getByDomain(event.newData.domain)
         .subscribe((data: any) => {
@@ -148,7 +132,22 @@ export class BloodtypeComponent implements OnInit {
 
   /************** Edit ***********/
 
-  onEdit($event) {}
+  onEdit(event) {
+    const domain = <DomainModel>{
+      domain: event.newData.domain,
+      dmName: event.newData.dmName,
+      dmCode: event.newData.dmCode,
+      dmOrder:event.newData.dmOrder,
+      selfId: event.newData.selfId,
+    };
 
-  onDelete($event) {}
+    this.domainService.edit(event.newData.idDomain, domain).subscribe(
+      (data)=>{
+        event.confirm.resolve();
+      }
+    )
+
+  }
+
+  onDelete(event) {}
 }
