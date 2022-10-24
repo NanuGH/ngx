@@ -267,12 +267,12 @@ export class PersonComponent implements OnInit {
     console.log(this.convertFormToModel());
 
 
-   /* this.personService.edit(this.convertFormToModel()).subscribe(
+    this.personService.edit(this.idPerson,this.convertFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
     );
- */
+
   }
 
 }

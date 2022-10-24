@@ -35,7 +35,7 @@ import { PersonModel } from "../../models/response/personModel";
       return this.http.get<ApiResponse<DomainModel>>(`${this.url}getByDomain`, options);
     }
 
-    getBySelfId(selfId:null):Observable<ApiResponse<DomainModel>> {
+    getBySelfId(selfId:string):Observable<ApiResponse<DomainModel>> {
       const headers = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
       let querySelfId = new HttpParams().append("selfId",selfId)
       const options = {  params: querySelfId, headers: headers }

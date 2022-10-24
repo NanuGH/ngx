@@ -81,7 +81,7 @@ export class BloodtypeComponent implements OnInit {
   };
   /******** GET  *************** */
   private getBySelfId() {
-    this.domainService.getBySelfId(null).subscribe((data) => {
+    this.domainService.getBySelfId("").subscribe((data) => {
       this.domainSelfId = data.details;
       /* for (const i of this.domainSelfId) {
         this.settings.columns.domain.editor.config.list.push({
@@ -127,6 +127,7 @@ export class BloodtypeComponent implements OnInit {
         .subscribe((data: any) => {
           this.source.load(data.details);
         });
+        event.confirm.resolve();
     });
   }
 
