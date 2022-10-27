@@ -39,8 +39,8 @@ export class BloodCollectComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        collectionNumber: ["sd42"],
-        insertionDate: [""]
+        collectionNumber: [""],
+        insertionDate: ["2022-10-10"]
       }),
     });
   }

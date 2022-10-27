@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SearchPerson } from '../../models/request/searchPerson';
 import { PersonModel } from '../../models/response/personModel';
@@ -26,14 +27,19 @@ export class PersonComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   sourcePersonDtls: LocalDataSource = new LocalDataSource();
 
+  dialogRef: NbDialogRef<any>
+
   constructor(
     private formBuilder: FormBuilder,
-    private personService: PersonService) {
+    private personService: PersonService,
+    private dialogService: NbDialogService,) {
   }
 
   ngOnInit(): void {
     this.loadForms();
   }
+
+  @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
 
   loadForms() {
     this.searchForm = this.formBuilder.group({
@@ -68,7 +74,7 @@ export class PersonComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      //confirmSave: true
+      confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -91,16 +97,14 @@ export class PersonComponent implements OnInit {
         title: 'Sexo',
         type: 'string',
       },
+      status: {
+        title: 'Status',
+        type: 'string',
+      },
     },
   };
 
-  onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
-      event.confirm.resolve();
-    } else {
-      event.confirm.reject();
-    }
-  }
+
 
   /*************************/////// */
 
@@ -266,15 +270,37 @@ export class PersonComponent implements OnInit {
     this.convertFormToModel();
     console.log(this.convertFormToModel());
 
-
     this.personService.edit(this.idPerson,this.convertFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
     );
+  }
+
+  /**************////// Change Status */
+  public onDelete($event) {
+    this.idPerson = $event.data.id;
+    this.dialogRef = this.dialogService.open(this.dialogDelete);
+  }
+
+ public onDeleteConfirm() {
+
+      this.personService.changeStatus(this.idPerson).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dialogRef.close();
+        }
+      );
 
   }
 
+  /* onDeleteConfirm($event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      $event.confirm.resolve();
+    } else {
+      $event.confirm.reject();
+    }
+  } */
 }
 
 

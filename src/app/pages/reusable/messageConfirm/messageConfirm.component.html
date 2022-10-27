@@ -1,0 +1,12 @@
+<ng-template #dialogDelete let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>ELIMINAR </nb-card-header>
+    <nb-card-body>
+      Tens certeza que deseja excluir?
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
+      <button class="btn-action-modal" nbButton status="primary" (click)="onDeleteConfirm();">Excluir</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
