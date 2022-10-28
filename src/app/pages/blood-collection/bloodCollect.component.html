@@ -93,12 +93,6 @@
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDetails()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary">
-        Salvar
-      </button>
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary">
-        Edit
-      </button>
     </nb-card-body>
   </nb-card>
 </form>
@@ -152,7 +146,7 @@
 
   <nb-card-body>
     <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onEmploIdSelect($event)"
-    (edit)="onEdit($event)">
+    (edit)="onEdit($event)" (delete)="onDelete($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
@@ -160,7 +154,7 @@
 
 <form [formGroup]="addForm" *ngIf="showAddOrEditForm">
   <nb-card accent="primary">
-    <nb-card-header>Novo Funcionário:</nb-card-header>
+    <nb-card-header>Detalhes:</nb-card-header>
     <nb-card-body>
 
       <div class="jobData">Dados Pessoais:</div>
@@ -274,3 +268,17 @@
     </nb-card-body>
   </nb-card>
 </form>
+
+
+<ng-template #dialogDelete let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>ELIMINAR </nb-card-header>
+    <nb-card-body>
+      Tens certeza que deseja excluir? <span style="font-weight: bold"> {{ data }}</span> ?
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
+      <button class="btn-action-modal" nbButton status="primary" (click)="onDeleteConfirm();">Excluir</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

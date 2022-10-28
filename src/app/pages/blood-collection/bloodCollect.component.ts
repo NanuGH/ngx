@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SearchBloodCollect } from '../../models/request/searchbloodCollect';
 import { SearchEmployee } from '../../models/request/searchEmployee';
@@ -23,13 +24,15 @@ export class BloodCollectComponent implements OnInit {
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
   idEmpl: string;
+  idBloodCollect: string;
   employeeResponse: PersonModel;
 
 
 
   constructor(
     private formBuilder: FormBuilder,
-    private bloodCollectService: BloodCollectService) {
+    private bloodCollectService: BloodCollectService,
+    private dialogService: NbDialogService,) {
   }
 
   ngOnInit(): void {
@@ -101,21 +104,25 @@ export class BloodCollectComponent implements OnInit {
     },
     columns: {
       namePerson: {
-        title: 'Nome',
+        title: 'Doador',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson }
+        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
       },
       surnamePerson: {
-        title: 'Apelido',
+        title: 'Funcionário',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.surnamePerson }
+        valuePrepareFunction: (cell, row) => { return row.idEmployee.identifNumber }
       },
-      identifNumber: {
-        title: 'Num. Identificação',
+      qtdde: {
+        title: 'Quantidade',
         type: 'string',
       },
-      email: {
-        title: 'email',
+      collectionNumber: {
+        title: 'Colheita',
+        type: 'string',
+      },
+      insertionDate: {
+        title: 'Data',
         type: 'string',
       },
     },
@@ -149,11 +156,9 @@ export class BloodCollectComponent implements OnInit {
     if ($event.data.id) {
       this.idEmpl = $event.data.id;
 
-      /* this.bloodCollectService.findById(this.idEmpl).subscribe(
+       this.bloodCollectService.findById(this.idEmpl).subscribe(
         (data: any) => {
-          console.log(data.details[0]);
-
-          //person fields
+          //personal fields
           this.employeeResponse = data.details[0];
           this.resultForm.get("name").setValue($event.data.idPerson.namePerson);
           this.resultForm.get("surname").setValue($event.data.idPerson.surnamePerson);
@@ -171,7 +176,7 @@ export class BloodCollectComponent implements OnInit {
           this.resultForm.get("email").setValue($event.data.email);
 
         }
-      ); */
+      );
     }
   }
 
@@ -240,7 +245,7 @@ export class BloodCollectComponent implements OnInit {
   public onEdit($event) {
     this.idEmpl = $event.data.id;
 
-    /* this.bloodCollectService.findById(this.idEmpl).subscribe(
+    this.bloodCollectService.findById(this.idEmpl).subscribe(
       (data: any) => {
         console.log(data.details[0]);
 
@@ -261,13 +266,32 @@ export class BloodCollectComponent implements OnInit {
         this.addForm.get("dmFunction").setValue($event.data.dmFunction);
         this.addForm.get("email").setValue($event.data.email);
       }
-    ); */
+    );
 
     this.showAddOrEditForm = true; this.showSmartTable = false;
-
   }
 
 
+
+  /**************////// Change Status */
+
+  dialogRef: NbDialogRef<any>
+  @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
+
+  public onDelete($event) {
+    this.idBloodCollect = $event.data.id;
+    this.dialogRef = this.dialogService.open(this.dialogDelete);
+  }
+
+  public onDeleteConfirm() {
+      this.bloodCollectService.changeStatus(this.idBloodCollect).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dialogRef.close();
+        }
+      );
+
+  }
 
 }
 

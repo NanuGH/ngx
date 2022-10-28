@@ -57,5 +57,14 @@ import { Observable } from 'rxjs';
       }
     }
 
+    findById(id: String): Observable<ApiResponse<BloodCollectModule>> {
+      return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}${id}`, this.httpOptions);
+    }
+
+    changeStatus(id: string): Observable<ApiResponse<BloodCollectModule>> {
+      return this.http.put<ApiResponse<BloodCollectModule>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
+    }
+
+
 
   }
