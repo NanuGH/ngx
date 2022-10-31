@@ -2,7 +2,6 @@ import { EmployeeModel } from './../../models/response/EmployeeModel';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { EmployeeService } from '../../service/employee/employeeService';
-import { TreHelper } from '../../helpers/helper';
 import { SearchEmployee } from '../../models/request/searchEmployee';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
@@ -19,12 +18,10 @@ export class EmployeeComponent implements OnInit {
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
 
-
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
   idEmpl: string;
   employeeResponse: PersonModel;
-
 
 
   constructor(
@@ -50,7 +47,7 @@ export class EmployeeComponent implements OnInit {
     id: [""], name: [""], surname: [""], bloodCode: [""], docIdent: [""], birthday: [""], dmSex: [""],
     homeAdd: [""], jobAddress: [""], profession: [""], grade: [""], email: [""],
 
-    identifNumber: [""], dmFunction: [""],
+    identifNumber: [""], dmfunction: [""],
   });
 
   convertFormToModel() {
@@ -68,10 +65,12 @@ export class EmployeeComponent implements OnInit {
   /*********** CLOSE FORMS */
   closeResult() {
     this.showSmartTable = false;
+    this.resultForm.reset();
   }
 
   closeAddForm() {
     this.showAddOrEditForm = false;
+    this.addOrEditForm.reset();
   }
 
   closeDetails() {
@@ -104,12 +103,12 @@ export class EmployeeComponent implements OnInit {
       namePerson: {
         title: 'Nome',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson }
+        valuePrepareFunction: (cell, row) => {
+          return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
       },
-      surnamePerson: {
-        title: 'Apelido',
+      dmfunction: {
+        title: 'Função',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.surnamePerson }
       },
       identifNumber: {
         title: 'Num. Identificação',
@@ -170,7 +169,7 @@ export class EmployeeComponent implements OnInit {
           this.resultForm.get("grade").setValue($event.data.idPerson.grade);
           //employee fields
           this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
-          this.resultForm.get("dmFunction").setValue($event.data.dmFunction);
+          this.resultForm.get("dmfunction").setValue($event.data.dmfunction);
           this.resultForm.get("email").setValue($event.data.email);
 
         }
@@ -183,32 +182,33 @@ export class EmployeeComponent implements OnInit {
 
   showAddEmpl() {
     this.showAddOrEditForm = true;
+    this.showSmartTable = false;
   }
 
   convertPersonData() {
     var personModelObject = <PersonModel>{
-      namePerson: this.addForm.get("name").value,
-      surnamePerson: this.addForm.get("surname").value,
-      dmBloodCode: this.addForm.get("bloodCode").value,
-      dmDocIdent: this.addForm.get("dmDocIdent").value,
-      birthday: this.addForm.get("birthday").value,
+      namePerson: this.addOrEditForm.get("name").value,
+      surnamePerson: this.addOrEditForm.get("surname").value,
+      dmBloodCode: this.addOrEditForm.get("bloodCode").value,
+      dmDocIdent: this.addOrEditForm.get("dmDocIdent").value,
+      birthday: this.addOrEditForm.get("birthday").value,
       picturePerson: "picture",
-      dmSex: this.addForm.get("dmSex").value,
-      dmHomeAdd: this.addForm.get("homeAdd").value,
-      jobAddress: this.addForm.get("jobAddress").value,
-      profession: this.addForm.get("profession").value,
-      grade: this.addForm.get("grade").value,
+      dmSex: this.addOrEditForm.get("dmSex").value,
+      dmHomeAdd: this.addOrEditForm.get("homeAdd").value,
+      jobAddress: this.addOrEditForm.get("jobAddress").value,
+      profession: this.addOrEditForm.get("profession").value,
+      grade: this.addOrEditForm.get("grade").value,
       whoInserted: "Hernani",
       whoUpdated: "Hernani",
       status: "true",
-      email: this.resultForm.get("email").value,
+      email: this.addOrEditForm.get("email").value,
     };
     return personModelObject;
   }
 
   addEmployee() {
     this.convertFormToModel();
-    this.employeeService.create(this.convertAddFormToModel()).subscribe(
+    this.employeeService.create(this.convertAddOrEditFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -217,23 +217,32 @@ export class EmployeeComponent implements OnInit {
 
   }
 
-
-  addForm = this.formBuilder.group({
+ /*  addForm = this.formBuilder.group({
     name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
     birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
     profession: ["fwrt"], grade: ["herg"],
 
     identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
     pw: ["zdf"]
+  }); */
+
+  addOrEditForm = this.formBuilder.group({
+    name: [""], surname: [""], bloodCode: [""], dmDocIdent: [""],
+    birthday: [""], dmSex: [""], homeAdd: [""], jobAddress: [""],
+    profession: [""], grade: [""],
+
+    identifNumber: [""], dmfunction: [""], email: [""],
+    pw: [""]
   });
 
-
-  convertAddFormToModel() {
+  convertAddOrEditFormToModel() {
     var viewModelObject = <EmployeeModel>{
       Person: this.convertPersonData(),
-      identNumber: this.addForm.get("email").value,
-      dmFunction: this.addForm.get("dmFunction").value,
-      email: this.addForm.get("email").value,
+      identifNumber: this.addOrEditForm.get("identifNumber").value,
+      dmfunction: this.addOrEditForm.get("dmfunction").value,
+      email: this.addOrEditForm.get("email").value,
+      pw: this.addOrEditForm.get("pw").value,
+      whoUpdated: "Hernani"
     };
     return viewModelObject;
   }
@@ -249,24 +258,38 @@ export class EmployeeComponent implements OnInit {
 
         //person fields
         this.employeeResponse = data.details[0];
-        this.addForm.get("name").setValue($event.data.idPerson.namePerson);
-        this.addForm.get("surname").setValue($event.data.idPerson.surnamePerson);
-        this.addForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
-        this.addForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-        this.addForm.get("birthday").setValue($event.data.idPerson.birthday);
-        this.addForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-        this.addForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
-        this.addForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-        this.addForm.get("profession").setValue($event.data.idPerson.profession);
-        this.addForm.get("grade").setValue($event.data.idPerson.grade);
+        this.addOrEditForm.get("name").setValue($event.data.idPerson.namePerson);
+        this.addOrEditForm.get("surname").setValue($event.data.idPerson.surnamePerson);
+        this.addOrEditForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
+        this.addOrEditForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
+        this.addOrEditForm.get("birthday").setValue($event.data.idPerson.birthday);
+        this.addOrEditForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+        this.addOrEditForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
+        this.addOrEditForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+        this.addOrEditForm.get("profession").setValue($event.data.idPerson.profession);
+        this.addOrEditForm.get("grade").setValue($event.data.idPerson.grade);
         //employee fields
-        this.addForm.get("identNumber").setValue($event.data.identNumber);
-        this.addForm.get("dmFunction").setValue($event.data.dmFunction);
-        this.addForm.get("email").setValue($event.data.email);
+        this.addOrEditForm.get("identifNumber").setValue($event.data.identifNumber);
+        this.addOrEditForm.get("dmfunction").setValue($event.data.dmfunction);
+        this.addOrEditForm.get("email").setValue($event.data.email);
+        this.addOrEditForm.get("pw").setValue($event.data.pw);
       }
     );
 
-    this.showAddOrEditForm = true; this.showSmartTable = false;
+    this.showAddOrEditForm = true;
+    this.showSmartTable = false;
+  }
+
+
+
+  editEmployee() {
+    this.convertAddOrEditFormToModel();
+    this.employeeService.edit(this.idEmpl, this.convertAddOrEditFormToModel()).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
+    console.log(this.convertAddOrEditFormToModel());
 
   }
 

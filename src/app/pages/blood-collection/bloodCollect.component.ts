@@ -52,7 +52,7 @@ export class BloodCollectComponent implements OnInit {
     id: [""], name: [""], surname: [""], bloodCode: [""], docIdent: [""], birthday: [""], dmSex: [""],
     homeAdd: [""], jobAddress: [""], profession: [""], grade: [""], email: [""],
 
-    identifNumber: [""], dmFunction: [""],
+    identifNumber: [""], dmfunction: [""],
   });
 
   convertFormToModel() {
@@ -172,7 +172,7 @@ export class BloodCollectComponent implements OnInit {
           this.resultForm.get("grade").setValue($event.data.idPerson.grade);
           //employee fields
           this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
-          this.resultForm.get("dmFunction").setValue($event.data.dmFunction);
+          this.resultForm.get("dmfunction").setValue($event.data.dmfunction);
           this.resultForm.get("email").setValue($event.data.email);
 
         }
@@ -225,7 +225,7 @@ export class BloodCollectComponent implements OnInit {
     birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
     profession: ["fwrt"], grade: ["herg"],
 
-    identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
+    identNumber: ["56256"], dmfunction: ["efwe"], email: ["sdff@ds.com"],
     pw: ["zdf"]
   });
 
@@ -233,8 +233,8 @@ export class BloodCollectComponent implements OnInit {
   convertAddFormToModel() {
     var viewModelObject = <EmployeeModel>{
       Person: this.convertPersonData(),
-      identNumber: this.addForm.get("email").value,
-      dmFunction: this.addForm.get("dmFunction").value,
+      identifNumber: this.addForm.get("email").value,
+      dmfunction: this.addForm.get("dmfunction").value,
       email: this.addForm.get("email").value,
     };
     return viewModelObject;
@@ -263,7 +263,7 @@ export class BloodCollectComponent implements OnInit {
         this.addForm.get("grade").setValue($event.data.idPerson.grade);
         //employee fields
         this.addForm.get("identNumber").setValue($event.data.identNumber);
-        this.addForm.get("dmFunction").setValue($event.data.dmFunction);
+        this.addForm.get("dmfunction").setValue($event.data.dmfunction);
         this.addForm.get("email").setValue($event.data.email);
       }
     );

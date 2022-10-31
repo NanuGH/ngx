@@ -7,9 +7,9 @@ export interface EmployeeModel {
   whoInserted: string;
   status: string;
   dmCodeDisabled: string;
-  identNumber: string;
+  identifNumber: string;
   pw: string;
-  dmFunction: string;
+  dmfunction: string;
   idRoles: string;
   email: string;
   whoUpdated: string;

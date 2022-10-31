@@ -144,8 +144,6 @@ export class PersonComponent implements OnInit {
 
     if ($event.data.id) {
       this.idPerson = $event.data.id;
-      console.log($event.data);
-
 
       this.personService.findById(this.idPerson).subscribe(
         (data: any) => {
