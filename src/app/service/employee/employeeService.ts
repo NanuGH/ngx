@@ -62,6 +62,13 @@ export class EmployeeService extends DefaultService {
     return this.http.post<ApiResponse<EmployeeModel>>(`${this.url}`,person,this.httpOptions);
   }
 
+
+  changeStatus(id: string): Observable<ApiResponse<EmployeeModel>> {
+    return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
+  }
+
+
+
   /*
     delete(id: string): Observable<ResponseApp<Employee>> {
       return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);

@@ -1,3 +1,5 @@
+import { EmployeeModel } from './EmployeeModel';
+import { PersonModel } from "./personModel";
 
 export interface BloodCollectModel {
   id: string;
@@ -6,4 +8,6 @@ export interface BloodCollectModel {
   externCollection: string,
   whoUpdated: string,
   whoInserted: string
+  Person:PersonModel;
+  Employee: EmployeeModel;
 }

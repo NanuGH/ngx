@@ -36,7 +36,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Quarentena',
         icon: 'slash-outline',
-        link: '',
+        link: '/pages/stock',
       },
       {
         title: 'Pronto',

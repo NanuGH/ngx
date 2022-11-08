@@ -1,13 +1,14 @@
 import { EmployeeModel } from './../../models/response/EmployeeModel';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { EmployeeService } from '../../service/employee/employeeService';
 import { SearchEmployee } from '../../models/request/searchEmployee';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
+import { NbDialogRef, NbDialogService } from '@nebular/theme';
 
 @Component({
-  selector: 'ngx-person',
+  selector: 'ngx-employee',
   templateUrl: "./employee.component.html",
   styleUrls: ["./employee.component.scss"],
 })
@@ -23,10 +24,14 @@ export class EmployeeComponent implements OnInit {
   idEmpl: string;
   employeeResponse: PersonModel;
 
+  dialogRef: NbDialogRef<any>
+  @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
+
 
   constructor(
     private formBuilder: FormBuilder,
-    private employeeService: EmployeeService) {
+    private employeeService: EmployeeService,
+    private dialogService: NbDialogService) {
 
   }
 
@@ -111,7 +116,7 @@ export class EmployeeComponent implements OnInit {
         type: 'string',
       },
       identifNumber: {
-        title: 'Num. Identificação',
+        title: 'Nº Identificação',
         type: 'string',
       },
       email: {
@@ -280,8 +285,6 @@ export class EmployeeComponent implements OnInit {
     this.showSmartTable = false;
   }
 
-
-
   editEmployee() {
     this.convertAddOrEditFormToModel();
     this.employeeService.edit(this.idEmpl, this.convertAddOrEditFormToModel()).subscribe(
@@ -290,6 +293,23 @@ export class EmployeeComponent implements OnInit {
       }
     )
     console.log(this.convertAddOrEditFormToModel());
+
+  }
+
+  /**************////// Change Status */
+  public onDelete($event) {
+    this.idEmpl = $event.data.id;
+    this.dialogRef = this.dialogService.open(this.dialogDelete);
+  }
+
+ public onDeleteConfirm() {
+
+      this.employeeService.changeStatus(this.idEmpl).subscribe(
+        (data: any) => {
+          console.log(data);
+          this.dialogRef.close();
+        }
+      );
 
   }
 

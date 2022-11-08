@@ -6,6 +6,7 @@ import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse"
 import { SearchBloodCollect } from '../../models/request/searchbloodCollect';
 import { Observable } from 'rxjs';
+import { BloodCollection } from '../../models/request/bloodCollection';
 
 @Injectable({
     providedIn: 'root'
@@ -63,6 +64,10 @@ import { Observable } from 'rxjs';
 
     changeStatus(id: string): Observable<ApiResponse<BloodCollectModule>> {
       return this.http.put<ApiResponse<BloodCollectModule>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
+    }
+
+    create(person: BloodCollection): Observable<ApiResponse<BloodCollection>> {
+      return this.http.post<ApiResponse<BloodCollection>>(`${this.url}`, person, this.httpOptions);
     }
 
 

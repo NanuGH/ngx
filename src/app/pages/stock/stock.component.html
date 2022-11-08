@@ -79,7 +79,7 @@
 
 <nb-card *ngIf="showSearchCard">
   <button nbButton size="small" status="primary" type="button" (click)="showAddBloodCollect()">
-    Nova Doação
+    Nova Entrada
   </button>
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
@@ -89,15 +89,8 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
-              <label for="collectionNumber">Número Colheita</label>
+              <label for="collectionNumber">Nº Colheita</label>
               <input type="text" class="form-control" id="collectionNumber" formControlName="collectionNumber" />
-            </div>
-          </div>
-
-          <div class="col-sm-4">
-            <div class="form-group">
-              <label for="insertionDate">Data Colheita</label>
-              <input type="text" class="form-control" id="insertionDate" formControlName="insertionDate" />
             </div>
           </div>
         </div>
@@ -117,7 +110,7 @@
 <nb-card accent="primary" *ngIf="showSmartTable">
   <nb-card-header>
     <div class="headerList">
-      DOAÇÕES:
+      FUNCIONÁRIOS:
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeResult()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
@@ -131,11 +124,11 @@
   </nb-card-body>
 </nb-card>
 
-<form [formGroup]="editForm" *ngIf="showEditForm">
+<form [formGroup]="addForm" *ngIf="showAddOrEditForm">
   <nb-card accent="primary">
     <nb-card-header>Detalhes:</nb-card-header>
     <nb-card-body>
-      <div class="jobData">Dados do Doador:</div>
+      <div class="jobData">Dados Pessoais:</div>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
@@ -212,7 +205,7 @@
         </div>
       </div>
 
-      <div class="personalData">Dados do FuncionárioÇ</div>
+      <div class="personalData">Dados Trabalho:</div>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
@@ -234,8 +227,11 @@
         </div>
       </div>
 
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeEditForm()">
+      <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
         <nb-icon icon="close-outline"></nb-icon>
+      </button>
+      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addEmployee()">
+        Salvar
       </button>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary">
         Edit
@@ -243,67 +239,6 @@
     </nb-card-body>
   </nb-card>
 </form>
-
-<form [formGroup]="addForm" *ngIf="showAddForm">
-  <nb-card accent="primary">
-    <nb-card-header>Nova Doação:</nb-card-header>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-groupp">
-            <label>Doador:</label>
-            <input type="text" nbInput formControlName="donner" placeholder="Nome/Doc.Ident./Data Nasc." />
-            <nb-icon icon="search-outline" (click)="searchDonner()"></nb-icon>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Numero Colheita:</label>
-            <input type="text" nbInput formControlName="collectionNumber" placeholder="Numero Colheita" />
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Quantidade:</label>
-            <input type="text" nbInput formControlName="qtdde" placeholder="Quantidade" />
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Colheita Externa:</label>
-            <input type="text" nbInput formControlName="externCollection" placeholder="Colheita Externa" />
-          </div>
-        </div>
-      </div>
-
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addCollect()">
-        Salvar
-      </button>
-    </nb-card-body>
-  </nb-card>
-</form>
-
-
-<nb-card accent="primary" *ngIf="showdonnerTable">
-  <nb-card-header>
-    <div class="headerList">
-      DOADOR:
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
-    </div>
-  </nb-card-header>
-
-  <nb-card-body>
-    <ng2-smart-table [settings]="settingsDonner" [source]="source">
-    </ng2-smart-table>
-  </nb-card-body>
-</nb-card>
 
 <ng-template #dialogDelete let-data let-ref="dialogRef">
   <nb-card>

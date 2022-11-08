@@ -22,7 +22,6 @@ export class PersonComponent implements OnInit {
   disableFormSearch: boolean = false;
   showSmarttableList: boolean = false;
   Searchtable: boolean = true;
-
   personResponse: PersonModel;
   source: LocalDataSource = new LocalDataSource();
   sourcePersonDtls: LocalDataSource = new LocalDataSource();
@@ -46,7 +45,7 @@ export class PersonComponent implements OnInit {
       search: this.formBuilder.group({
         namePerson: [""],
         surnamePerson: [""],
-        birthday: ["2022-09-17"]
+        birthday: [""]
       }),
     });
   }
@@ -103,8 +102,6 @@ export class PersonComponent implements OnInit {
       },
     },
   };
-
-
 
   /*************************/////// */
 
