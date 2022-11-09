@@ -249,11 +249,12 @@
     <nb-card-header>Nova Doação:</nb-card-header>
     <nb-card-body>
       <div class="row">
+        <nb-icon icon="search-outline" (click)="searchDonner()"></nb-icon>
         <div class="col-sm-4">
           <div class="form-groupp">
             <label>Doador:</label>
-            <input type="text" nbInput formControlName="donner" placeholder="Nome/Doc.Ident./Data Nasc." />
-            <nb-icon icon="search-outline" (click)="searchDonner()"></nb-icon>
+            <input type="text" nbInput formControlName="value" placeholder="Nome/Doc.Ident." />
+
           </div>
         </div>
       </div>
@@ -288,22 +289,24 @@
   </nb-card>
 </form>
 
+<ng-template #dialogPerson let-data let-ref="dialogRef">
+  <nb-card accent="primary" *ngIf="showdonnerTable">
+    <nb-card-header>
+      <div class="headerList">
+        DOADOR:
+        <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
 
-<nb-card accent="primary" *ngIf="showdonnerTable">
-  <nb-card-header>
-    <div class="headerList">
-      DOADOR:
-      <button nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
-    </div>
-  </nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="settingsDonner" [source]="sourcePerson" (userRowSelect)="onPersonSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
 
-  <nb-card-body>
-    <ng2-smart-table [settings]="settingsDonner" [source]="source">
-    </ng2-smart-table>
-  </nb-card-body>
-</nb-card>
 
 <ng-template #dialogDelete let-data let-ref="dialogRef">
   <nb-card>

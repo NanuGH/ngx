@@ -1,4 +1,4 @@
-import { BloodCollection } from './../../models/request/bloodCollection';
+import { PersonService } from './../../service/person/personService';
 import { BloodCollectModel } from './../../models/response/BloodCollectModel';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -26,13 +26,17 @@ export class BloodCollectComponent implements OnInit {
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
+  sourcePerson: LocalDataSource = new LocalDataSource();
   idEmpl: string;
   idBloodCollect: string;
-  employeeResponse: PersonModel;
+  idPerson: string;
+  personResponse: PersonModel;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private bloodCollectService: BloodCollectService,
+    private personService: PersonService,
     private dialogService: NbDialogService,) {
   }
 
@@ -171,7 +175,7 @@ export class BloodCollectComponent implements OnInit {
        this.bloodCollectService.findById(this.idBloodCollect).subscribe(
         (data: any) => {
 
-          this.employeeResponse = data.details[0];
+          this.personResponse = data.details[0];
 
           //blood collection fields
           this.resultForm.get("collectionNumber").setValue($event.data.collectionNumber);
@@ -195,14 +199,30 @@ export class BloodCollectComponent implements OnInit {
 
   /******** ADD  *************** */
 
+  onPersonSelect($event){
+    if ($event.data.id) {
+      this.idPerson = $event.data.id;
+          this.personResponse = $event.data;
+          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+          this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
+          this.addForm.get("qtdde").setValue($event.data.qtdde);
+          this.addForm.get("externCollection").setValue($event.data.externCollection);
+          this.addForm.get("idPerson").setValue(this.idPerson);
+    }
+    this.dialogRef.close();
+  }
+
   showAddBloodCollect() {
     this.showAddForm = true;
     this.showSmartTable = false;
   }
 
   addCollect() {
+    this.idPerson = this.addForm.get("idPerson").value;
+    console.log(this.idPerson);
+
     this.convertFormToModel();
-     this.bloodCollectService.create(this.convertAddFormToModel()).subscribe(
+     this.bloodCollectService.create(this.convertAddFormToModel(),'aac136d9-33e6-44fa-bf22-69f2d0d869a6',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -210,12 +230,11 @@ export class BloodCollectComponent implements OnInit {
   }
 
   addForm = this.formBuilder.group({
-    collectionNumber: [""] , qtdde: [""], externCollection: [""]
+    collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""], idPerson:[""]
   })
 
   convertAddFormToModel() {
     var viewModelObject = <BloodCollectModel>{
-      //Person.namePerson: this.addForm.get("donner").value,
       collectionNumber: this.addForm.get("collectionNumber").value,
       qtdde: this.addForm.get("qtdde").value,
       externCollection: this.addForm.get("externCollection").value,
@@ -251,7 +270,7 @@ export class BloodCollectComponent implements OnInit {
         console.log(data.details[0]);
 
         //person fields
-        this.employeeResponse = data.details[0];
+        this.personResponse = data.details[0];
         this.editForm.get("name").setValue($event.data.idPerson.namePerson);
         this.editForm.get("surname").setValue($event.data.idPerson.surnamePerson);
         this.editForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
@@ -295,6 +314,8 @@ export class BloodCollectComponent implements OnInit {
 
   /******************    GET PERSON ********/
 
+  @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
+
   settingsDonner = {
     noDataMessage: "Sem Dados",
     mode: 'external',
@@ -334,9 +355,18 @@ export class BloodCollectComponent implements OnInit {
     },
   };
 
+  valueToSearch:string;
   searchDonner() {
+    this.valueToSearch = this.addForm.get("value").value;
     this.showdonnerTable = true;
     this.showSearchCard=false;
+    this.dialogRef = this.dialogService.open(this.dialogPerson);
+    this.personService.getByOne(this.valueToSearch).subscribe(
+      (data:any)=>{
+        this.sourcePerson = data.details;
+      }
+    );
+
   }
 
   closeDonnerTable(){

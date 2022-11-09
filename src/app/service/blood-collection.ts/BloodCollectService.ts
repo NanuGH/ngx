@@ -66,8 +66,8 @@ import { BloodCollection } from '../../models/request/bloodCollection';
       return this.http.put<ApiResponse<BloodCollectModule>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
     }
 
-    create(person: BloodCollection): Observable<ApiResponse<BloodCollection>> {
-      return this.http.post<ApiResponse<BloodCollection>>(`${this.url}`, person, this.httpOptions);
+    create(person: BloodCollection,idEmpl:string,idDonner:string): Observable<ApiResponse<BloodCollection>> {
+      return this.http.post<ApiResponse<BloodCollection>>(`${this.url}${idEmpl}/${idDonner}`, person, this.httpOptions);
     }
 
 
