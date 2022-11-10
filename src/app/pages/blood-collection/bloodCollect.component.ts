@@ -66,13 +66,6 @@ export class BloodCollectComponent implements OnInit {
     collectionNumber:[""],qtdde:[""],externCollection:[""], nameEmployee: [""],surnameEmployee: [""],
   });
 
-  convertFormToModel() {
-    var viewModelObject = <SearchBloodCollect>{
-      collectionNumber: this.searchGroup.get("collectionNumber").value,
-      insertionDate: this.searchGroup.get("insertionDate").value,
-    };
-    return viewModelObject;
-  }
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
@@ -146,6 +139,14 @@ export class BloodCollectComponent implements OnInit {
   };
 
   ////////        GET  with Params        ///////
+
+  convertFormToModel() {
+    var viewModelObject = <SearchBloodCollect>{
+      collectionNumber: this.searchGroup.get("collectionNumber").value,
+      insertionDate: this.searchGroup.get("insertionDate").value,
+    };
+    return viewModelObject;
+  }
 
   onSearchFormSubmit() {
 
@@ -372,6 +373,7 @@ export class BloodCollectComponent implements OnInit {
   closeDonnerTable(){
     this.showdonnerTable = false;
     this.showSearchCard=true;
+    this.dialogRef.close();
   }
 
 

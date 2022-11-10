@@ -1,4 +1,3 @@
-import { LocalData } from 'ng2-completer';
 import { BloodCollectModule } from './../../pages/blood-collection/bloodCollect.module';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
@@ -34,11 +33,9 @@ import { BloodCollection } from '../../models/request/bloodCollection';
       let queryJustCollectionNumber = new HttpParams().append("collectionNumber",searchBloodCollect.collectionNumber);
 
       let queryJustInsertionDate = new HttpParams().append("insertionDate", searchBloodCollect.insertionDate);
-      /********/
 
       if ( searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate != null) {
         const options = { params: queryParams, headers: headerss };
-
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
       }
 
@@ -69,7 +66,4 @@ import { BloodCollection } from '../../models/request/bloodCollection';
     create(person: BloodCollection,idEmpl:string,idDonner:string): Observable<ApiResponse<BloodCollection>> {
       return this.http.post<ApiResponse<BloodCollection>>(`${this.url}${idEmpl}/${idDonner}`, person, this.httpOptions);
     }
-
-
-
   }
