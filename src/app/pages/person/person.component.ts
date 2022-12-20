@@ -17,12 +17,15 @@ export class PersonComponent implements OnInit {
   searchForm: FormGroup;
   //resultForm: FormGroup;
   //details: FormGroup;
+  saveOrEdit : String;
 
   showResultList: boolean = false;
   disableFormSearch: boolean = false;
   showSmarttableList: boolean = false;
   Searchtable: boolean = true;
   personResponse: PersonModel;
+  refreshTable: PersonModel;
+  showButton: boolean = true;
   source: LocalDataSource = new LocalDataSource();
   sourcePersonDtls: LocalDataSource = new LocalDataSource();
 
@@ -123,7 +126,6 @@ export class PersonComponent implements OnInit {
     this.personService
       .getPersonMultipleParams(viewModelObject)
       .subscribe((data: any) => {
-        //this.source.load(data.details[0]);
         var filtroEtapaEmissao = data.details[0].filter(function(pesquisa){
           var list = String(pesquisa.status)
           return list == "true";
@@ -151,7 +153,7 @@ export class PersonComponent implements OnInit {
 
     if ($event.data.id) {
       this.idPerson = $event.data.id;
-
+      this.showButton = false;
       this.personService.findById(this.idPerson).subscribe(
         (data: any) => {
           console.log(data.details[0]);
@@ -187,6 +189,8 @@ export class PersonComponent implements OnInit {
 
   showAddPerson() {
     this.showResultList = true;
+    this.saveOrEdit = "Adicionar";
+    this.showButton = true;
   }
 
   public addPerson() {
@@ -270,6 +274,8 @@ export class PersonComponent implements OnInit {
           this.resultForm.get("telefone").setValue($event.data.telefone);
 
           this.showResultList = true; this.disableFormSearch = false;
+          this.saveOrEdit = "Editar";
+          this.showButton = true;
     }
   }
 
@@ -288,6 +294,7 @@ export class PersonComponent implements OnInit {
   /**************////// Change Status */
   public onDelete($event) {
     this.idPerson = $event.data.id;
+    this.refreshTable = $event.data;
     this.dialogRef = this.dialogService.open(this.dialogDelete);
   }
 
@@ -296,10 +303,23 @@ export class PersonComponent implements OnInit {
       this.personService.changeStatus(this.idPerson).subscribe(
         (data: any) => {
           this.dialogRef.close();
-
+          this.source.remove(this.refreshTable);
         }
       );
   }
+
+
+  save($event){
+    if (this.idPerson) {
+      this.editPerson();
+    } else {
+      this.addPerson();
+    }
+
+  }
+
+
+
 
 
 

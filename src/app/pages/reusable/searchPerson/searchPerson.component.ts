@@ -46,7 +46,7 @@ export class SearchPersonComponent implements OnInit {
       search: this.formBuilder.group({
         namePerson: [""],
         surnamePerson: [""],
-        birthday: ["1988-03-04"]
+        birthday: ["1991-01-16"]
       }),
     });
   }
