@@ -17,4 +17,5 @@ export interface PersonModel {
   whoUpdated: string;
   status: string;
   email: string;
+  telefone: string;
 }

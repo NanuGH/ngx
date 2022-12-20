@@ -7,27 +7,28 @@ export class PeriodsService {
       '2010', '2011', '2012',
       '2013', '2014', '2015',
       '2016', '2017', '2018',
+      '2019', '2020', '2021'
     ];
   }
 
   getMonths() {
     return [
-      'Jan', 'Feb', 'Mar',
-      'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep',
-      'Oct', 'Nov', 'Dec',
+      'Jan', 'Fev', 'Mar',
+      'Abr', 'Mai', 'Jun',
+      'Jul', 'Ago', 'Set',
+      'Out', 'Nov', 'Dez',
     ];
   }
 
   getWeeks() {
     return [
-      'Mon',
-      'Tue',
-      'Wed',
-      'Thu',
-      'Fri',
-      'Sat',
-      'Sun',
+      'Seg',
+      'Ter',
+      'Qua',
+      'Qui',
+      'Sex',
+      'Sab',
+      'Dom',
     ];
   }
 }

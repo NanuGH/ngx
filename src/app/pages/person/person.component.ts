@@ -53,7 +53,7 @@ export class PersonComponent implements OnInit {
   resultForm = this.formBuilder.group({
     id: [""],name: [""], surname: [""], bloodCode: [""],
     docIdent: [""], birthday: [""], dmSex: [""],homeAdd: [""],
-    jobAddress: [""], profession: [""], grade: [""], email: [""]
+    jobAddress: [""], profession: [""], grade: [""], email: [""], telefone: [""]
   });
 
   searchResult(event) {
@@ -96,6 +96,10 @@ export class PersonComponent implements OnInit {
         title: 'Sexo',
         type: 'string',
       },
+      telefone: {
+        title: 'Telefone',
+        type: 'string',
+      },
       status: {
         title: 'Status',
         type: 'string',
@@ -119,7 +123,13 @@ export class PersonComponent implements OnInit {
     this.personService
       .getPersonMultipleParams(viewModelObject)
       .subscribe((data: any) => {
-        this.source.load(data.details[0]);
+        //this.source.load(data.details[0]);
+        var filtroEtapaEmissao = data.details[0].filter(function(pesquisa){
+          var list = String(pesquisa.status)
+          return list == "true";
+         });
+
+         this.source.load(filtroEtapaEmissao);
         this.showSmarttableList = true;
       });
   }
@@ -157,6 +167,7 @@ export class PersonComponent implements OnInit {
           this.resultForm.get("profession").setValue($event.data.profession);
           this.resultForm.get("grade").setValue($event.data.grade);
           this.resultForm.get("email").setValue($event.data.email);
+          this.resultForm.get("telefone").setValue($event.data.telefone);
 
           this.showResultList = true;
           this.disableFormSearch = false;
@@ -204,6 +215,7 @@ export class PersonComponent implements OnInit {
       whoUpdated: "Hernani",
       status: "true",
       email: this.resultForm.get("email").value,
+      telefone: this.resultForm.get("telefone").value
     };
     //console.log(viewModelObject);
     return viewModelObject;
@@ -255,6 +267,7 @@ export class PersonComponent implements OnInit {
           this.resultForm.get("profession").setValue($event.data.profession);
           this.resultForm.get("grade").setValue($event.data.grade);
           this.resultForm.get("email").setValue($event.data.email);
+          this.resultForm.get("telefone").setValue($event.data.telefone);
 
           this.showResultList = true; this.disableFormSearch = false;
     }
@@ -282,12 +295,13 @@ export class PersonComponent implements OnInit {
 
       this.personService.changeStatus(this.idPerson).subscribe(
         (data: any) => {
-          console.log(data);
           this.dialogRef.close();
+
         }
       );
-
   }
+
+
 
   /* onDeleteConfirm($event): void {
     if (window.confirm('Are you sure you want to delete?')) {

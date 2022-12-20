@@ -21,6 +21,7 @@ import { CountryOrderService } from './country-order.service';
 import { StatsProgressBarService } from './stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './visitors-analytics.service';
 import { SecurityCamerasService } from './security-cameras.service';
+import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 
 const SERVICES = [
   UserService,

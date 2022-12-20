@@ -1,3 +1,11 @@
+<!-- <div>
+  <iframe title="graficosBS" width="1250" height="804" src="https://app.powerbi.com/view?r=eyJrIjoiNmU5NDQ4MjQtZGM2ZS00NDczLTkwNTctNWFjNjI1NTZkNjllIiwidCI6IjdiNWNiZGU0LTI2N2YtNDVmOS05ZWYyLThlOTZmNTViNWFkMSIsImMiOjl9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>
+</div>
+
+<div>
+  <iframe title="graficosBS" width="1250" height="804" src="https://app.powerbi.com/view?r=eyJrIjoiNmU5NDQ4MjQtZGM2ZS00NDczLTkwNTctNWFjNjI1NTZkNjllIiwidCI6IjdiNWNiZGU0LTI2N2YtNDVmOS05ZWYyLThlOTZmNTViNWFkMSIsImMiOjl9&pageName=ReportSection3831af1fb2b19ac53946" frameborder="0" allowFullScreen="true"></iframe>
+</div> -->
+
 <form [formGroup]="resultForm"  *ngIf="showResultList">
   <nb-card accent="primary">
     <nb-card-header>Detalhes:</nb-card-header>
@@ -74,6 +82,12 @@
           <div class="form-group">
             <label>Email:</label>
             <input type="text" nbInput formControlName="email" placeholder="Email" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" nbInput formControlName="telefone" placeholder="Telefone" />
           </div>
         </div>
       </div>
