@@ -25,6 +25,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/blood-collection',
   },
   {
+    title: 'DOADORES',
+    icon: 'heart',
+    link: '/pages/blood-donner',
+  },
+  {
     title: 'FUNCIONÁRIOS',
     icon: 'briefcase',
     link: '/pages/employee',

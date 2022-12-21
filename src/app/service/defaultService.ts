@@ -10,6 +10,5 @@ export abstract class DefaultService {
 
     constructor(resource: string) {
       this.url = `${environment.url}${resource}`;
-
     }
   }

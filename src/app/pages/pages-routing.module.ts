@@ -74,6 +74,11 @@ const routes: Routes = [{
         .then(m => m.BloodCollectModule),
     },
     {
+      path: 'blood-donner',
+      loadChildren: () => import('./blood-donner/bloodDonner.module')
+        .then(m => m.BloodDonnerModule),
+    },
+    {
       path: 'bloodtype',
       loadChildren: () => import('./bloodtype/bloodtype.module')
         .then(m => m.BloodtypeModule),

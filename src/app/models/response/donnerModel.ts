@@ -21,5 +21,6 @@ export interface DonnerModel {
   whoUpdated: string;
   status: string;
   email: string;
+  identifNumber: string;
   person:PersonModel;
 }

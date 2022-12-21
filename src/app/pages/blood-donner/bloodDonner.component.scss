@@ -1,0 +1,30 @@
+/* @import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+}
+ */
+
+ .form-group{
+  display: flex;
+  flex-direction: column;
+ }
+
+ .headerList{
+  display:  flex;
+  justify-content: space-between;
+ }
+
+ .personalData{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+ }
+
+ .jobData{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-weight: bold;
+ }
