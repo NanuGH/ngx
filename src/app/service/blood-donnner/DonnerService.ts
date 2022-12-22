@@ -4,7 +4,7 @@ import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse";
 import { DonnerModel } from "../../models/response/donnerModel";
 import { Observable } from "rxjs";
-import { BloodDonner } from "../../models/request/bloodDonner";
+import { SearchDonner } from "../../models/request/searchDonner";
 
 
 
@@ -24,38 +24,36 @@ import { BloodDonner } from "../../models/request/bloodDonner";
       })
     };
 
-    donnerModel:DonnerModel;
 
     getDonner() {
       return this.http.get<ApiResponse<DonnerModel[]>>(`${this.url}`, this.httpOptions);
     }
 
-    getDonnerBy(donner: BloodDonner): Observable<ApiResponse<DonnerModel>>{
+    getDonnerBy(searchDonner : SearchDonner): Observable<ApiResponse<DonnerModel>>{
       const headers = new HttpHeaders().set("Authorization","Basic bmFudTpuYW51" );
-      let queryParams = new HttpParams().append("identifNumber", donner.identifNumber);
+      let queryParams = new HttpParams().append("identifNumber", searchDonner.identifNumber);
       const options = { params: queryParams, headers: headers };
-      return this.http.get<ApiResponse<DonnerModel>>(`${this.url}options`, options);
+      return this.http.get<ApiResponse<DonnerModel>>(`${this.url}opts`, options);
     }
 
-    /* getByDomain(dModel:DomainModel):Observable<ApiResponse<DomainModel>> {
-      const headers = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
-      let queryDomain = new HttpParams().append("domain",dModel.domain)
-      const options = {  params: queryDomain, headers: headers }
-      return this.http.get<ApiResponse<DomainModel>>(`${this.url}getByDomain`, options);
-    } */
 
 
-    /*findById(id: String): Observable<ResponseApp<Employee>> {
-      return this.http.get<ResponseApp<Employee>>(`${this.url}${id}`, this.httpOptions);
+    create(donner: DonnerModel): Observable<ApiResponse<DonnerModel>> {
+      return this.http.post<ApiResponse<DonnerModel>>(`${this.url}`, donner, this.httpOptions);
     }
 
-    create(employee: Employee): Observable<ResponseApp<Employee>> {
-      return this.http.post<ResponseApp<Employee>>(`${this.url}`, employee, this.httpOptions);
+    findById(id: String): Observable<ApiResponse<DonnerModel>> {
+      return this.http.get<ApiResponse<DonnerModel>>(`${this.url}${id}`, this.httpOptions);
     }
 
-    edit(employee: Employee): Observable<ResponseApp<Employee>> {
-      return this.http.put<ResponseApp<Employee>>(`${this.url}${employee.id}`, employee, this.httpOptions);
+    edit(donner: DonnerModel): Observable<ApiResponse<DonnerModel>> {
+      return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${donner}`, donner, this.httpOptions);
     }
+
+
+
+    /*
+
 
     delete(id: string): Observable<ResponseApp<Employee>> {
       return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);

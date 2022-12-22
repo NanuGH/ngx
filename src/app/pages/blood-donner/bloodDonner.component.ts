@@ -1,13 +1,11 @@
-import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
-import { EmployeeService } from '../../service/employee/employeeService';
-import { SearchEmployee } from '../../models/request/searchEmployee';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { DonnerService } from '../../service/blood-donnner/DonnerService';
-import { BloodDonner } from '../../models/request/bloodDonner';
+import { SearchDonner } from '../../models/request/searchDonner';
+import { DonnerModel } from '../../models/response/donnerModel';
 
 @Component({
   selector: 'ngx-employee',
@@ -16,8 +14,13 @@ import { BloodDonner } from '../../models/request/bloodDonner';
 })
 export class BloodDonnerComponent implements OnInit {
 
-  showSearchCard: boolean = true;
+  /* showSearchCard: boolean = true;
   showResultForm: boolean = false;
+  showAddOrEditForm: boolean = false;
+  showSmartTable: boolean = false; */
+
+  showSearchCard: boolean = true;
+  showResultForm: boolean = true;
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
 
@@ -32,7 +35,6 @@ export class BloodDonnerComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private employeeService: EmployeeService,
     private donnerService: DonnerService,
     private dialogService: NbDialogService) {
 
@@ -58,7 +60,7 @@ export class BloodDonnerComponent implements OnInit {
   });
 
   convertFormToModel() {
-    var viewModelObject = <BloodDonner>{
+    var viewModelObject = <SearchDonner>{
       identifNumber: this.searchGroup.get("identifNumber").value,
     };
     return viewModelObject;
@@ -156,7 +158,7 @@ export class BloodDonnerComponent implements OnInit {
     if ($event.data.id) {
       this.idEmpl = $event.data.id;
 
-      this.employeeService.findById(this.idEmpl).subscribe(
+      this.donnerService.findById(this.idEmpl).subscribe(
         (data: any) => {
           console.log(data.details[0]);
 
@@ -213,13 +215,12 @@ export class BloodDonnerComponent implements OnInit {
 
   addDonner() {
     this.convertFormToModel();
-    this.employeeService.create(this.convertAddOrEditFormToModel()).subscribe(
+    this.donnerService.create(this.convertAddOrEditFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
     )
     console.log(this.convertFormToModel());
-
   }
 
  /*  addForm = this.formBuilder.group({
@@ -232,21 +233,34 @@ export class BloodDonnerComponent implements OnInit {
   }); */
 
   addOrEditForm = this.formBuilder.group({
-    name: [""], surname: [""], bloodCode: [""], dmDocIdent: [""],
-    birthday: [""], dmSex: [""], homeAdd: [""], jobAddress: [""],
-    profession: [""], grade: [""],
-
-    identifNumber: [""], dmfunction: [""], email: [""],
-    pw: [""]
+    dmTypeDonor: [""], kell: [""], celFalcif: [""], dmHemolisina: [""],
+    phenotype: [""], personalBackground: [""], clinicalExam: [""], physicalExam: [""]
   });
 
-  convertAddOrEditFormToModel() {
+ /* convertAddOrEditFormToModel() {
     var viewModelObject = <EmployeeModel>{
       Person: this.convertPersonData(),
       identifNumber: this.addOrEditForm.get("identifNumber").value,
       dmfunction: this.addOrEditForm.get("dmfunction").value,
       email: this.addOrEditForm.get("email").value,
       pw: this.addOrEditForm.get("pw").value,
+      whoUpdated: "Hernani"
+    };
+    return viewModelObject;
+  }*/
+
+  convertAddOrEditFormToModel() {
+    var viewModelObject = <DonnerModel>{
+      Person: this.convertPersonData(),
+      identifNumber: this.addOrEditForm.get("identifNumber").value,
+      dmTypeDonor: this.addOrEditForm.get("dmTypeDonor").value,
+      kell: this.addOrEditForm.get("kell").value,
+      celFalcif: this.addOrEditForm.get("celFalcif").value,
+      dmHemolisina: this.addOrEditForm.get("dmHemolisina").value,
+      phenotype: this.addOrEditForm.get("phenotype").value,
+      personalBackground: this.addOrEditForm.get("personalBackground").value,
+      clinicalExam: this.addOrEditForm.get("clinicalExam").value,
+      physicalExam: this.addOrEditForm.get("physicalExam").value,
       whoUpdated: "Hernani"
     };
     return viewModelObject;
@@ -257,7 +271,7 @@ export class BloodDonnerComponent implements OnInit {
   public onEdit($event) {
     this.idEmpl = $event.data.id;
 
-    this.employeeService.findById(this.idEmpl).subscribe(
+    this.donnerService.findById(this.idEmpl).subscribe(
       (data: any) => {
         console.log(data.details[0]);
 
@@ -286,13 +300,13 @@ export class BloodDonnerComponent implements OnInit {
   }
 
   editEmployee() {
-    this.convertAddOrEditFormToModel();
-    this.employeeService.edit(this.idEmpl, this.convertAddOrEditFormToModel()).subscribe(
+    /* this.convertAddOrEditFormToModel();
+    this.donnerService.edit(this.idEmpl, this.convertAddOrEditFormToModel()).subscribe(
       (data: any) => {
         console.log(data);
       }
     )
-    console.log(this.convertAddOrEditFormToModel());
+    console.log(this.convertAddOrEditFormToModel()); */
 
   }
 
@@ -303,15 +317,13 @@ export class BloodDonnerComponent implements OnInit {
   }
 
  public onDeleteConfirm() {
-
-      this.employeeService.changeStatus(this.idEmpl).subscribe(
+      /* this.donnerService.changeStatus(this.idEmpl).subscribe(
         (data: any) => {
           console.log(data);
           this.dialogRef.close();
         }
-      );
-
-  }
+      ); */
+ }
 
 
 }

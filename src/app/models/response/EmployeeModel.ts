@@ -1,6 +1,5 @@
 import { PersonModel } from "./personModel";
 
-
 export interface EmployeeModel {
   Person:PersonModel;
   id: string;
