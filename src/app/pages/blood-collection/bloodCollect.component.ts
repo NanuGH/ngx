@@ -203,12 +203,12 @@ export class BloodCollectComponent implements OnInit {
   onPersonSelect($event){
     if ($event.data.id) {
       this.idPerson = $event.data.id;
-          this.personResponse = $event.data;
-          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
-          this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
-          this.addForm.get("qtdde").setValue($event.data.qtdde);
-          this.addForm.get("externCollection").setValue($event.data.externCollection);
-          this.addForm.get("idPerson").setValue(this.idPerson);
+      this.personResponse = $event.data;
+      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+      this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
+      this.addForm.get("qtdde").setValue($event.data.qtdde);
+      this.addForm.get("externCollection").setValue($event.data.externCollection);
+      this.addForm.get("idPerson").setValue(this.idPerson);
     }
     this.dialogRef.close();
   }
@@ -367,7 +367,6 @@ export class BloodCollectComponent implements OnInit {
         this.sourcePerson = data.details;
       }
     );
-
   }
 
   closeDonnerTable(){

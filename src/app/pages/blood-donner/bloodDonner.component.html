@@ -84,8 +84,8 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Tipo de Doador:</label>
-            <input type="text" nbInput formControlName="dmTypeDonor" placeholder="Tipo de Doador" />
+            <label>Células Falsiformes</label>
+            <input type="text" nbInput formControlName="celFalcif" placeholder="Células Falsiformes" />
           </div>
         </div>
         <div class="col-sm-4">
@@ -117,8 +117,8 @@
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Antecedentes Pessoais:</label>
-            <input type="text" nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" />
+            <label>Tipo de Doador:</label>
+            <input type="text" nbInput formControlName="dmTypeDonor" placeholder="Tipo de Doador" />
           </div>
         </div>
 
@@ -127,14 +127,20 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
+            <label>Antecedentes Pessoais:</label>
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
             <label>Exame Clínico:</label>
-            <input type="text" nbInput formControlName="clinicalExam" placeholder="Exame Clínico" />
+            <textarea nbInput formControlName="clinicalExam" placeholder="Exame Clínico" rows="3" cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label>Exame Físico:</label>
-            <input type="text" nbInput formControlName="physicalExam" placeholder="Exame Físico" />
+            <textarea nbInput formControlName="physicalExam" placeholder="Exame Físico" rows="3" cols="50"></textarea>
           </div>
         </div>
 
@@ -151,7 +157,7 @@
 
 
 <nb-card *ngIf="showSearchCard">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddEmpl()">Novo Doador</button>
+  <button nbButton size="small" status="primary" type="button" (click)="showAddPerson()">Novo Doador</button>
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
@@ -210,9 +216,101 @@
     <nb-card-body>
       <div class="row">
         <div class="col-sm-4">
+          <div class="form-groupp">
+            <label>Doador:</label>
+            <input type="text" nbInput formControlName="value" placeholder="Nome/Doc.Ident." />
+            <nb-icon icon="search-outline" (click)="searchPerson()"></nb-icon>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Kell:</label>
+            <input type="text" nbInput formControlName="kell" placeholder="Kell" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Células Falsiformes</label>
+            <input type="text" nbInput formControlName="dmHemolisina" placeholder="Células Falsiformes" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Hemolisina:</label>
+            <input type="text" nbInput formControlName="celFalcif" placeholder="Hemolisina" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Fenotipo</label>
+            <input type="text" nbInput formControlName="phenotype" placeholder="Profissão" />
+          </div>
+        </div>
+        <div class="col-sm-4">
           <div class="form-group">
             <label>Tipo de Doador:</label>
             <input type="text" nbInput formControlName="dmTypeDonor" placeholder="Tipo de Doador" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Antecedentes Pessoais:</label>
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Exame Clínico:</label>
+            <textarea nbInput formControlName="clinicalExam" placeholder="Exame Clínico" rows="3" cols="50"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Exame Físico:</label>
+            <textarea nbInput formControlName="physicalExam" placeholder="Exame Físico" rows="3" cols="50"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
+        <nb-icon icon="close-outline"></nb-icon>
+      </button>
+      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addDonner()">
+        Salvar
+      </button>
+      <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="editEmployee()">
+        Edit
+      </button>
+    </nb-card-body>
+  </nb-card>
+</form>
+
+
+
+
+
+
+
+
+
+<form [formGroup]="addForm" *ngIf="showAddForm">
+  <nb-card accent="primary">
+    <nb-card-header>Novo Doador:</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-groupp">
+            <label>Doador:</label>
+            <input type="text" nbInput formControlName="value" placeholder="Nome/Doc.Ident." />
+            <nb-icon icon="search-outline" (click)="searchPerson()"></nb-icon>
           </div>
         </div>
         <div class="col-sm-4">
@@ -239,7 +337,13 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label>Fenotipo</label>
-            <input type="text" nbInput formControlName="phenotype" placeholder="Profissão" />
+            <input type="text" nbInput formControlName="phenotype" placeholder="Fenotipo" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Tipo de Doador:</label>
+            <input type="text" nbInput formControlName="dmTypeDonor" placeholder="Tipo de Doador" />
           </div>
         </div>
 
@@ -249,19 +353,19 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label>Antecedentes Pessoais:</label>
-            <input type="text" nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" />
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label>Exame Clínico:</label>
-            <input type="text" nbInput formControlName="clinicalExam" placeholder="Exame Clínico" />
+            <textarea nbInput formControlName="clinicalExam" placeholder="Exame Clínico" rows="3" cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label>Exame Físico:</label>
-            <input type="text" nbInput formControlName="physicalExam" placeholder="Exame Físico" />
+            <textarea nbInput formControlName="physicalExam" placeholder="Exame Físico" rows="3" cols="50"></textarea>
           </div>
         </div>
 
@@ -281,6 +385,23 @@
 </form>
 
 
+<ng-template #dialogPerson let-data let-ref="dialogRef">
+  <nb-card accent="primary" *ngIf="showPersonTable">
+    <nb-card-header>
+      <div class="headerList">
+        Utente:
+        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <ng2-smart-table [settings]="settingsPerson" [source]="sourcePerson" (userRowSelect)="onPersonSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
 
 <ng-template #dialogDelete let-data let-ref="dialogRef">
   <nb-card>

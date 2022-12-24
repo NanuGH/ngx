@@ -1,6 +1,5 @@
 import { PersonModel } from "./personModel";
 
-
 export interface DonnerModel {
   Person:PersonModel;
   dmTypeDonor: string;
@@ -13,5 +12,4 @@ export interface DonnerModel {
   dmHemolisina: string;
   whoUpdated: string;
   phenotype: string;
-
 }

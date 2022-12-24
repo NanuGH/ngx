@@ -6,6 +6,7 @@ import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { DonnerService } from '../../service/blood-donnner/DonnerService';
 import { SearchDonner } from '../../models/request/searchDonner';
 import { DonnerModel } from '../../models/response/donnerModel';
+import { PersonService } from '../../service/person/personService';
 
 @Component({
   selector: 'ngx-employee',
@@ -20,14 +21,18 @@ export class BloodDonnerComponent implements OnInit {
   showSmartTable: boolean = false; */
 
   showSearchCard: boolean = true;
-  showResultForm: boolean = true;
+  showResultForm: boolean = false;
   showAddOrEditForm: boolean = false;
+  showAddForm : boolean =false;
   showSmartTable: boolean = false;
+  showPersonTable: boolean = false;
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
+  sourcePerson: LocalDataSource = new LocalDataSource();
   idEmpl: string;
-  employeeResponse: PersonModel;
+  idPerson: string;
+  personResponse: PersonModel;
 
   dialogRef: NbDialogRef<any>
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
@@ -36,6 +41,7 @@ export class BloodDonnerComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private donnerService: DonnerService,
+    private personService: PersonService,
     private dialogService: NbDialogService) {
 
   }
@@ -58,6 +64,12 @@ export class BloodDonnerComponent implements OnInit {
 
     identifNumber: [""], dmfunction: [""],
   });
+
+  addForm = this.formBuilder.group({
+    Kell: [""] , celFalcif: [""], dmHemolisina: [""], value:[""], idPerson:[""],
+    dmTypeDonor: [""] , personalBackground: [""], clinicalExam: [""],physicalExam:[""]
+
+  })
 
   convertFormToModel() {
     var viewModelObject = <SearchDonner>{
@@ -163,7 +175,7 @@ export class BloodDonnerComponent implements OnInit {
           console.log(data.details[0]);
 
           //person fields
-          this.employeeResponse = data.details[0];
+          this.personResponse = data.details[0];
           this.resultForm.get("name").setValue($event.data.idPerson.namePerson);
           this.resultForm.get("surname").setValue($event.data.idPerson.surnamePerson);
           this.resultForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
@@ -187,8 +199,8 @@ export class BloodDonnerComponent implements OnInit {
 
   /******** ADD  *************** */
 
-  showAddEmpl() {
-    this.showAddOrEditForm = true;
+  showAddPerson() {
+    this.showAddForm = true;
     this.showSmartTable = false;
   }
 
@@ -252,15 +264,15 @@ export class BloodDonnerComponent implements OnInit {
   convertAddOrEditFormToModel() {
     var viewModelObject = <DonnerModel>{
       Person: this.convertPersonData(),
-      identifNumber: this.addOrEditForm.get("identifNumber").value,
-      dmTypeDonor: this.addOrEditForm.get("dmTypeDonor").value,
       kell: this.addOrEditForm.get("kell").value,
-      celFalcif: this.addOrEditForm.get("celFalcif").value,
       dmHemolisina: this.addOrEditForm.get("dmHemolisina").value,
+      celFalcif: this.addOrEditForm.get("celFalcif").value,
       phenotype: this.addOrEditForm.get("phenotype").value,
+      dmTypeDonor: this.addOrEditForm.get("dmTypeDonor").value,
       personalBackground: this.addOrEditForm.get("personalBackground").value,
       clinicalExam: this.addOrEditForm.get("clinicalExam").value,
       physicalExam: this.addOrEditForm.get("physicalExam").value,
+
       whoUpdated: "Hernani"
     };
     return viewModelObject;
@@ -276,7 +288,7 @@ export class BloodDonnerComponent implements OnInit {
         console.log(data.details[0]);
 
         //person fields
-        this.employeeResponse = data.details[0];
+        this.personResponse = data.details[0];
         this.addOrEditForm.get("name").setValue($event.data.idPerson.namePerson);
         this.addOrEditForm.get("surname").setValue($event.data.idPerson.surnamePerson);
         this.addOrEditForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
@@ -325,5 +337,102 @@ export class BloodDonnerComponent implements OnInit {
       ); */
  }
 
+ /******************    GET PERSON ********/
+
+ @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
+
+ settingsPerson = {
+   noDataMessage: "Sem Dados",
+   mode: 'external',
+   actions: { columnTitle: 'Ações', add: false },
+   add: {
+     addButtonContent: '<i class="nb-plus"></i>',
+     createButtonContent: '<i class="nb-checkmark"></i>',
+     cancelButtonContent: '<i class="nb-close"></i>',
+   },
+   edit: {
+     editButtonContent: '<i class="nb-edit"></i>',
+     saveButtonContent: '<i class="nb-checkmark"></i>',
+     cancelButtonContent: '<i class="nb-close"></i>',
+     //confirmSave: true
+   },
+   delete: {
+     deleteButtonContent: '<i class="nb-trash"></i>',
+     confirmDelete: true,
+   },
+   columns: {
+     namePerson: {
+       title: 'Nome',
+       type: 'string',
+     },
+     surnamePerson: {
+       title: 'Apelido',
+       type: 'string',
+     },
+     dmBloodCode: {
+       title: 'G. Sanguíneo',
+       type: 'string',
+     },
+     dmDocIdent: {
+       title: 'Doc. Ident.',
+       type: 'string',
+     },
+   },
+ };
+
+ valueToSearch:string;
+ searchPerson() {
+   this.valueToSearch = this.addForm.get("value").value;
+   this.showPersonTable = true;
+   this.showSearchCard=false;
+   this.dialogRef = this.dialogService.open(this.dialogPerson);
+   this.personService.getByOne(this.valueToSearch).subscribe(
+     (data:any)=>{
+       this.sourcePerson = data.details;
+     }
+   );
+ }
+
+ closeDonnerTable(){
+   this.showPersonTable = false;
+   this.showSearchCard=true;
+   this.dialogRef.close();
+ }
+
+
+
+  /******** ADD  *************** */
+
+  onPersonSelect($event){
+    if ($event.data.id) {
+      this.idPerson = $event.data.id;
+          this.personResponse = $event.data;
+          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+          this.addForm.get("personalBackground").setValue($event.data.personalBackground);
+          this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
+          this.addForm.get("physicalExam").setValue($event.data.physicalExam);
+          this.addForm.get("kell").setValue($event.data.kell);
+          this.addForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+          this.addForm.get("phenotype").setValue($event.data.phenotype);
+          this.addForm.get("idPerson").setValue(this.idPerson);
+    }
+    this.dialogRef.close();
+  }
+
+  convertAddFormToModel() {
+    var viewModelObject = <DonnerModel>{
+      Person: this.convertPersonData(),
+      kell: this.addForm.get("kell").value,
+      dmHemolisina: this.addForm.get("dmHemolisina").value,
+      celFalcif: this.addForm.get("celFalcif").value,
+      phenotype: this.addForm.get("phenotype").value,
+      dmTypeDonor: this.addForm.get("dmTypeDonor").value,
+      personalBackground: this.addForm.get("personalBackground").value,
+      clinicalExam: this.addForm.get("clinicalExam").value,
+      physicalExam: this.addForm.get("physicalExam").value,
+      whoUpdated: "Hernani"
+    };
+    return viewModelObject;
+  }
 
 }
