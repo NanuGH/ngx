@@ -38,8 +38,8 @@ import { SearchDonner } from "../../models/request/searchDonner";
 
 
 
-    create(donner: DonnerModel,idPerson:string): Observable<ApiResponse<DonnerModel>> {
-      return this.http.post<ApiResponse<DonnerModel>>(`${this.url}$${idPerson}`, donner, this.httpOptions);
+    create(donner: DonnerModel,idEmpl:string,idPerson:string): Observable<ApiResponse<DonnerModel>> {
+      return this.http.post<ApiResponse<DonnerModel>>(`${this.url}${idEmpl}/${idPerson}`, donner, this.httpOptions);
     }
    /*  create(person: BloodCollection,idEmpl:string,idDonner:string): Observable<ApiResponse<BloodCollection>> {
       return this.http.post<ApiResponse<BloodCollection>>(`${this.url}${idEmpl}/${idDonner}`, person, this.httpOptions);

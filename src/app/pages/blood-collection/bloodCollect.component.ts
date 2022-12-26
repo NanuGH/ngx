@@ -199,6 +199,11 @@ export class BloodCollectComponent implements OnInit {
   }
 
   /******** ADD  *************** */
+  showAddBloodCollect() {
+    this.showAddForm = true;
+    this.showSmartTable = false;
+  }
+
 
   addForm = this.formBuilder.group({
     collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""]
@@ -227,10 +232,6 @@ export class BloodCollectComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  showAddBloodCollect() {
-    this.showAddForm = true;
-    this.showSmartTable = false;
-  }
 
   addCollect() {
     /* this.idPerson = this.addForm.get("idPerson").value; */

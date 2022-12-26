@@ -198,7 +198,7 @@ export class BloodDonnerComponent implements OnInit {
     this.showSmartTable = false;
   }
 
-  convertPersonData() {
+  /* convertPersonData() {
     var personModelObject = <PersonModel>{
       namePerson: this.addOrEditForm.get("name").value,
       surnamePerson: this.addOrEditForm.get("surname").value,
@@ -217,17 +217,8 @@ export class BloodDonnerComponent implements OnInit {
       email: this.addOrEditForm.get("email").value,
     };
     return personModelObject;
-  }
+  } */
 
-  addDonner() {
-    this.convertFormToModel();
-    this.donnerService.create(this.convertAddOrEditFormToModel(),this.idPerson).subscribe(
-      (data: any) => {
-        console.log(data);
-      }
-    )
-    console.log(this.convertFormToModel());
-  }
 
  /*  addForm = this.formBuilder.group({
     name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
@@ -255,7 +246,7 @@ export class BloodDonnerComponent implements OnInit {
     return viewModelObject;
   }*/
 
-  convertAddOrEditFormToModel() {
+  /* convertAddOrEditFormToModel() {
     var viewModelObject = <DonnerModel>{
       Person: this.convertPersonData(),
       kell: this.addOrEditForm.get("kell").value,
@@ -270,7 +261,7 @@ export class BloodDonnerComponent implements OnInit {
       whoUpdated: "Hernani"
     };
     return viewModelObject;
-  }
+  } */
 
   /************** Edit ***********/
 
@@ -398,14 +389,14 @@ export class BloodDonnerComponent implements OnInit {
   /******** ADD  *************** */
 
   addForm = this.formBuilder.group({
-    kell:[""], celFalcif:[""], dmHemolisina:[""], value:[""], idPerson:[""],phenotype:[""],
+    kell:[""], celFalcif:[""], dmHemolisina:[""], value:[""],phenotype:[""],
     dmTypeDonor:[""], personalBackground:[""], clinicalExam:[""],physicalExam:[""]
 
   })
 
   convertAddFormToModel() {
     var viewModelObject = <DonnerModel>{
-      Person: this.convertPersonData(),
+      //Person: this.convertPersonData(),
       kell: this.addForm.get("kell").value,
       dmHemolisina: this.addForm.get("dmHemolisina").value,
       celFalcif: this.addForm.get("celFalcif").value,
@@ -423,25 +414,25 @@ export class BloodDonnerComponent implements OnInit {
   onPersonSelect($event){
     if ($event.data.id) {
       this.idPerson = $event.data.id;
-          this.personResponse = $event.data;
-          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
-          this.addForm.get("personalBackground").setValue($event.data.personalBackground);
-          this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
-          this.addForm.get("physicalExam").setValue($event.data.physicalExam);
-          this.addForm.get("kell").setValue($event.data.kell);
-          this.addForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
-          this.addForm.get("phenotype").setValue($event.data.phenotype);
-          this.addForm.get("idPerson").setValue(this.idPerson);
+      this.personResponse = $event.data;
+      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+      this.addForm.get("personalBackground").setValue($event.data.personalBackground);
+      this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
+      this.addForm.get("physicalExam").setValue($event.data.physicalExam);
+      this.addForm.get("kell").setValue($event.data.kell);
+      this.addForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+      this.addForm.get("phenotype").setValue($event.data.phenotype);
+      //this.addForm.get("idPerson").setValue(this.idPerson);
     }
     this.dialogRef.close();
   }
 
-  addCollect() {
-    this.idPerson = this.addForm.get("idPerson").value;
+  addDonner() {
+    //this.idPerson = this.addForm.get("idPerson").value;
     console.log(this.idPerson);
 
     this.convertFormToModel();
-     this.donnerService.create(this.convertAddFormToModel(),this.idPerson).subscribe(
+     this.donnerService.create(this.convertAddFormToModel(),'511913a3-c807-44a8-a3d4-3ede72afb669',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
