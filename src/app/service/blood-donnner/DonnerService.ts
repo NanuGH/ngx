@@ -33,6 +33,7 @@ import { SearchDonner } from "../../models/request/searchDonner";
       const headers = new HttpHeaders().set("Authorization","Basic bmFudTpuYW51" );
       let queryParams = new HttpParams().append("identifNumber", searchDonner.identifNumber);
       const options = { params: queryParams, headers: headers };
+
       return this.http.get<ApiResponse<DonnerModel>>(`${this.url}opts`, options);
     }
 
@@ -41,13 +42,12 @@ import { SearchDonner } from "../../models/request/searchDonner";
     create(donner: DonnerModel,idEmpl:string,idPerson:string): Observable<ApiResponse<DonnerModel>> {
       return this.http.post<ApiResponse<DonnerModel>>(`${this.url}${idEmpl}/${idPerson}`, donner, this.httpOptions);
     }
-   /*  create(person: BloodCollection,idEmpl:string,idDonner:string): Observable<ApiResponse<BloodCollection>> {
-      return this.http.post<ApiResponse<BloodCollection>>(`${this.url}${idEmpl}/${idDonner}`, person, this.httpOptions);
-    }
- */
+
     findById(id: String): Observable<ApiResponse<DonnerModel>> {
       return this.http.get<ApiResponse<DonnerModel>>(`${this.url}${id}`, this.httpOptions);
     }
+
+
 
     edit(donner: DonnerModel): Observable<ApiResponse<DonnerModel>> {
       return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${donner}`, donner, this.httpOptions);

@@ -41,6 +41,13 @@
             <input type="text" nbInput formControlName="docIdent" placeholder="Documento de Ident." />
           </div>
         </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Telefone:</label>
+            <input type="text" nbInput formControlName="telefone" placeholder="Telefone" />
+          </div>
+        </div>
+
       </div>
       <div class="row">
         <div class="col-sm-4">
@@ -94,12 +101,6 @@
             <input type="text" nbInput formControlName="kell" placeholder="Kell" />
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Células Falsiformes</label>
-            <input type="text" nbInput formControlName="celFalcif" placeholder="Células Falsiformes" />
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -128,7 +129,8 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label>Antecedentes Pessoais:</label>
-            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3"
+              cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
@@ -145,12 +147,18 @@
         </div>
 
       </div>
+      <div class="row">
 
+        <button nbButton title="button" class="mt-3 mr-2" size="small" type="button" status="danger"
+          (click)="closeDetails()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
 
-
-      <button title="button" class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDetails()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
+        <button *ngIf="IfEdit" nbButton class="mt-3 mr-2" size="small" type="button" status="primary"
+          (click)="editDonner()">
+          Editar
+        </button>
+      </div>
     </nb-card-body>
   </nb-card>
 </form>
@@ -196,21 +204,22 @@
   <nb-card-header>
     <div class="headerList">
       DOADORES:
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeResult()">
+      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger"
+        (click)="closeResult()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
     </div>
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onEmploIdSelect($event)"
-    (edit)="onEdit($event)" (delete)="onDelete($event)">
+    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onDonnerSelect($event)"
+      (edit)="onEdit($event)" (delete)="onDelete($event)">
     </ng2-smart-table>
   </nb-card-body>
 </nb-card>
 
 
-<form [formGroup]="addOrEditForm" *ngIf="showAddOrEditForm">
+<form [formGroup]="showAddForm" *ngIf="showAddOrEditForm">
   <nb-card accent="primary">
     <nb-card-header>Detalhes:</nb-card-header>
     <nb-card-body>
@@ -262,7 +271,8 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label>Antecedentes Pessoais:</label>
-            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3"
+              cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
@@ -280,14 +290,15 @@
 
       </div>
 
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
+      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger"
+        (click)="closeAddForm()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addDonner()">
         Salvar
       </button>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="editEmployee()">
-        Edit
+        Editar
       </button>
     </nb-card-body>
   </nb-card>
@@ -353,7 +364,8 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label>Antecedentes Pessoais:</label>
-            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3" cols="50"></textarea>
+            <textarea nbInput formControlName="personalBackground" placeholder="Antecedentes Pessoais" rows="3"
+              cols="50"></textarea>
           </div>
         </div>
         <div class="col-sm-4">
@@ -371,7 +383,8 @@
 
       </div>
 
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
+      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger"
+        (click)="closeAddForm()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addDonner()">
@@ -390,7 +403,8 @@
     <nb-card-header>
       <div class="headerList">
         Utente:
-        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
+        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger"
+          (click)="closeDonnerTable()">
           <nb-icon icon="close-outline"></nb-icon>
         </button>
       </div>

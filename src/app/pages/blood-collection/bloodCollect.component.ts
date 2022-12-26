@@ -227,14 +227,12 @@ export class BloodCollectComponent implements OnInit {
       this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
       this.addForm.get("qtdde").setValue($event.data.qtdde);
       this.addForm.get("externCollection").setValue($event.data.externCollection);
-      //this.addForm.get("idPerson").setValue(this.idPerson);
     }
     this.dialogRef.close();
   }
 
 
   addCollect() {
-    /* this.idPerson = this.addForm.get("idPerson").value; */
     console.log(this.idPerson);
 
     this.convertFormToModel();
