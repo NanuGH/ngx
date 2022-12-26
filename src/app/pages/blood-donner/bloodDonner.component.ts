@@ -65,12 +65,6 @@ export class BloodDonnerComponent implements OnInit {
     identifNumber: [""], dmfunction: [""],
   });
 
-  addForm = this.formBuilder.group({
-    Kell: [""] , celFalcif: [""], dmHemolisina: [""], value:[""], idPerson:[""],
-    dmTypeDonor: [""] , personalBackground: [""], clinicalExam: [""],physicalExam:[""]
-
-  })
-
   convertFormToModel() {
     var viewModelObject = <SearchDonner>{
       identifNumber: this.searchGroup.get("identifNumber").value,
@@ -89,7 +83,7 @@ export class BloodDonnerComponent implements OnInit {
   }
 
   closeAddForm() {
-    this.showAddOrEditForm = false;
+    this.showAddForm = false;
     this.addOrEditForm.reset();
   }
 
@@ -227,7 +221,7 @@ export class BloodDonnerComponent implements OnInit {
 
   addDonner() {
     this.convertFormToModel();
-    this.donnerService.create(this.convertAddOrEditFormToModel()).subscribe(
+    this.donnerService.create(this.convertAddOrEditFormToModel(),this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -403,21 +397,11 @@ export class BloodDonnerComponent implements OnInit {
 
   /******** ADD  *************** */
 
-  onPersonSelect($event){
-    if ($event.data.id) {
-      this.idPerson = $event.data.id;
-          this.personResponse = $event.data;
-          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
-          this.addForm.get("personalBackground").setValue($event.data.personalBackground);
-          this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
-          this.addForm.get("physicalExam").setValue($event.data.physicalExam);
-          this.addForm.get("kell").setValue($event.data.kell);
-          this.addForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
-          this.addForm.get("phenotype").setValue($event.data.phenotype);
-          this.addForm.get("idPerson").setValue(this.idPerson);
-    }
-    this.dialogRef.close();
-  }
+  addForm = this.formBuilder.group({
+    kell:[""], celFalcif:[""], dmHemolisina:[""], value:[""], idPerson:[""],phenotype:[""],
+    dmTypeDonor:[""], personalBackground:[""], clinicalExam:[""],physicalExam:[""]
+
+  })
 
   convertAddFormToModel() {
     var viewModelObject = <DonnerModel>{
@@ -434,5 +418,35 @@ export class BloodDonnerComponent implements OnInit {
     };
     return viewModelObject;
   }
+
+
+  onPersonSelect($event){
+    if ($event.data.id) {
+      this.idPerson = $event.data.id;
+          this.personResponse = $event.data;
+          this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+          this.addForm.get("personalBackground").setValue($event.data.personalBackground);
+          this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
+          this.addForm.get("physicalExam").setValue($event.data.physicalExam);
+          this.addForm.get("kell").setValue($event.data.kell);
+          this.addForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+          this.addForm.get("phenotype").setValue($event.data.phenotype);
+          this.addForm.get("idPerson").setValue(this.idPerson);
+    }
+    this.dialogRef.close();
+  }
+
+  addCollect() {
+    this.idPerson = this.addForm.get("idPerson").value;
+    console.log(this.idPerson);
+
+    this.convertFormToModel();
+     this.donnerService.create(this.convertAddFormToModel(),this.idPerson).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
+  }
+
 
 }

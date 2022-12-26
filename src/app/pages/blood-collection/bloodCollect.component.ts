@@ -200,38 +200,8 @@ export class BloodCollectComponent implements OnInit {
 
   /******** ADD  *************** */
 
-  onPersonSelect($event){
-    if ($event.data.id) {
-      this.idPerson = $event.data.id;
-      this.personResponse = $event.data;
-      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
-      this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
-      this.addForm.get("qtdde").setValue($event.data.qtdde);
-      this.addForm.get("externCollection").setValue($event.data.externCollection);
-      this.addForm.get("idPerson").setValue(this.idPerson);
-    }
-    this.dialogRef.close();
-  }
-
-  showAddBloodCollect() {
-    this.showAddForm = true;
-    this.showSmartTable = false;
-  }
-
-  addCollect() {
-    this.idPerson = this.addForm.get("idPerson").value;
-    console.log(this.idPerson);
-
-    this.convertFormToModel();
-     this.bloodCollectService.create(this.convertAddFormToModel(),'aac136d9-33e6-44fa-bf22-69f2d0d869a6',this.idPerson).subscribe(
-      (data: any) => {
-        console.log(data);
-      }
-    )
-  }
-
   addForm = this.formBuilder.group({
-    collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""], idPerson:[""]
+    collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""]
   })
 
   convertAddFormToModel() {
@@ -242,6 +212,39 @@ export class BloodCollectComponent implements OnInit {
     };
     return viewModelObject;
   }
+
+
+  onPersonSelect($event){
+    if ($event.data.id) {
+      this.idPerson = $event.data.id;
+      this.personResponse = $event.data;
+      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+      this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
+      this.addForm.get("qtdde").setValue($event.data.qtdde);
+      this.addForm.get("externCollection").setValue($event.data.externCollection);
+      //this.addForm.get("idPerson").setValue(this.idPerson);
+    }
+    this.dialogRef.close();
+  }
+
+  showAddBloodCollect() {
+    this.showAddForm = true;
+    this.showSmartTable = false;
+  }
+
+  addCollect() {
+    /* this.idPerson = this.addForm.get("idPerson").value; */
+    console.log(this.idPerson);
+
+    this.convertFormToModel();
+     this.bloodCollectService.create(this.convertAddFormToModel(),'511913a3-c807-44a8-a3d4-3ede72afb669',this.idPerson).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
+  }
+
+
 
   /************** Edit ***********/
 
