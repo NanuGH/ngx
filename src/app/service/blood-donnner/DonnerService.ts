@@ -49,8 +49,8 @@ import { SearchDonner } from "../../models/request/searchDonner";
 
 
 
-    edit(donner: DonnerModel): Observable<ApiResponse<DonnerModel>> {
-      return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${donner}`, donner, this.httpOptions);
+    edit(donner: DonnerModel,idDonner:string,idEmpl:string): Observable<ApiResponse<DonnerModel>> {
+      return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${idDonner}/${idEmpl}`, donner, this.httpOptions);
     }
 
 

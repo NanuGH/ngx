@@ -8,8 +8,9 @@ export interface DonnerModel {
   physicalExam: string;
   /* summoned: true; */
   kell: string;
-  celFalcif: true;
+  celFalcif: boolean;
   dmHemolisina: string;
+  whoInserted: string;
   whoUpdated: string;
   phenotype: string;
 }
