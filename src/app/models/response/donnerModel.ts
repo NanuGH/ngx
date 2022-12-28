@@ -1,7 +1,7 @@
 import { PersonModel } from "./personModel";
 
 export interface DonnerModel {
-  Person:PersonModel;
+  personDto:PersonModel;
   dmTypeDonor: string;
   personalBackground: string;
   clinicalExam: string;

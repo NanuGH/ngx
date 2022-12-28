@@ -55,7 +55,7 @@ export class BloodDonnerComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["hRduMN"]
+        identifNumber: ["mxvlEl"]
       }),
     });
   }
@@ -228,7 +228,6 @@ export class BloodDonnerComponent implements OnInit {
       status: "true",
       email: this.resultForm.get("email").value,
       telefone: this.resultForm.get("telefone").value,
-
     };
     return personModelObject;
   }
@@ -248,11 +247,50 @@ export class BloodDonnerComponent implements OnInit {
     phenotype: [""], personalBackground: [""], clinicalExam: [""], physicalExam: [""]
   });
 
+  /************** Edit ***********/
 
+  public onEdit($event) {
+    this.idDonner = $event.data.id;
+
+    if ($event.data.id) {
+      this.idDonner = $event.data.id;
+      console.log($event.data);
+        //person fields
+          this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
+          this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
+          this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
+          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
+          this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
+          this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+          this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
+          this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+          this.resultForm.get("profession").setValue($event.data.idPerson.profession);
+          this.resultForm.get("grade").setValue($event.data.idPerson.grade);
+          this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
+          this.resultForm.get("email").setValue($event.data.idPerson.email);
+          //donner fields
+          this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
+          this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
+          this.resultForm.get("kell").setValue($event.data.kell);
+          this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+          this.resultForm.get("phenotype").setValue($event.data.phenotype);
+          this.resultForm.get("kell").setValue($event.data.kell);
+          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+          this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
+          this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
+          this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
+          this.resultForm.get("status").setValue($event.data.status);
+          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+      }
+
+    this.showResultForm = true;
+    this.showSearchCard = false;
+    this.IfEdit=true;
+  }
 
   convertEditFormToModel() {
     var viewModelObject = <DonnerModel>{
-      Person: this.convertPersonData(),
+      personDto: this.convertPersonData(),
       kell: this.resultForm.get("kell").value,
       dmHemolisina: this.resultForm.get("dmHemolisina").value,
       celFalcif: this.resultForm.get("celFalcif").value,
@@ -267,50 +305,6 @@ export class BloodDonnerComponent implements OnInit {
     return viewModelObject;
   }
 
-  /************** Edit ***********/
-
-  public onEdit($event) {
-    this.idDonner = $event.data.id;
-
-    if ($event.data.id) {
-      this.idDonner = $event.data.id;
-      console.log($event.data);
-
-        //person fields
-        this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
-          this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
-          this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
-          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-          this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
-          this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-          this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
-          this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-          this.resultForm.get("profession").setValue($event.data.idPerson.profession);
-          this.resultForm.get("grade").setValue($event.data.idPerson.grade);
-          this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
-          this.resultForm.get("email").setValue($event.data.idPerson.email);
-
-          //donner fields
-          this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
-          this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
-          this.resultForm.get("phenotype").setValue($event.data.phenotype);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-          this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
-          this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
-          this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
-          this.resultForm.get("status").setValue($event.data.status);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-
-      }
-
-    this.showResultForm = true;
-    this.showSearchCard = false;
-    this.IfEdit=true;
-  }
-
   editDonner() {
     this.convertEditFormToModel();
     this.donnerService.edit( this.convertEditFormToModel(), this.idDonner, 'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
@@ -318,7 +312,6 @@ export class BloodDonnerComponent implements OnInit {
         console.log(data);
       }
     )
-
   }
 
   /**************////// Change Status */
@@ -343,22 +336,7 @@ export class BloodDonnerComponent implements OnInit {
  settingsPerson = {
    noDataMessage: "Sem Dados",
    mode: 'external',
-   actions: { columnTitle: 'Ações', add: false },
-   add: {
-     addButtonContent: '<i class="nb-plus"></i>',
-     createButtonContent: '<i class="nb-checkmark"></i>',
-     cancelButtonContent: '<i class="nb-close"></i>',
-   },
-   edit: {
-     editButtonContent: '<i class="nb-edit"></i>',
-     saveButtonContent: '<i class="nb-checkmark"></i>',
-     cancelButtonContent: '<i class="nb-close"></i>',
-     //confirmSave: true
-   },
-   delete: {
-     deleteButtonContent: '<i class="nb-trash"></i>',
-     confirmDelete: true,
-   },
+ actions: { columnTitle: 'Ações', add: false, edit: false, delete: false },
    columns: {
      namePerson: {
        title: 'Nome',
@@ -444,7 +422,7 @@ export class BloodDonnerComponent implements OnInit {
     console.log(this.idPerson);
 
     this.convertFormToModel();
-     this.donnerService.create(this.convertAddFormToModel(),'511913a3-c807-44a8-a3d4-3ede72afb669',this.idPerson).subscribe(
+     this.donnerService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
