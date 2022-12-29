@@ -53,13 +53,7 @@ import { SearchDonner } from "../../models/request/searchDonner";
       return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${idDonner}/${idEmpl}`, donner, this.httpOptions);
     }
 
-
-
-    /*
-
-
-    delete(id: string): Observable<ResponseApp<Employee>> {
-      return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);
-    }*/
-
+    changeStatus(id: string): Observable<ApiResponse<DonnerModel>> {
+      return this.http.put<ApiResponse<DonnerModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
+    }
   }

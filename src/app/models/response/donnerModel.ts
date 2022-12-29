@@ -13,4 +13,5 @@ export interface DonnerModel {
   whoInserted: string;
   whoUpdated: string;
   phenotype: string;
+  status: string;
 }

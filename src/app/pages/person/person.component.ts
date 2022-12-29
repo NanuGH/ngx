@@ -103,10 +103,6 @@ export class PersonComponent implements OnInit {
         title: 'Telefone',
         type: 'string',
       },
-      status: {
-        title: 'Status',
-        type: 'string',
-      },
     },
   };
 
@@ -123,15 +119,15 @@ export class PersonComponent implements OnInit {
   }
 
   searchPersonService(viewModelObject: SearchPerson) {
-    this.personService
-      .getPersonMultipleParams(viewModelObject)
+    this.personService.getPersonMultipleParams(viewModelObject)
       .subscribe((data: any) => {
-        var filtroEtapaEmissao = data.details[0].filter(function(pesquisa){
-          var list = String(pesquisa.status)
-          return list == "true";
-         });
-
-         this.source.load(filtroEtapaEmissao);
+        var filtroStatus = data.details[0].filter(
+          function(pesquisa){
+           var list = String(pesquisa.status)
+           return list == "true";
+          }
+        );
+         this.source.load(filtroStatus);
         this.showSmarttableList = true;
       });
   }
@@ -315,7 +311,6 @@ export class PersonComponent implements OnInit {
     } else {
       this.addPerson();
     }
-
   }
 
 

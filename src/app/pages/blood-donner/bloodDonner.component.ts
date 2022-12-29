@@ -23,7 +23,7 @@ export class BloodDonnerComponent implements OnInit {
   showSearchCard: boolean = true;
   showResultForm: boolean = false;
   showAddOrEditForm: boolean = false;
-  showAddForm : boolean =false;
+  showAddForm: boolean = false;
   showSmartTable: boolean = false;
   showPersonTable: boolean = false;
   IfEdit: boolean = false;
@@ -35,6 +35,7 @@ export class BloodDonnerComponent implements OnInit {
   idDonner: string;
   idPerson: string;
   personResponse: PersonModel;
+  refreshTable: DonnerModel;
 
   dialogRef: NbDialogRef<any>
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
@@ -55,7 +56,7 @@ export class BloodDonnerComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["mxvlEl"]
+        identifNumber: ["mxvlEl"],
       }),
     });
   }
@@ -64,8 +65,8 @@ export class BloodDonnerComponent implements OnInit {
     namePerson: [""], surnamePerson: [""], dmBloodCode: [""], dmDocIdent: [""], birthday: [""], dmSex: [""],
     dmHomeAdd: [""], jobAddress: [""], profession: [""], grade: [""], email: [""], telefone: [""],
 
-    identifNumber: [""], kell: [""],personalBackground: [""], phenotype: [""],dmTypeDonor: [""],
-    physicalExam: [""], status: [""],celFalcif: [""], clinicalExam: [""],dmHemolisina: [""]
+    identifNumber: [""], kell: [""], personalBackground: [""], phenotype: [""], dmTypeDonor: [""],
+    physicalExam: [""], status: [""], celFalcif: [""], clinicalExam: [""], dmHemolisina: [""]
   });
 
   convertFormToModel() {
@@ -121,13 +122,15 @@ export class BloodDonnerComponent implements OnInit {
         title: 'Nome',
         type: 'string',
         valuePrepareFunction: (cell, row) => {
-          return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
+          return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson
+        }
       },
       dmBloodCode: {
         title: 'Grupo Sanguíneo',
         type: 'string',
         valuePrepareFunction: (cell, row) => {
-          return row.idPerson.dmBloodCode}
+          return row.idPerson.dmBloodCode
+        }
 
       },
       identifNumber: {
@@ -138,7 +141,8 @@ export class BloodDonnerComponent implements OnInit {
         title: 'email',
         type: 'string',
         valuePrepareFunction: (cell, row) => {
-          return row.idPerson.email}
+          return row.idPerson.email
+        }
 
       },
     },
@@ -150,8 +154,16 @@ export class BloodDonnerComponent implements OnInit {
   onSearchFormSubmit() {
 
     this.showSmartTable = true
-    this.donnerService.getDonnerBy(this.convertFormToModel()).subscribe((data: any) => {
-        this.source.load(data.details);
+    this.donnerService.getDonnerBy(this.convertFormToModel())
+      .subscribe((data: any) => {
+        var filtroStatus = data.details.filter(
+          function (pesquisa) {
+            var list = String(pesquisa.status)
+            return list == "true";
+          }
+        );
+        this.source.load(filtroStatus);
+        // this.source.load(data.details);
       });
 
   }
@@ -167,38 +179,38 @@ export class BloodDonnerComponent implements OnInit {
   public onDonnerSelect($event) {
     this.showResultForm = true;
     this.showSearchCard = false;
-    this.IfEdit=false;
+    this.IfEdit = false;
 
     if ($event.data.id) {
       this.idDonner = $event.data.id;
       console.log($event.data);
-          this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
-          this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
-          this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
-          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-          this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
-          this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-          this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
-          this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-          this.resultForm.get("profession").setValue($event.data.idPerson.profession);
-          this.resultForm.get("grade").setValue($event.data.idPerson.grade);
-          this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
-          this.resultForm.get("email").setValue($event.data.idPerson.email);
+      this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
+      this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
+      this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
+      this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
+      this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
+      this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+      this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
+      this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+      this.resultForm.get("profession").setValue($event.data.idPerson.profession);
+      this.resultForm.get("grade").setValue($event.data.idPerson.grade);
+      this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
+      this.resultForm.get("email").setValue($event.data.idPerson.email);
 
-          //donner fields
-          this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
-          this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
-          this.resultForm.get("phenotype").setValue($event.data.phenotype);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-          this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
-          this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
-          this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
-          this.resultForm.get("status").setValue($event.data.status);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-        }
+      //donner fields
+      this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
+      this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
+      this.resultForm.get("kell").setValue($event.data.kell);
+      this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+      this.resultForm.get("phenotype").setValue($event.data.phenotype);
+      this.resultForm.get("kell").setValue($event.data.kell);
+      this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+      this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
+      this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
+      this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
+      this.resultForm.get("status").setValue($event.data.status);
+      this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+    }
 
   }
 
@@ -210,7 +222,7 @@ export class BloodDonnerComponent implements OnInit {
     this.showSmartTable = false;
   }
 
-   convertPersonData() {
+  convertPersonData() {
     var personModelObject = <PersonModel>{
       namePerson: this.resultForm.get("namePerson").value,
       surnamePerson: this.resultForm.get("surnamePerson").value,
@@ -233,14 +245,14 @@ export class BloodDonnerComponent implements OnInit {
   }
 
 
- /*  addForm = this.formBuilder.group({
-    name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
-    birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
-    profession: ["fwrt"], grade: ["herg"],
+  /*  addForm = this.formBuilder.group({
+     name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
+     birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
+     profession: ["fwrt"], grade: ["herg"],
 
-    identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
-    pw: ["zdf"]
-  }); */
+     identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
+     pw: ["zdf"]
+   }); */
 
   addOrEditForm = this.formBuilder.group({
     dmTypeDonor: [""], kell: [""], celFalcif: [""], dmHemolisina: [""],
@@ -255,37 +267,37 @@ export class BloodDonnerComponent implements OnInit {
     if ($event.data.id) {
       this.idDonner = $event.data.id;
       console.log($event.data);
-        //person fields
-          this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
-          this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
-          this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
-          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-          this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
-          this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-          this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
-          this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-          this.resultForm.get("profession").setValue($event.data.idPerson.profession);
-          this.resultForm.get("grade").setValue($event.data.idPerson.grade);
-          this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
-          this.resultForm.get("email").setValue($event.data.idPerson.email);
-          //donner fields
-          this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
-          this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
-          this.resultForm.get("phenotype").setValue($event.data.phenotype);
-          this.resultForm.get("kell").setValue($event.data.kell);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-          this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
-          this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
-          this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
-          this.resultForm.get("status").setValue($event.data.status);
-          this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
-      }
+      //person fields
+      this.resultForm.get("namePerson").setValue($event.data.idPerson.namePerson);
+      this.resultForm.get("surnamePerson").setValue($event.data.idPerson.surnamePerson);
+      this.resultForm.get("dmBloodCode").setValue($event.data.idPerson.dmBloodCode);
+      this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
+      this.resultForm.get("birthday").setValue($event.data.idPerson.birthday);
+      this.resultForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+      this.resultForm.get("dmHomeAdd").setValue($event.data.idPerson.dmHomeAdd);
+      this.resultForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+      this.resultForm.get("profession").setValue($event.data.idPerson.profession);
+      this.resultForm.get("grade").setValue($event.data.idPerson.grade);
+      this.resultForm.get("telefone").setValue($event.data.idPerson.telefone);
+      this.resultForm.get("email").setValue($event.data.idPerson.email);
+      //donner fields
+      this.resultForm.get("identifNumber").setValue($event.data.identifNumber);
+      this.resultForm.get("celFalcif").setValue($event.data.celFalcif);
+      this.resultForm.get("kell").setValue($event.data.kell);
+      this.resultForm.get("dmHemolisina").setValue($event.data.dmHemolisina);
+      this.resultForm.get("phenotype").setValue($event.data.phenotype);
+      this.resultForm.get("kell").setValue($event.data.kell);
+      this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+      this.resultForm.get("personalBackground").setValue($event.data.personalBackground);
+      this.resultForm.get("clinicalExam").setValue($event.data.clinicalExam);
+      this.resultForm.get("physicalExam").setValue($event.data.physicalExam);
+      this.resultForm.get("status").setValue($event.data.status);
+      this.resultForm.get("dmTypeDonor").setValue($event.data.dmTypeDonor);
+    }
 
     this.showResultForm = true;
     this.showSearchCard = false;
-    this.IfEdit=true;
+    this.IfEdit = true;
   }
 
   convertEditFormToModel() {
@@ -307,7 +319,7 @@ export class BloodDonnerComponent implements OnInit {
 
   editDonner() {
     this.convertEditFormToModel();
-    this.donnerService.edit( this.convertEditFormToModel(), this.idDonner, 'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
+    this.donnerService.edit(this.convertEditFormToModel(), this.idDonner, 'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -315,7 +327,7 @@ export class BloodDonnerComponent implements OnInit {
   }
 
   /**************////// Change Status */
-  public onDelete($event) {
+  /* public onDelete($event) {
     this.idEmpl = $event.data.id;
     this.dialogRef = this.dialogService.open(this.dialogDelete);
   }
@@ -326,63 +338,70 @@ export class BloodDonnerComponent implements OnInit {
           console.log(data);
           this.dialogRef.close();
         }
-      ); */
- }
+      );
+ } */
 
- /******************    GET PERSON ********/
+  /******************    GET PERSON ********/
 
- @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
+  @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
 
- settingsPerson = {
-   noDataMessage: "Sem Dados",
-   mode: 'external',
- actions: { columnTitle: 'Ações', add: false, edit: false, delete: false },
-   columns: {
-     namePerson: {
-       title: 'Nome',
-       type: 'string',
-     },
-     surnamePerson: {
-       title: 'Apelido',
-       type: 'string',
-     },
-     dmBloodCode: {
-       title: 'G. Sanguíneo',
-       type: 'string',
-     },
-     dmDocIdent: {
-       title: 'Doc. Ident.',
-       type: 'string',
-     },
-   },
- };
+  settingsPerson = {
+    noDataMessage: "Sem Dados",
+    mode: 'external',
+    actions: { columnTitle: 'Ações', add: false, edit: false, delete: false },
+    columns: {
+      namePerson: {
+        title: 'Nome',
+        type: 'string',
+      },
+      surnamePerson: {
+        title: 'Apelido',
+        type: 'string',
+      },
+      dmBloodCode: {
+        title: 'G. Sanguíneo',
+        type: 'string',
+      },
+      dmDocIdent: {
+        title: 'Doc. Ident.',
+        type: 'string',
+      },
+    },
+  };
 
- valueToSearch:string;
- searchPerson() {
-   this.valueToSearch = this.addForm.get("value").value;
-   this.showPersonTable = true;
-   this.showSearchCard=true;
-   this.dialogRef = this.dialogService.open(this.dialogPerson);
-   this.personService.getByOne(this.valueToSearch).subscribe(
-     (data:any)=>{
-       this.sourcePerson = data.details;
-     }
-   );
- }
+  valueToSearch: string;
+  searchPerson() {
+    this.valueToSearch = this.addForm.get("value").value;
+    this.showPersonTable = true;
+    this.showSearchCard = true;
 
- closeDonnerTable(){
-   this.showPersonTable = false;
-   this.showSearchCard=true;
-   this.dialogRef.close();
- }
+    this.dialogRef = this.dialogService.open(this.dialogPerson);
+    this.personService.getByOne(this.valueToSearch).subscribe(
+      (data: any) => {
+        /* this.sourcePerson = data.details; */
+        var filtroStatus = data.details[0].filter(function (pesquisa) {
+          var list = Boolean(pesquisa.status)
+          return list == true;
+        });
+
+        this.source.load(filtroStatus);
+      }
+    );
+  }
+
+  closeDonnerTable() {
+    this.showPersonTable = false;
+    this.showSearchCard = true;
+    this.dialogRef.close();
+  }
 
 
 
   /******** ADD  *************** */
 
   addForm = this.formBuilder.group({
-    kell:[""], celFalcif:[""], dmHemolisina:[""], value:[""],phenotype:[""],
-    dmTypeDonor:[""], personalBackground:[""], clinicalExam:[""],physicalExam:[""]
+    kell: [""], celFalcif: [""], dmHemolisina: [""], value: [""], phenotype: [""],
+    dmTypeDonor: [""], personalBackground: [""], clinicalExam: [""], physicalExam: [""]
 
   })
 
@@ -403,11 +422,11 @@ export class BloodDonnerComponent implements OnInit {
   }
 
 
-  onPersonSelect($event){
+  onPersonSelect($event) {
     if ($event.data.id) {
       this.idPerson = $event.data.id;
       this.personResponse = $event.data;
-      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson) ;
+      this.addForm.get("value").setValue(this.personResponse.namePerson + " " + this.personResponse.surnamePerson);
       this.addForm.get("personalBackground").setValue($event.data.personalBackground);
       this.addForm.get("clinicalExam").setValue($event.data.clinicalExam);
       this.addForm.get("physicalExam").setValue($event.data.physicalExam);
@@ -422,12 +441,32 @@ export class BloodDonnerComponent implements OnInit {
     console.log(this.idPerson);
 
     this.convertFormToModel();
-     this.donnerService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
+    this.donnerService.create(this.convertAddFormToModel(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
     )
   }
+
+
+  /******** Change STATUS (DELETE)  *************** */
+
+  public onDelete($event) {
+    this.idDonner = $event.data.id;
+    this.refreshTable = $event.data;
+    this.dialogRef = this.dialogService.open(this.dialogDelete);
+  }
+
+  public onDeleteConfirm() {
+
+    this.donnerService.changeStatus(this.idDonner).subscribe(
+      (data: any) => {
+        this.dialogRef.close();
+        this.source.remove(this.refreshTable);
+      }
+    );
+  }
+
 
 
 }
