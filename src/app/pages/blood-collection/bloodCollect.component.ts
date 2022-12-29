@@ -149,14 +149,11 @@ export class BloodCollectComponent implements OnInit {
   }
 
   onSearchFormSubmit() {
-
     this.showSmartTable = true
-       this.bloodCollectService
-      .getBloodColectMultParams(this.convertFormToModel())
-      .subscribe((data: any) => {
-        this.source.load(data.details[0]);
-      });
-
+      this.bloodCollectService.getBloodColectMultParams(this.convertFormToModel())
+       .subscribe((data: any) => {
+       this.source.load(data.details[0]);
+       });
       this.showAddForm = false;
   }
 
@@ -236,7 +233,7 @@ export class BloodCollectComponent implements OnInit {
     console.log(this.idPerson);
 
     this.convertFormToModel();
-     this.bloodCollectService.create(this.convertAddFormToModel(),'511913a3-c807-44a8-a3d4-3ede72afb669',this.idPerson).subscribe(
+     this.bloodCollectService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }

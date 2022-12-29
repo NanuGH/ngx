@@ -34,23 +34,16 @@ import { BloodCollection } from '../../models/request/bloodCollection';
 
       let queryJustInsertionDate = new HttpParams().append("insertionDate", searchBloodCollect.insertionDate);
 
-      if ( searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate != null) {
-        const options = { params: queryParams, headers: headerss };
-        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
-      }
-
       if (searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate == null) {
         const options = { params: queryJustCollectionNumber, headers: headerss };
-        console.log("seg");
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`, options);
+      }
+      if ( searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate != null) {
+        const options = { params: queryJustCollectionNumber, headers: headerss };
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
       }
       if (searchBloodCollect.collectionNumber == null && searchBloodCollect.insertionDate != null) {
         const options = { params: queryJustInsertionDate, headers: headerss };
-        console.log("terce");
-        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
-      }
-      if (searchBloodCollect.collectionNumber == null && searchBloodCollect.insertionDate == null) {
-        const options = { headers: headerss };
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
       }
     }
