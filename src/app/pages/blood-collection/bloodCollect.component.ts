@@ -31,6 +31,7 @@ export class BloodCollectComponent implements OnInit {
   idBloodCollect: string;
   idPerson: string;
   personResponse: PersonModel;
+  refreshTable: BloodCollectModel;
 
 
   constructor(
@@ -152,7 +153,14 @@ export class BloodCollectComponent implements OnInit {
     this.showSmartTable = true
       this.bloodCollectService.getBloodColectMultParams(this.convertFormToModel())
        .subscribe((data: any) => {
-       this.source.load(data.details[0]);
+        var filtroStatus = data.details[0].filter(
+          function (pesquisa) {
+            var list = String(pesquisa.status)
+            return list == "true";
+          }
+        );
+        this.source.load(filtroStatus);
+       //this.source.load(data.details[0]);
        });
       this.showAddForm = false;
   }
@@ -291,21 +299,22 @@ export class BloodCollectComponent implements OnInit {
     this.showEditForm = true; this.showSmartTable = false;
   }
 
-  /**************////// Change Status */
+  /************** Change Status (DELETE) ******/
 
   dialogRef: NbDialogRef<any>
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
 
   public onDelete($event) {
     this.idBloodCollect = $event.data.id;
+    this.refreshTable = $event.data;
     this.dialogRef = this.dialogService.open(this.dialogDelete);
   }
 
   public onDeleteConfirm() {
       this.bloodCollectService.changeStatus(this.idBloodCollect).subscribe(
         (data: any) => {
-          console.log(data);
           this.dialogRef.close();
+          this.source.remove(this.refreshTable);
         }
       );
 

@@ -37,9 +37,6 @@ export class BloodDonnerComponent implements OnInit {
   personResponse: PersonModel;
   refreshTable: DonnerModel;
 
-  dialogRef: NbDialogRef<any>
-  @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,13 +66,6 @@ export class BloodDonnerComponent implements OnInit {
     physicalExam: [""], status: [""], celFalcif: [""], clinicalExam: [""], dmHemolisina: [""]
   });
 
-  convertFormToModel() {
-    var viewModelObject = <SearchDonner>{
-      identifNumber: this.searchGroup.get("identifNumber").value,
-    };
-    return viewModelObject;
-  }
-
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
   }
@@ -96,7 +86,7 @@ export class BloodDonnerComponent implements OnInit {
     this.showSearchCard = true;
   }
 
-  /////    SMART TABLE     //////////
+  /////  SMART TABLE   ////////
 
   settings = {
     noDataMessage: "Sem Dados",
@@ -149,7 +139,14 @@ export class BloodDonnerComponent implements OnInit {
   };
 
 
-  ////////        GET  with Params        ///////
+  ////////  GET  with Params  ///////
+
+  convertFormToModel() {
+    var viewModelObject = <SearchDonner>{
+      identifNumber: this.searchGroup.get("identifNumber").value,
+    };
+    return viewModelObject;
+  }
 
   onSearchFormSubmit() {
 
@@ -451,6 +448,9 @@ export class BloodDonnerComponent implements OnInit {
 
   /******** Change STATUS (DELETE)  *************** */
 
+  dialogRef: NbDialogRef<any>
+  @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
+
   public onDelete($event) {
     this.idDonner = $event.data.id;
     this.refreshTable = $event.data;
@@ -458,7 +458,6 @@ export class BloodDonnerComponent implements OnInit {
   }
 
   public onDeleteConfirm() {
-
     this.donnerService.changeStatus(this.idDonner).subscribe(
       (data: any) => {
         this.dialogRef.close();
