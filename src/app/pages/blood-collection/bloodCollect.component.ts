@@ -30,6 +30,7 @@ export class BloodCollectComponent implements OnInit {
   idEmpl: string;
   idBloodCollect: string;
   idPerson: string;
+  idCollection: string;
   personResponse: PersonModel;
   refreshTable: BloodCollectModel;
 
@@ -253,50 +254,38 @@ export class BloodCollectComponent implements OnInit {
   /************** Edit ***********/
 
   editForm = this.formBuilder.group({
-    name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
-    birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
-    profession: ["fwrt"], grade: ["herg"],
-
-    identNumber: ["56256"], dmfunction: ["efwe"], email: ["sdff@ds.com"],
-    pw: ["zdf"]
+    collectionNumber: ["as"], qtdde: ["asd"], externCollection: ["s"]
   });
 
   convertEditFormToModel() {
-    var viewModelObject = <EmployeeModel>{
-      identifNumber: this.editForm.get("email").value,
-      dmfunction: this.editForm.get("dmfunction").value,
-      email: this.editForm.get("email").value,
+    var viewModelObject = <BloodCollectModel>{
+      collectionNumber: this.editForm.get("collectionNumber").value,
+      qtdde: this.editForm.get("qtdde").value,
+      externCollection: this.editForm.get("externCollection").value,
     };
     return viewModelObject;
   }
 
   public onEdit($event) {
-    this.idEmpl = $event.data.id;
-
-    this.bloodCollectService.findById(this.idEmpl).subscribe(
-      (data: any) => {
-        console.log(data.details[0]);
-
-        //person fields
-        this.personResponse = data.details[0];
-        this.editForm.get("name").setValue($event.data.idPerson.namePerson);
-        this.editForm.get("surname").setValue($event.data.idPerson.surnamePerson);
-        this.editForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
-        this.editForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-        this.editForm.get("birthday").setValue($event.data.idPerson.birthday);
-        this.editForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-        this.editForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
-        this.editForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-        this.editForm.get("profession").setValue($event.data.idPerson.profession);
-        this.editForm.get("grade").setValue($event.data.idPerson.grade);
-        //employee fields
-        this.editForm.get("identNumber").setValue($event.data.identNumber);
-        this.editForm.get("dmfunction").setValue($event.data.dmfunction);
-        this.editForm.get("email").setValue($event.data.email);
-      }
-    );
+        this.idCollection = $event.data.id;
+        this.editForm.get("collectionNumber").setValue($event.data.collectionNumber);
+        this.editForm.get("qtdde").setValue($event.data.qtdde);
+        this.editForm.get("externCollection").setValue($event.data.externCollection);
 
     this.showEditForm = true; this.showSmartTable = false;
+  }
+
+  editCollect() {
+
+    this.convertEditFormToModel();
+     this.bloodCollectService.edit(this.convertEditFormToModel(),
+     this.idCollection,'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
+    this.showEditForm = false;
+    this.showSmartTable = true;
   }
 
   /************** Change Status (DELETE) ******/
