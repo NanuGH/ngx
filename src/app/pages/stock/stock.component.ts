@@ -269,5 +269,68 @@ export class StockComponent implements OnInit {
   }*/
 
 
+
+  /******************    GET COLLECTION ********/
+
+  @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
+
+  settingsDonner = {
+    noDataMessage: "Sem Dados",
+    mode: 'external',
+    actions: { columnTitle: 'Ações', add: false },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      //confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      namePerson: {
+        title: 'Nome',
+        type: 'string',
+      },
+      surnamePerson: {
+        title: 'Apelido',
+        type: 'string',
+      },
+      dmBloodCode: {
+        title: 'G. Sanguíneo',
+        type: 'string',
+      },
+      dmDocIdent: {
+        title: 'Doc. Ident.',
+        type: 'string',
+      },
+    },
+  };
+
+  valueToSearch:string;
+  searchCollection() {
+    this.valueToSearch = this.addForm.get("value").value;
+    this.showdonnerTable = true;
+    this.showSearchCard=false;
+    this.dialogRef = this.dialogService.open(this.dialogPerson);
+    this.personService.getByOne(this.valueToSearch).subscribe(
+      (data:any)=>{
+        this.sourcePerson = data.details;
+      }
+    );
+  }
+
+ /*  closeDonnerTable(){
+    this.showdonnerTable = false;
+    this.showSearchCard=true;
+    this.dialogRef.close();
+  } */
+
 }
 
