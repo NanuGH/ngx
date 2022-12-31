@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } fro
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SearchStock } from '../../models/request/searchStock';
+import { BloodCollectModel } from '../../models/response/BloodCollectModel';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
 import { StockModel } from '../../models/response/stockModel';
@@ -22,12 +23,14 @@ export class StockComponent implements OnInit {
   showSmartTable: boolean = false;
   showAddForm: boolean = false;
   showCollections: boolean = false;
+  collectResponse: BloodCollectModel;
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
   sourceCollections: LocalDataSource = new LocalDataSource();
   idEmpl: string;
   idStock: string;
+  idCollect: string;
   employeeResponse: PersonModel;
 
 
@@ -202,22 +205,32 @@ export class StockComponent implements OnInit {
     expirationDate: [""], value: [""]
   });
 
-  addStock() {
- /*    this.convertAddForm();
-    this.stockService.create(this.convertAddForm(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idPerson).subscribe(
-      (data: any) => {
-        console.log(data);
-      }
-    )
- */
-  }
-
   convertAddForm() {
     var viewModelObject = <StockModel>{
-      collectionNumber: this.searchGroup.get("expirationDate").value,
+      expirationDate: this.searchGroup.get("expirationDate").value,
     };
     return viewModelObject;
   }
+
+  onCollectSelect($event){
+    if ($event.data.id) {
+      this.idCollect = $event.data.id;
+      this.collectResponse = $event.data;
+      this.addForm.get("value").setValue(this.collectResponse.collectionNumber) ;
+      this.addForm.get("expirationDate").setValue($event.data.expirationDate);
+
+    }
+    this.dialogRef.close();
+  }
+
+  addStock() {
+    this.convertAddForm();
+      this.stockService.create(this.convertAddForm(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idCollect).subscribe(
+        (data: any) => {
+          console.log(data);
+        }
+      )
+    }
 
   /************** Edit ***********/
 
@@ -312,8 +325,6 @@ export class StockComponent implements OnInit {
       },
     },
   };
-
-
 
   valueToSearch: string;
   searchCollection() {
