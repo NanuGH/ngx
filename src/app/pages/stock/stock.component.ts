@@ -5,6 +5,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { SearchStock } from '../../models/request/searchStock';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
+import { StockModel } from '../../models/response/stockModel';
 import { StockService } from '../../service/stock/StockService';
 
 @Component({
@@ -18,12 +19,12 @@ export class StockComponent implements OnInit {
   showResultForm: boolean = false;
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
+  showAddForm: boolean = false;
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
   idEmpl: string;
-  idBloodCollect: string;
-  isStock: string;
+  idStock: string;
   employeeResponse: PersonModel;
 
 
@@ -48,15 +49,14 @@ export class StockComponent implements OnInit {
 
   resultForm = this.formBuilder.group({
 
-    //Donner
-    id: [""], nameDonner: [""], surnameDonner: [""], bloodCode: [""], dmDocIdent: [""], birthday: [""], dmSex: [""],
-    homeAdd: [""], jobAddress: [""], profession: [""], grade: [""], email: [""],
-
     //Blood Collection
-    identifNumber: [""], dmfunction: [""],
+    collectionNumber: [""], qtdde: [""], insertionDate: [""], expirationDate: [""],
+
+    //Donner
+    nameDonner: [""], surnameDonner: [""], dmDocIdent: [""], telefone: [""],
 
     //Employee
-    collectionNumber:[""],qtdde:[""],externCollection:[""], nameEmployee: [""],surnameEmployee: [""],
+    nameEmployee: [""], identifNumber: [""]
   });
 
   convertFormToModel() {
@@ -106,28 +106,33 @@ export class StockComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      namePerson: {
-        title: 'Doador',
+      insertionDate: {
+        title: 'Data Inserção',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
       },
-      surnamePerson: {
-        title: 'Funcionário',
+      expirationDate: {
+        title: 'Validade',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idEmployee.identifNumber }
-      },
-      dmBloodCode: {
-        title: 'G. Sanguíneo',
-        type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.dmBloodCode }
       },
       collectionNumber: {
         title: 'Colheita',
         type: 'string',
+        valuePrepareFunction: (cell, row) => { return row.collection.collectionNumber }
       },
-      insertionDate: {
-        title: 'Data',
+      namePerson: {
+        title: 'Doador',
         type: 'string',
+        valuePrepareFunction: (cell, row) => { return row.collection.idPerson.namePerson + ' ' + row.collection.idPerson.surnamePerson }
+      },
+      dmBloodCode: {
+        title: 'G. Sanguíneo',
+        type: 'string',
+        valuePrepareFunction: (cell, row) => { return row.collection.idPerson.dmBloodCode }
+      },
+      surnamePerson: {
+        title: 'Funcionário',
+        type: 'string',
+        valuePrepareFunction: (cell, row) => { return row.collection.idEmployee.identifNumber }
       },
     },
   };
@@ -135,11 +140,19 @@ export class StockComponent implements OnInit {
 
   ////////        GET  with Params        ///////
 
+  convertCollectioSearch() {
+    var collectionModel = <SearchStock>{
+      collectionNumber: this.searchGroup.get("collectionNumber").value,
+    };
+    return collectionModel;
+  }
+
   onSearchFormSubmit() {
+    this.convertCollectioSearch()
     this.showSmartTable = true
-       this.stockService.findById("27f871b0-9adc-4863-b052-9cfdd66c4363")
+    this.stockService.findByCollectionNumber(this.convertCollectioSearch())
       .subscribe((data: any) => {
-        this.source.load(data.details[0]);
+        this.source.load(data.details);
       });
   }
 
@@ -150,123 +163,90 @@ export class StockComponent implements OnInit {
 
   /******** Get BY ID - Details */
 
- /* public onEmploIdSelect($event) {
+  public onStockSelect($event) {
     this.showResultForm = true;
     this.showSearchCard = false;
 
     if ($event.data.id) {
-      this.idBloodCollect = $event.data.id;
+      this.idStock = $event.data.id;
 
-       this.bloodCollectService.findById(this.idBloodCollect).subscribe(
-        (data: any) => {
-
-          this.employeeResponse = data.details[0];
-
-          //blood collection fields
-          this.resultForm.get("collectionNumber").setValue($event.data.collectionNumber);
-          this.resultForm.get("qtdde").setValue($event.data.qtdde);
-          this.resultForm.get("externCollection").setValue($event.data.externCollection);
-          //donner fields
-          this.resultForm.get("nameDonner").setValue($event.data.idPerson.namePerson + " "
-                                             + $event.data.idPerson.surnamePerson);
-          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-          this.resultForm.get("email").setValue($event.data.idPerson.email);
-          //employee fields
-          this.resultForm.get("nameEmployee").setValue($event.data.idEmployee.idPerson.namePerson + " "
-                                             + $event.data.idEmployee.idPerson.surnamePerson);
-          this.resultForm.get("identifNumber").setValue($event.data.idEmployee.identifNumber);
-          this.resultForm.get("dmfunction").setValue($event.data.idEmployee.dmfunction);
-
-        }
-      );
+      //blood collection fields
+      this.resultForm.get("collectionNumber").setValue($event.data.collection.collectionNumber);
+      this.resultForm.get("qtdde").setValue($event.data.collection.qtdde);
+      this.resultForm.get("insertionDate").setValue($event.data.insertionDate);
+      this.resultForm.get("expirationDate").setValue($event.data.expirationDate);
+      //donner fields
+      this.resultForm.get("nameDonner").setValue($event.data.collection.idPerson.namePerson + " "
+        + $event.data.collection.idPerson.surnamePerson);
+      this.resultForm.get("dmDocIdent").setValue($event.data.collection.idPerson.dmDocIdent);
+      this.resultForm.get("telefone").setValue($event.data.collection.idPerson.telefone);
+      //employee fields
+      this.resultForm.get("nameEmployee").setValue($event.data.collection.idEmployee.idPerson.namePerson + " "
+        + $event.data.collection.idEmployee.idPerson.surnamePerson);
+      this.resultForm.get("identifNumber").setValue($event.data.collection.idEmployee.identifNumber);
     }
   }
-*/
+
 
   /******** ADD  *************** */
 
-  showAddBloodCollect() {
-    this.showAddOrEditForm = true;
+  AddForm(){
+    this.showAddForm=true;
   }
-
-  convertPersonData() {
-    var personModelObject = <PersonModel>{
-      namePerson: this.addForm.get("name").value,
-      surnamePerson: this.addForm.get("surname").value,
-      dmBloodCode: this.addForm.get("bloodCode").value,
-      dmDocIdent: this.addForm.get("dmDocIdent").value,
-      birthday: this.addForm.get("birthday").value,
-      picturePerson: "picture",
-      dmSex: this.addForm.get("dmSex").value,
-      dmHomeAdd: this.addForm.get("homeAdd").value,
-      jobAddress: this.addForm.get("jobAddress").value,
-      profession: this.addForm.get("profession").value,
-      grade: this.addForm.get("grade").value,
-      whoInserted: "Hernani",
-      whoUpdated: "Hernani",
-      status: "true",
-      email: this.resultForm.get("email").value,
-    };
-    return personModelObject;
-  }
-
-  addEmployee() {
-    this.convertFormToModel();
-  }
-
 
   addForm = this.formBuilder.group({
-    name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
-    birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
-    profession: ["fwrt"], grade: ["herg"],
-
-    identNumber: ["56256"], dmfunction: ["efwe"], email: ["sdff@ds.com"],
-    pw: ["zdf"]
+    expirationDate: [""]
   });
 
+  addStock() {
+    this.convertAddForm();
+    /* this.stockService.create(this.convertAddForm(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    ) */
 
-  convertAddFormToModel() {
-    var viewModelObject = <EmployeeModel>{
-      Person: this.convertPersonData(),
-      identifNumber: this.addForm.get("email").value,
-      dmfunction: this.addForm.get("dmfunction").value,
-      email: this.addForm.get("email").value,
+  }
+
+  convertAddForm() {
+    var viewModelObject = <StockModel>{
+      collectionNumber: this.searchGroup.get("expirationDate").value,
     };
     return viewModelObject;
   }
 
   /************** Edit ***********/
 
- /* public onEdit($event) {
-    this.idEmpl = $event.data.id;
+  /* public onEdit($event) {
+     this.idEmpl = $event.data.id;
 
-    this.bloodCollectService.findById(this.idEmpl).subscribe(
-      (data: any) => {
-        console.log(data.details[0]);
+     this.bloodCollectService.findById(this.idEmpl).subscribe(
+       (data: any) => {
+         console.log(data.details[0]);
 
-        //person fields
-        this.employeeResponse = data.details[0];
-        this.addForm.get("name").setValue($event.data.idPerson.namePerson);
-        this.addForm.get("surname").setValue($event.data.idPerson.surnamePerson);
-        this.addForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
-        this.addForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-        this.addForm.get("birthday").setValue($event.data.idPerson.birthday);
-        this.addForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-        this.addForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
-        this.addForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-        this.addForm.get("profession").setValue($event.data.idPerson.profession);
-        this.addForm.get("grade").setValue($event.data.idPerson.grade);
-        //employee fields
-        this.addForm.get("identNumber").setValue($event.data.identNumber);
-        this.addForm.get("dmfunction").setValue($event.data.dmfunction);
-        this.addForm.get("email").setValue($event.data.email);
-      }
-    );
+         //person fields
+         this.employeeResponse = data.details[0];
+         this.addForm.get("name").setValue($event.data.idPerson.namePerson);
+         this.addForm.get("surname").setValue($event.data.idPerson.surnamePerson);
+         this.addForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
+         this.addForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
+         this.addForm.get("birthday").setValue($event.data.idPerson.birthday);
+         this.addForm.get("dmSex").setValue($event.data.idPerson.dmSex);
+         this.addForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
+         this.addForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
+         this.addForm.get("profession").setValue($event.data.idPerson.profession);
+         this.addForm.get("grade").setValue($event.data.idPerson.grade);
+         //employee fields
+         this.addForm.get("identNumber").setValue($event.data.identNumber);
+         this.addForm.get("dmfunction").setValue($event.data.dmfunction);
+         this.addForm.get("email").setValue($event.data.email);
+       }
+     );
 
-    this.showAddOrEditForm = true; this.showSmartTable = false;
-  }
+     this.showAddOrEditForm = true; this.showSmartTable = false;
+   }
 
-*/
+  */
 
   /**************////// Change Status */
 
@@ -274,8 +254,8 @@ export class StockComponent implements OnInit {
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
 
   public onDelete($event) {
-    this.idBloodCollect = $event.data.id;
-    this.dialogRef = this.dialogService.open(this.dialogDelete);
+   /*  this.idBloodCollect = $event.data.id;
+    this.dialogRef = this.dialogService.open(this.dialogDelete); */
   }
 
   /*public onDeleteConfirm() {
@@ -288,6 +268,6 @@ export class StockComponent implements OnInit {
 
   }*/
 
-}
 
+}
 

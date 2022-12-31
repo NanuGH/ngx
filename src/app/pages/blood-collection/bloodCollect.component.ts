@@ -210,7 +210,6 @@ export class BloodCollectComponent implements OnInit {
     this.showSmartTable = false;
   }
 
-
   addForm = this.formBuilder.group({
     collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""]
   })

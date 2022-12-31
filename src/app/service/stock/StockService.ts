@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { DefaultService } from "../defaultService";
 import { ApiResponse } from "../../models/apiResponse"
 import { Observable } from 'rxjs';
+import { SearchStock } from '../../models/request/searchStock';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +32,13 @@ import { Observable } from 'rxjs';
       return this.http.put<ApiResponse<StockModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
     }
 
+    findByCollectionNumber(searchStock: SearchStock): Observable<ApiResponse<StockModel>> {
+      return this.http.get<ApiResponse<StockModel>>(`${this.url}getStockOpts/${searchStock.collectionNumber}`, this.httpOptions);
+    }
+
+    create(stock:StockModel,idCollect:string,idEmp:string): Observable<ApiResponse<StockModel>> {
+      return this.http.post<ApiResponse<StockModel>>(`${this.url}${idCollect}/${idEmp}`, stock, this.httpOptions);
+    }
 
 
   }
