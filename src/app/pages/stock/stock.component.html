@@ -131,7 +131,7 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-groupp">
-            <label>Doador:</label>
+            <label>Nº Colheita:</label>
             <input type="text" nbInput formControlName="value" placeholder="Nome/Doc.Ident." />
             <nb-icon icon="search-outline" (click)="searchCollection()"></nb-icon>
           </div>
@@ -164,5 +164,24 @@
         Excluir
       </button>
     </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+
+<ng-template #dialogPerson let-data let-ref="dialogRef">
+  <nb-card accent="primary" *ngIf="showCollections">
+    <nb-card-header>
+      <div class="headerList">
+        COLHEITAS:
+        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeCollectionTable()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <ng2-smart-table [settings]="settingsCollection" [source]="sourceCollections" (userRowSelect)="onPersonSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
   </nb-card>
 </ng-template>

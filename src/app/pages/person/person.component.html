@@ -128,8 +128,8 @@
   </nb-card>
 </form> -->
 
-<nb-card *ngIf="Searchtable">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddPerson()">
+<nb-card class="searchcard" *ngIf="Searchtable">
+  <button class="addButton" nbButton size="small" status="primary" type="button" (click)="showAddPerson()">
     Novo Utente
   </button>
   <searchPersoncomponent (searchFormEvent)="receiveDataForm($event)"></searchPersoncomponent>

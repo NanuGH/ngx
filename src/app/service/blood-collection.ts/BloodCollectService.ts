@@ -66,4 +66,8 @@ import { BloodCollectModel } from '../../models/response/BloodCollectModel';
       ${idCollection}/${idEmpl}`, collection, this.httpOptions);
     }
 
+    findByCollectionNumber(colletNumber: String): Observable<ApiResponse<BloodCollectModel>> {
+      return this.http.get<ApiResponse<BloodCollectModel>>(`${this.url}collection/${colletNumber}`, this.httpOptions);
+    }
+
   }

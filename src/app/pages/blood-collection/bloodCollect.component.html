@@ -292,7 +292,7 @@
   <nb-card accent="primary" *ngIf="showdonnerTable">
     <nb-card-header>
       <div class="headerList">
-        DOADOR:
+        DOAÇÕES:
         <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
           <nb-icon icon="close-outline"></nb-icon>
         </button>
@@ -325,10 +325,8 @@
 
 
 
+                                 <!-- ********** EDIT ********** -->
 
-
-
-<!-- kjdhbgkjdsngjlnsgjsdngkjnejgsn vjes -->
 <form [formGroup]="editForm" *ngIf="showEditForm">
   <nb-card accent="primary">
     <nb-card-header>Editar Doação:</nb-card-header>

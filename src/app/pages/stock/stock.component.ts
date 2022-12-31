@@ -6,6 +6,7 @@ import { SearchStock } from '../../models/request/searchStock';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
 import { StockModel } from '../../models/response/stockModel';
+import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 import { StockService } from '../../service/stock/StockService';
 
 @Component({
@@ -20,9 +21,11 @@ export class StockComponent implements OnInit {
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
   showAddForm: boolean = false;
+  showCollections: boolean = false;
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
+  sourceCollections: LocalDataSource = new LocalDataSource();
   idEmpl: string;
   idStock: string;
   employeeResponse: PersonModel;
@@ -32,6 +35,7 @@ export class StockComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private stockService: StockService,
+    private bloodCollService: BloodCollectService,
     private dialogService: NbDialogService,) {
   }
 
@@ -76,7 +80,7 @@ export class StockComponent implements OnInit {
   }
 
   closeAddForm() {
-    this.showAddOrEditForm = false;
+    this.showAddForm = false;
   }
 
   closeDetails() {
@@ -190,22 +194,22 @@ export class StockComponent implements OnInit {
 
   /******** ADD  *************** */
 
-  AddForm(){
-    this.showAddForm=true;
+  AddForm() {
+    this.showAddForm = true;
   }
 
   addForm = this.formBuilder.group({
-    expirationDate: [""]
+    expirationDate: [""], value: [""]
   });
 
   addStock() {
-    this.convertAddForm();
-    /* this.stockService.create(this.convertAddForm(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
+ /*    this.convertAddForm();
+    this.stockService.create(this.convertAddForm(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
-    ) */
-
+    )
+ */
   }
 
   convertAddForm() {
@@ -254,8 +258,8 @@ export class StockComponent implements OnInit {
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
 
   public onDelete($event) {
-   /*  this.idBloodCollect = $event.data.id;
-    this.dialogRef = this.dialogService.open(this.dialogDelete); */
+    /*  this.idBloodCollect = $event.data.id;
+     this.dialogRef = this.dialogService.open(this.dialogDelete); */
   }
 
   /*public onDeleteConfirm() {
@@ -274,7 +278,7 @@ export class StockComponent implements OnInit {
 
   @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
 
-  settingsDonner = {
+  settingsCollection = {
     noDataMessage: "Sem Dados",
     mode: 'external',
     actions: { columnTitle: 'Ações', add: false },
@@ -294,43 +298,41 @@ export class StockComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-      namePerson: {
-        title: 'Nome',
+      collectionNumber: {
+        title: 'Nº Colheita',
         type: 'string',
       },
-      surnamePerson: {
-        title: 'Apelido',
-        type: 'string',
-      },
-      dmBloodCode: {
+      bloodType: {
         title: 'G. Sanguíneo',
         type: 'string',
       },
-      dmDocIdent: {
-        title: 'Doc. Ident.',
+      insertionDate: {
+        title: 'Data Colheita',
         type: 'string',
       },
     },
   };
 
-  valueToSearch:string;
+
+
+  valueToSearch: string;
   searchCollection() {
     this.valueToSearch = this.addForm.get("value").value;
-    this.showdonnerTable = true;
-    this.showSearchCard=false;
+    this.showCollections = true;
+    this.showSearchCard = false;
     this.dialogRef = this.dialogService.open(this.dialogPerson);
-    this.personService.getByOne(this.valueToSearch).subscribe(
-      (data:any)=>{
-        this.sourcePerson = data.details;
-      }
-    );
+    this.bloodCollService.findByCollectionNumber(this.valueToSearch).subscribe(
+       (data:any)=>{
+         this.sourceCollections = data.details;
+       }
+     );
   }
 
- /*  closeDonnerTable(){
-    this.showdonnerTable = false;
-    this.showSearchCard=true;
-    this.dialogRef.close();
-  } */
+  closeCollectionTable(){
+     this.showCollections = false;
+     this.showSearchCard=true;
+     this.dialogRef.close();
+   }
 
 }
 
