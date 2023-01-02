@@ -78,11 +78,9 @@
 </form>
 
 <nb-card *ngIf="showSearchCard">
-  <button nbButton size="small" status="primary" type="button" (click)="AddForm()">
-    Nova Entrada
-  </button>
 
-  <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
+
+  <!-- <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
       <nb-card-header>Pesquisa:</nb-card-header>
       <nb-card-body>
@@ -104,15 +102,15 @@
         </button>
       </nb-card-footer>
     </nb-card>
-  </form>
+  </form> -->
 </nb-card>
 
 <nb-card accent="primary" *ngIf="showSmartTable">
   <nb-card-header>
     <div class="headerList">
       STOCK QUARENTENA:
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeResult()">
-        <nb-icon icon="close-outline"></nb-icon>
+      <button nbButton size="small" status="primary" type="button" (click)="AddForm()">
+        Nova Entrada
       </button>
     </div>
   </nb-card-header>

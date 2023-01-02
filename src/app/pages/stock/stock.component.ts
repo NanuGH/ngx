@@ -20,7 +20,7 @@ export class StockComponent implements OnInit {
   showSearchCard: boolean = true;
   showResultForm: boolean = false;
   showAddOrEditForm: boolean = false;
-  showSmartTable: boolean = false;
+  showSmartTable: boolean = true;
   showAddForm: boolean = false;
   showCollections: boolean = false;
   collectResponse: BloodCollectModel;
@@ -44,6 +44,7 @@ export class StockComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadForms();
+    this.getAll();
   }
 
   loadForms() {
@@ -145,6 +146,15 @@ export class StockComponent implements OnInit {
     },
   };
 
+  ////////        GET  ALL Stock        ///////
+
+  getAll(){
+    this.stockService.getAll("p")
+      .subscribe((data: any) => {
+        this.source.load(data.details[0]);
+      });
+  }
+
 
   ////////        GET  with Params        ///////
 
@@ -208,6 +218,11 @@ export class StockComponent implements OnInit {
 
   convertAddForm() {
     var viewModelObject = <StockModel>{
+     expirationDate: "",
+     dmCodeStockType: "",
+     whoInserted: "",
+     whoUpdated: "",
+     status: ""
     };
     return viewModelObject;
   }
@@ -223,7 +238,7 @@ export class StockComponent implements OnInit {
 
   addStock() {
     this.convertAddForm();
-      this.stockService.create(this.convertAddForm(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idCollect).subscribe(
+      this.stockService.create(this.convertAddForm(),this.idCollect, 'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
         (data: any) => {
           console.log(data);
         }

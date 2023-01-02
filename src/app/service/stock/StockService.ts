@@ -41,6 +41,13 @@ import { SearchStock } from '../../models/request/searchStock';
     }
 
 
+    getAll(type: string):Observable<ApiResponse<StockModel>> {
+      return this.http.get<ApiResponse<StockModel>>(`${this.url}stockType/${type}`, this.httpOptions);
+    }
+
+
+
+
 
 
 
