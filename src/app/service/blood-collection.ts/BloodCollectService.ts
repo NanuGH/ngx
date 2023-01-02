@@ -40,7 +40,7 @@ import { BloodCollectModel } from '../../models/response/BloodCollectModel';
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`, options);
       }
       if ( searchBloodCollect.collectionNumber != null && searchBloodCollect.insertionDate != null) {
-        const options = { params: queryJustCollectionNumber, headers: headerss };
+        const options = { params: queryParams, headers: headerss };
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
       }
       if (searchBloodCollect.collectionNumber == null && searchBloodCollect.insertionDate != null) {

@@ -7,7 +7,8 @@ export interface BloodCollectModel {
   collectionNumber:string,
   externCollection: string,
   whoUpdated: string,
-  whoInserted: string
+  whoInserted: string,
+  expirationDate: string,
   Person:PersonModel;
   Employee: EmployeeModel;
 }

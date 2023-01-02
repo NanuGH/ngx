@@ -129,7 +129,8 @@ export class StockComponent implements OnInit {
       namePerson: {
         title: 'Doador',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.collection.idPerson.namePerson + ' ' + row.collection.idPerson.surnamePerson }
+        valuePrepareFunction: (cell, row) => { return row.collection.idPerson.namePerson + ' '
+                                                    + row.collection.idPerson.surnamePerson }
       },
       dmBloodCode: {
         title: 'G. Sanguíneo',
@@ -202,12 +203,11 @@ export class StockComponent implements OnInit {
   }
 
   addForm = this.formBuilder.group({
-    expirationDate: [""], value: [""]
+     value: [""]
   });
 
   convertAddForm() {
     var viewModelObject = <StockModel>{
-      expirationDate: this.searchGroup.get("expirationDate").value,
     };
     return viewModelObject;
   }
@@ -217,8 +217,6 @@ export class StockComponent implements OnInit {
       this.idCollect = $event.data.id;
       this.collectResponse = $event.data;
       this.addForm.get("value").setValue(this.collectResponse.collectionNumber) ;
-      this.addForm.get("expirationDate").setValue($event.data.expirationDate);
-
     }
     this.dialogRef.close();
   }

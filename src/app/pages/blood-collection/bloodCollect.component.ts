@@ -117,7 +117,8 @@ export class BloodCollectComponent implements OnInit {
       namePerson: {
         title: 'Doador',
         type: 'string',
-        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
+        valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' '
+                                                    + row.idPerson.surnamePerson}
       },
       surnamePerson: {
         title: 'Funcionário',
@@ -212,13 +213,14 @@ export class BloodCollectComponent implements OnInit {
 
 
   addForm = this.formBuilder.group({
-    collectionNumber: [""] , qtdde: [""], externCollection: [""], value:[""]
+    collectionNumber: [""] , qtdde: [""], expirationDate: [""], externCollection: [""], value:[""]
   })
 
   convertAddFormToModel() {
     var viewModelObject = <BloodCollectModel>{
       collectionNumber: this.addForm.get("collectionNumber").value,
       qtdde: this.addForm.get("qtdde").value,
+      expirationDate: this.addForm.get("expirationDate").value,
       externCollection: this.addForm.get("externCollection").value,
     };
     return viewModelObject;
