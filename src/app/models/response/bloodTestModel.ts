@@ -11,4 +11,5 @@ export interface BloodTestModel {
   obs: string,
   expirationDate: Date,
   sampleNumber: Date,
+  dmClonclusion: String,
 }

@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Nº Análise:</label>
+            <label>Nº Análise</label>
             <input type="text" nbInput formControlName="testNumber" placeholder="Número" />
           </div>
         </div>
@@ -22,8 +22,6 @@
             <input type="text" nbInput formControlName="hcv" placeholder="hcv" />
           </div>
         </div>
-       <!--  ///////******////// -->
-
         <div class="col-sm-4">
           <div class="form-group">
             <label>HIV 1 e 2</label>
@@ -36,26 +34,32 @@
             <input type="text" nbInput formControlName="vdrl" placeholder="vdrl" />
           </div>
         </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>G.Sanguíneo</label>
+            <input type="text" nbInput formControlName="bloodType" placeholder="G.Sanguíneo" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>Conclusão</label>
+            <input type="text" nbInput formControlName="dmConclusion" placeholder="Conclusão" />
+          </div>
+        </div>
       </div>
 
-      <p>Detalhes do Doador:</p>
+      <p>Detalhes Amostra</p>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Nome:</label>
-            <input type="text" nbInput formControlName="nameDonner" placeholder="Nome" />
+            <label>Nº Amostra</label>
+            <input type="text" nbInput formControlName="sampleNumber" placeholder="Nº Amostra" />
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Doc. Identificação</label>
-            <input type="text" nbInput formControlName="dmDocIdent" placeholder="Num.Identificação " />
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Email:</label>
-            <input type="text" nbInput formControlName="email" placeholder="Email" />
+            <label>Validade</label>
+            <input type="text" nbInput formControlName="expirationDate" placeholder="Validade" />
           </div>
         </div>
       </div>
@@ -74,14 +78,7 @@
             <input type="text" nbInput formControlName="identifNumber" placeholder="Num.Identificação " />
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label>Função:</label>
-            <input type="text" nbInput formControlName="dmfunction" placeholder="Função" />
-          </div>
-        </div>
       </div>
-
 
       <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDetails()">
         <nb-icon icon="close-outline"></nb-icon>

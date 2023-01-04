@@ -56,23 +56,20 @@ export class BloodTestComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        testNumber: ["RZ0xNN"],
+        testNumber: ["v0chiq"],
         //insertionDate: ["2022-11-07"]
       }),
     });
   }
 
   resultForm = this.formBuilder.group({
-
     //Blood Test
-    testNumber: [""], aghbs: [""], hcv: [""], bloodCode: [""], dmDocIdent: [""], birthday: [""], dmSex: [""],
-    homeAdd: [""], jobAddress: [""], profession: [""], grade: [""], email: [""],
-
-    //Blood Collection
-    identifNumber: [""], dmfunction: [""],
-
+    testNumber: [""], aghbs: [""], hcv: [""],
+    hiv: [""],vdrl: [""],  bloodType: [""],dmConclusion: [""],
+    //Sample
+    sampleNumber: [""], expirationDate: [""],
     //Employee
-    collectionNumber: [""], qtdde: [""], externCollection: [""], nameEmployee: [""], surnameEmployee: [""],
+    nameEmployee: [""], identifNumber: [""]
   });
 
 
@@ -201,17 +198,15 @@ export class BloodTestComponent implements OnInit {
           this.resultForm.get("hcv").setValue($event.data.hcv);
           this.resultForm.get("hiv").setValue($event.data.hiv);
           this.resultForm.get("vdrl").setValue($event.data.vdrl);
-          //donner fields
-          this.resultForm.get("nameDonner").setValue($event.data.idPerson.namePerson + " "
-            + $event.data.idPerson.surnamePerson);
-          this.resultForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-          this.resultForm.get("email").setValue($event.data.idPerson.email);
+          this.resultForm.get("bloodType").setValue($event.data.idSample.idCollection.bloodType);
+          this.resultForm.get("dmConclusion").setValue($event.data.dmConclusion);
+          //sample fields
+          this.resultForm.get("sampleNumber").setValue($event.data.idSample.sampleNumber);
+          this.resultForm.get("expirationDate").setValue($event.data.idSample.idCollection.expirationDate);
           //employee fields
           this.resultForm.get("nameEmployee").setValue($event.data.idEmployee.idPerson.namePerson + " "
-            + $event.data.idEmployee.idPerson.surnamePerson);
+                                                     + $event.data.idEmployee.idPerson.surnamePerson);
           this.resultForm.get("identifNumber").setValue($event.data.idEmployee.identifNumber);
-          this.resultForm.get("dmfunction").setValue($event.data.idEmployee.dmfunction);
-
         }
       );
     }
