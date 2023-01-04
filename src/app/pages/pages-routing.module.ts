@@ -88,6 +88,11 @@ const routes: Routes = [{
       loadChildren: () => import('./stock/stock.module')
         .then(m => m.BloodCollectModule),
     },
+    {
+      path: 'sample',
+      loadChildren: () => import('./sample/sample.module')
+        .then(m => m.SampleModule),
+    },
 
     {
       path: 'miscellaneous',

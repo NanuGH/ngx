@@ -13,16 +13,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'home-outline',
     link: '/pages/iot-dashboard',
   },*/
+
+  {
+    title: 'DOAÇÕES',
+    icon: 'heart',
+    link: '/pages/blood-collection',
+  },
+  {
+    title: 'AMOSTRAS',
+    icon: 'clipboard-outline',
+    link: '/pages/sample',
+  },
   {
     title: 'UTENTES',
     icon: 'people-outline',
     link: '/pages/person',
     home: true,
-  },
-  {
-    title: 'DOAÇÕES',
-    icon: 'heart',
-    link: '/pages/blood-collection',
   },
   {
     title: 'DOADORES',
