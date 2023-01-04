@@ -93,6 +93,11 @@ const routes: Routes = [{
       loadChildren: () => import('./sample/sample.module')
         .then(m => m.SampleModule),
     },
+    {
+      path: 'bloodTest',
+      loadChildren: () => import('./bloodTest/bloodTest.module')
+        .then(m => m.BloodTestModule),
+    },
 
     {
       path: 'miscellaneous',

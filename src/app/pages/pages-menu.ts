@@ -25,6 +25,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/sample',
   },
   {
+    title: 'ANÁlISES',
+    icon: 'clipboard-outline',
+    link: '/pages/bloodTest',
+  },
+  {
     title: 'UTENTES',
     icon: 'people-outline',
     link: '/pages/person',

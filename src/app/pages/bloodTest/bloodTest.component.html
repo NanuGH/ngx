@@ -1,26 +1,39 @@
 <form [formGroup]="resultForm" *ngIf="showResultForm">
   <nb-card accent="primary">
 
-    <nb-card-header>Detalhes:</nb-card-header>
+    <nb-card-header>Detalhes da Análise:</nb-card-header>
     <nb-card-body>
-      <p>Detalhes da Colheita:</p>
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Número:</label>
-            <input type="text" nbInput formControlName="collectionNumber" placeholder="Número" />
+            <label>Nº Análise:</label>
+            <input type="text" nbInput formControlName="testNumber" placeholder="Número" />
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Quantidade:</label>
-            <input type="text" nbInput formControlName="qtdde" placeholder="Quantidade" />
+            <label>AgHBs:</label>
+            <input type="text" nbInput formControlName="aghbs" placeholder="aghbs" />
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label>Externo</label>
-            <input type="text" nbInput formControlName="externCollection" placeholder="Externo" />
+            <label>hcv</label>
+            <input type="text" nbInput formControlName="hcv" placeholder="hcv" />
+          </div>
+        </div>
+       <!--  ///////******////// -->
+
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>HIV 1 e 2</label>
+            <input type="text" nbInput formControlName="hiv" placeholder="hiv" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label>VDRL</label>
+            <input type="text" nbInput formControlName="vdrl" placeholder="vdrl" />
           </div>
         </div>
       </div>
@@ -82,15 +95,15 @@
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
       <nb-card-header>
         <button nbButton size="small" status="primary" type="button" (click)="showAddBloodCollect()">
-          Nova Amostra
+          Nova Análise
         </button>
       </nb-card-header>
       <nb-card-body>
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
-              <label for="sampleNumber">Número Amostra</label>
-              <input type="text" class="form-control" id="sampleNumber" formControlName="sampleNumber" />
+              <label for="testNumber">Número Análise</label>
+              <input type="text" class="form-control" id="testNumber" formControlName="testNumber" />
             </div>
           </div>
 
@@ -117,7 +130,7 @@
 <nb-card accent="primary" *ngIf="showSmartTable">
   <nb-card-header>
     <div class="headerList">
-      AMOSTRAS:
+      ANÁLISE:
       <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeResult()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
@@ -125,7 +138,7 @@
   </nb-card-header>
 
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onEmploIdSelect($event)"
+    <ng2-smart-table [settings]="settings" [source]="source" (userRowSelect)="onTestSelect($event)"
       (edit)="onEdit($event)" (delete)="onDelete($event)">
     </ng2-smart-table>
   </nb-card-body>
