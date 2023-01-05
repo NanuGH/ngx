@@ -65,7 +65,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'TRANSFUSÕES',
     icon: 'activity',
-    link: '',
+    link: '/pages/transfusion',
   },
 
   {
