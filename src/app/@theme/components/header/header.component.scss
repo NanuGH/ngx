@@ -11,16 +11,19 @@
     display: flex;
     align-items: center;
     width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+    
   }
 
   nb-action {
     height: auto;
     display: flex;
     align-content: center;
+   
   }
 
   nb-user {
     cursor: pointer;
+   
   }
 
   ::ng-deep nb-search button {
@@ -31,6 +34,7 @@
     display: flex;
     align-items: center;
     width: auto;
+
 
     .sidebar-toggle {
       @include nb-ltr(padding-right, 1.25rem);
@@ -49,6 +53,7 @@
       @include nb-rtl(border-right, 1px solid nb-theme(divider-color));
       white-space: nowrap;
       text-decoration: none;
+      color: white;
     }
   }
 
@@ -59,6 +64,8 @@
     .user-action {
       border: none;
       padding: 0;
+    
+    
     }
   }
 
@@ -67,4 +74,24 @@
       display: none;
     }
   }
+
+  @include nb-for-theme(corporate) {
+    $menu-action-separator-color: #3f4550;
+
+    nb-action {
+      @include nb-ltr(border-left-color, $menu-action-separator-color);
+      @include nb-rtl(border-right-color, $menu-action-separator-color);
+    }
+
+    .header-container .logo {
+      @include nb-ltr(border, none);
+      @include nb-rtl(border, none);
+    }
+
+    .header-container /deep/ ngx-theme-switcher .dropdown-toggle {
+      color: nb-theme(color-white);
+      background: transparent;
+    }
+  }
+
 }
