@@ -6,6 +6,9 @@ import { SearchEmployee } from '../../models/request/searchEmployee';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
 import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { RolesService } from '../../service/role/rolesService';
+import { SearchRole } from '../../models/request/searchRole';
+import { RolesModel } from '../../models/response/RolesModel';
 
 @Component({
   selector: 'ngx-employee',
@@ -18,11 +21,15 @@ export class EmployeeComponent implements OnInit {
   showResultForm: boolean = false;
   showAddOrEditForm: boolean = false;
   showSmartTable: boolean = false;
+  showrolesTable: boolean = false;
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
+  sourceRoles: LocalDataSource = new LocalDataSource();
   idEmpl: string;
+  idRole: string;
   employeeResponse: PersonModel;
+  roleResponse: RolesModel;
 
   dialogRef: NbDialogRef<any>
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
@@ -31,6 +38,7 @@ export class EmployeeComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
+    private rolesService: RolesService,
     private dialogService: NbDialogService) {
 
   }
@@ -42,8 +50,8 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["1hEeTD"],
-        email: ["adilson@gmail.com"]
+        identifNumber: ["N9sYPg"],
+        email: ["admin@gmail.com"]
       }),
     });
   }
@@ -182,6 +190,79 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
+    /******** GET ROLES  *************** */
+
+  @ViewChild('dialogRoles') dialogPerson: TemplateRef<any>;
+
+  settingsRoles = {
+    noDataMessage: "Sem Dados",
+    mode: 'external',
+    actions: { columnTitle: 'Ações', add: false },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+      createButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      //confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      name: {
+        title: 'Nome',
+        type: 'string',
+      },
+      code: {
+        title: 'Codigo',
+        type: 'string',
+      },
+
+    },
+  };
+
+  valueToSearch: string;
+  searchRole(){
+    this.valueToSearch = this.addOrEditForm.get("dmfunction").value;
+    this.showrolesTable = true;
+    this.showSearchCard=false;
+    this.dialogRef = this.dialogService.open(this.dialogPerson);
+    /* this.rolesService.findByRoleName(this.valueToSearch).subscribe(
+      (data:any)=>{
+        this.sourceRoles = data.details;
+      }
+    ); */
+    this.rolesService.findAllRole().subscribe(
+      (data:any)=>{
+        this.sourceRoles = data.details[0];
+      }
+    );
+
+  }
+
+  closeRolesTable(){
+    this.showrolesTable = false;
+    this.showSearchCard=true;
+    this.dialogRef.close();
+  }
+
+  onRoleSelect($event){
+    if ($event.data.id) {
+      this.idRole = $event.data.id;
+      this.roleResponse = $event.data;
+      this.addOrEditForm.get("dmfunction").setValue(this.roleResponse.name);
+
+    }
+    console.log(this.idRole);
+
+    this.dialogRef.close();
+  }
+
 
   /******** ADD  *************** */
 
@@ -213,7 +294,7 @@ export class EmployeeComponent implements OnInit {
 
   addEmployee() {
     this.convertFormToModel();
-    this.employeeService.create(this.convertAddOrEditFormToModel()).subscribe(
+    this.employeeService.create(this.convertAddOrEditFormToModel(),this.idRole).subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -232,12 +313,11 @@ export class EmployeeComponent implements OnInit {
   }); */
 
   addOrEditForm = this.formBuilder.group({
-    name: [""], surname: [""], bloodCode: [""], dmDocIdent: [""],
-    birthday: [""], dmSex: [""], homeAdd: [""], jobAddress: [""],
-    profession: [""], grade: [""],
-
-    identifNumber: [""], dmfunction: [""], email: [""],
-    pw: [""]
+    name: ["Adilson"], surname: ["Correia"], bloodCode: ["A+"], dmDocIdent: ["cni1542"],
+    birthday: ["1991-04-16"], dmSex: ["M"], homeAdd: ["Palmarejo"], jobAddress: ["Plato"],
+    profession: ["E. Informático"], grade: ["Mestrado"],
+    //
+    identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"],pw: ["125juy"]
   });
 
   convertAddOrEditFormToModel() {
@@ -275,7 +355,7 @@ export class EmployeeComponent implements OnInit {
         this.addOrEditForm.get("grade").setValue($event.data.idPerson.grade);
         //employee fields
         this.addOrEditForm.get("identifNumber").setValue($event.data.identifNumber);
-        this.addOrEditForm.get("dmfunction").setValue($event.data.dmfunction);
+        this.addOrEditForm.get("namerole").setValue($event.data.name);
         this.addOrEditForm.get("email").setValue($event.data.email);
         this.addOrEditForm.get("pw").setValue($event.data.pw);
       }

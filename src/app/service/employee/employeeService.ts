@@ -58,8 +58,8 @@ export class EmployeeService extends DefaultService {
     return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}${id}`,employee,this.httpOptions);
   }
 
-  create(person: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
-    return this.http.post<ApiResponse<EmployeeModel>>(`${this.url}`,person,this.httpOptions);
+  create(person: EmployeeModel, id:string): Observable<ApiResponse<EmployeeModel>> {
+    return this.http.post<ApiResponse<EmployeeModel>>(`${this.url}${id}`,person,this.httpOptions);
   }
 
 

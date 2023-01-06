@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <button title="button" class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDetails()">
+      <button nbButton title="button" class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDetails()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
     </nb-card-body>
@@ -246,6 +246,7 @@
           <div class="form-group">
             <label>Função:</label>
             <input type="text" nbInput formControlName="dmfunction" placeholder="Função" />
+            <nb-icon icon="search-outline" (click)="searchRole()"></nb-icon>
           </div>
         </div>
         <div class="col-sm-4">
@@ -287,5 +288,24 @@
       <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
       <button class="btn-action-modal" nbButton status="primary" (click)="onDeleteConfirm();">Excluir</button>
     </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+
+<ng-template #dialogRoles let-data let-ref="dialogRef">
+  <nb-card accent="primary" *ngIf="showrolesTable">
+    <nb-card-header>
+      <div class="headerList">
+        Função:
+        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeRolesTable()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
+
+    <nb-card-body>
+      <ng2-smart-table [settings]="settingsRoles" [source]="sourceRoles" (userRowSelect)="onRoleSelect($event)">
+      </ng2-smart-table>
+    </nb-card-body>
   </nb-card>
 </ng-template>
