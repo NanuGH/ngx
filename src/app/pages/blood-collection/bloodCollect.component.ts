@@ -9,6 +9,8 @@ import { EmployeeModel } from '../../models/response/EmployeeModel';
 import { PersonModel } from '../../models/response/personModel';
 
 import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
+import { DonnerService } from '../../service/blood-donnner/DonnerService';
+import { DonnerModel } from '../../models/response/donnerModel';
 
 @Component({
   selector: 'ngx-person',
@@ -26,11 +28,12 @@ export class BloodCollectComponent implements OnInit {
 
   searchForm: FormGroup;
   source: LocalDataSource = new LocalDataSource();
-  sourcePerson: LocalDataSource = new LocalDataSource();
+  sourceDonner: LocalDataSource = new LocalDataSource();
   idEmpl: string;
   idBloodCollect: string;
   idPerson: string;
   idCollection: string;
+  donnerResponse: DonnerModel;
   personResponse: PersonModel;
   refreshTable: BloodCollectModel;
 
@@ -39,6 +42,7 @@ export class BloodCollectComponent implements OnInit {
     private formBuilder: FormBuilder,
     private bloodCollectService: BloodCollectService,
     private personService: PersonService,
+    private donnerService: DonnerService,
     private dialogService: NbDialogService,) {
   }
 
@@ -49,8 +53,8 @@ export class BloodCollectComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        collectionNumber: ["524f"],
-        insertionDate: ["2022-11-07"]
+        collectionNumber: ["dfg754"],
+        insertionDate: ["2023-01-02"]
       }),
     });
   }
@@ -229,15 +233,15 @@ export class BloodCollectComponent implements OnInit {
   }
 
 
-  onPersonSelect($event){
+  onDonnerSelect($event){
     if ($event.data.id) {
       this.idPerson = $event.data.id;
       this.personResponse = $event.data;
       this.addForm.get("value").setValue(this.personResponse.namePerson + " "
                                        + this.personResponse.surnamePerson) ;
-      this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
+     /*  this.addForm.get("collectionNumber").setValue($event.data.collectionNumber);
       this.addForm.get("qtdde").setValue($event.data.qtdde);
-      this.addForm.get("externCollection").setValue($event.data.externCollection);
+      this.addForm.get("externCollection").setValue($event.data.externCollection); */
     }
     this.dialogRef.close();
   }
@@ -342,19 +346,26 @@ export class BloodCollectComponent implements OnInit {
       namePerson: {
         title: 'Nome',
         type: 'string',
+        /* valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' '
+                                                    + row.idPerson.surnamePerson} */
       },
       surnamePerson: {
-        title: 'Apelido',
+        title: 'Nome',
         type: 'string',
+        /* valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' '
+                                                    + row.idPerson.surnamePerson} */
       },
       dmBloodCode: {
         title: 'G. Sanguíneo',
         type: 'string',
+        //valuePrepareFunction: (cell, row) => { return row.idPerson.dmBloodCode}
       },
       dmDocIdent: {
         title: 'Doc. Ident.',
         type: 'string',
+        //valuePrepareFunction: (cell, row) => { return row.idPerson.dmDocIdent}
       },
+
     },
   };
 
@@ -363,10 +374,18 @@ export class BloodCollectComponent implements OnInit {
     this.valueToSearch = this.addForm.get("value").value;
     this.showdonnerTable = true;
     this.showSearchCard=false;
+
     this.dialogRef = this.dialogService.open(this.dialogPerson);
     this.personService.getByOne(this.valueToSearch).subscribe(
       (data:any)=>{
-        this.sourcePerson = data.details;
+        var filtroStatus = data.details.filter(
+          function (pesquisa) {
+            var list = String(pesquisa.status)
+            return list == "true";
+          }
+        );
+        this.sourceDonner.load(filtroStatus);
+        //this.sourceDonner = data.details;
       }
     );
   }

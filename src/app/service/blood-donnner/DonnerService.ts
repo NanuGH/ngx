@@ -56,4 +56,14 @@ import { SearchDonner } from "../../models/request/searchDonner";
     changeStatus(id: string): Observable<ApiResponse<DonnerModel>> {
       return this.http.put<ApiResponse<DonnerModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
     }
+
+
+    getByOne(value: string): Observable<ApiResponse<DonnerModel>>{
+      const headerss = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
+
+      let queryParams = new HttpParams().append("value",value);
+      const options = {  params: queryParams, headers: headerss }
+
+      return this.http.get<ApiResponse<DonnerModel>>(`${this.url}getDonnerByOne`, options);
+    }
   }

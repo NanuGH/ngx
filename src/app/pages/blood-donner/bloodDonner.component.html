@@ -164,11 +164,11 @@
 </form>
 
 <nb-card *ngIf="showSearchCard">
-
-
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
-      <nb-card-header>Pesquisa:</nb-card-header>
+      <nb-card-header class="searcHeader">
+        <button nbButton size="small" status="primary" type="button" (click)="showAddPerson()">Novo Doador</button>
+      </nb-card-header>
       <nb-card-body>
         <div class="row">
           <div class="col-sm-4">

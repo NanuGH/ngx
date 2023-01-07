@@ -299,7 +299,7 @@ export class BloodDonnerComponent implements OnInit {
 
   convertEditFormToModel() {
     var viewModelObject = <DonnerModel>{
-      personDto: this.convertPersonData(),
+      idPerson: this.convertPersonData(),
       kell: this.resultForm.get("kell").value,
       dmHemolisina: this.resultForm.get("dmHemolisina").value,
       celFalcif: this.resultForm.get("celFalcif").value,
@@ -375,13 +375,14 @@ export class BloodDonnerComponent implements OnInit {
     this.dialogRef = this.dialogService.open(this.dialogPerson);
     this.personService.getByOne(this.valueToSearch).subscribe(
       (data: any) => {
-        /* this.sourcePerson = data.details; */
-        var filtroStatus = data.details[0].filter(function (pesquisa) {
-          var list = Boolean(pesquisa.status)
-          return list == true;
-        });
+        //this.sourcePerson = data.details[0];
+        var filtroStatus = data.details[0].filter(
+          function (pesquisa) {
+           var list = Boolean(pesquisa.status)
+           return list == true;
+          });
+        this.sourcePerson.load(filtroStatus);
 
-        this.source.load(filtroStatus);
       }
     );
   }

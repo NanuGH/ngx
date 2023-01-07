@@ -50,8 +50,8 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        identifNumber: ["N9sYPg"],
-        email: ["admin@gmail.com"]
+        identifNumber: ["9ZpvEG"],
+        email: ["ady@gmail.com"]
       }),
     });
   }
@@ -269,6 +269,13 @@ export class EmployeeComponent implements OnInit {
   showAddEmpl() {
     this.showAddOrEditForm = true;
     this.showSmartTable = false;
+    this.addOrEditForm = this.formBuilder.group({
+      name: ["Adilson"], surname: ["Correia"], bloodCode: ["A+"], dmDocIdent: ["cni1542"],
+      birthday: ["1991-04-16"], dmSex: ["M"], homeAdd: ["Palmarejo"], jobAddress: ["Plato"],
+      profession: ["E. Informático"], grade: ["Mestrado"],
+      //
+      identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"],pw: ["125juy"]
+    });
   }
 
   convertPersonData() {

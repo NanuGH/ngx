@@ -7,6 +7,18 @@
 }
  */
 
+ .searcHeader{
+  display: flex;
+  justify-content: flex-end;
+ }
+
+ .resultFormHead{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0%;
+ }
+
  .form-group{
   display: flex;
   flex-direction: column;
@@ -14,9 +26,10 @@
 
  .headerList{
   display:  flex;
-  justify-content: space-between;
+  justify-content: flex-end;
  }
 
  .addButton{
-  width: 10%;
+  margin-left: 90%;
  }
+
