@@ -90,6 +90,7 @@ export class BloodCollectComponent implements OnInit {
   closeAddForm() {
     this.showAddForm = false;
     this.addForm.reset();
+    this.showSearchCard = true;
   }
 
   /////    SMART TABLE     //////////
@@ -97,7 +98,7 @@ export class BloodCollectComponent implements OnInit {
   settings = {
     noDataMessage: "Sem Dados",
     mode: 'external',
-    actions: { columnTitle: 'Ações', add: false },
+    actions: { columnTitle: 'DOAÇÕES', add: false },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -209,6 +210,7 @@ export class BloodCollectComponent implements OnInit {
   showAddBloodCollect() {
     this.showAddForm = true;
     this.showSmartTable = false;
+    this.showSearchCard = false;
   }
 
 
@@ -242,14 +244,14 @@ export class BloodCollectComponent implements OnInit {
 
 
   addCollect() {
-    console.log(this.idPerson);
-
     this.convertFormToModel();
      this.bloodCollectService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
       }
     )
+    this.showSearchCard = true;
+
   }
 
 
@@ -320,7 +322,7 @@ export class BloodCollectComponent implements OnInit {
   settingsDonner = {
     noDataMessage: "Sem Dados",
     mode: 'external',
-    actions: { columnTitle: 'Ações', add: false },
+    actions: { columnTitle: 'DOADORES:', add: false },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',

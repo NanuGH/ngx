@@ -78,13 +78,13 @@
 </form>
 
 <nb-card *ngIf="showSearchCard">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddBloodCollect()">
-    Nova Doação
-  </button>
-
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
-      <nb-card-header>Pesquisa:</nb-card-header>
+      <nb-card-header class="searcHeader">
+        <button nbButton size="small" status="primary" type="button" (click)="showAddBloodCollect()">
+          Nova Doação
+        </button>
+      </nb-card-header>
       <nb-card-body>
         <div class="row">
           <div class="col-sm-4">
@@ -115,9 +115,8 @@
 </nb-card>
 
 <nb-card accent="primary" *ngIf="showSmartTable">
-  <nb-card-header>
-    <div class="headerList">
-      DOAÇÕES:
+  <nb-card-header class="tableCard">
+    <div class="closeBtn">
       <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeResult()">
         <nb-icon icon="close-outline"></nb-icon>
       </button>
@@ -246,11 +245,18 @@
 
 <form [formGroup]="addForm" *ngIf="showAddForm">
   <nb-card accent="primary">
-    <nb-card-header>Nova Doação:</nb-card-header>
+    <nb-card-header class="addCard">
+      <div>Nova Doação:</div>
+      <div>
+        <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
+          <nb-icon icon="close-outline"></nb-icon>
+        </button>
+      </div>
+    </nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col-sm-4">
-          <div class="form-groupp">
+          <div class="">
             <label>Doador:</label>
             <input type="text" nbInput formControlName="value" placeholder="Nome/Doc.Ident." />
             <nb-icon icon="search-outline" (click)="searchDonner()"></nb-icon>
@@ -283,14 +289,12 @@
           </div>
         </div>
       </div>
-
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeAddForm()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
+    </nb-card-body>
+    <nb-card-footer>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="addCollect()">
         Salvar
       </button>
-    </nb-card-body>
+    </nb-card-footer>
   </nb-card>
 </form>
 
@@ -298,7 +302,6 @@
   <nb-card accent="primary" *ngIf="showdonnerTable">
     <nb-card-header>
       <div class="headerList">
-        DOAÇÕES:
         <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeDonnerTable()">
           <nb-icon icon="close-outline"></nb-icon>
         </button>
@@ -334,7 +337,12 @@
 
 <form [formGroup]="editForm" *ngIf="showEditForm">
   <nb-card accent="primary">
-    <nb-card-header>Editar Doação:</nb-card-header>
+    <nb-card-header class="addCard">
+      <div>Editar Doação:</div>
+      <div> <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeEditForm()">
+        <nb-icon icon="close-outline"></nb-icon>
+      </button></div>
+    </nb-card-header>
     <nb-card-body>
       <div class="row">
         <div class="col-sm-4">
@@ -356,10 +364,6 @@
           </div>
         </div>
       </div>
-
-      <button title="button" nbButton class="mt-3 mr-2" size="small" type="button" status="danger" (click)="closeEditForm()">
-        <nb-icon icon="close-outline"></nb-icon>
-      </button>
       <button nbButton class="mt-3 mr-2" size="small" type="button" status="primary" (click)="editCollect()">
         Salvar
       </button>

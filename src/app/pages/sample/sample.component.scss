@@ -7,14 +7,19 @@
 }
  */
 
+ .searcHeader{
+  display: flex;
+  justify-content: flex-end;
+ }
+
  .form-group{
   display: flex;
   flex-direction: column;
  }
 
- .headerList{
-  display:  flex;
-  justify-content: space-between;
+ .closeBtn{
+  display: flex;
+  justify-content: flex-end;
  }
 
  .personalData{
@@ -28,3 +33,27 @@
   margin-bottom: 15px;
   font-weight: bold;
  }
+
+ .addCard{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 22px;
+  padding: 0%;
+ }
+
+ .tableCard{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 22px;
+  padding: 0%;
+ }
+
+ .detailsHead{
+  display: flex;
+  justify-content: flex-end;
+  padding: 0%;
+ }
+
+

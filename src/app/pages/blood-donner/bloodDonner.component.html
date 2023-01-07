@@ -163,9 +163,8 @@
   </nb-card>
 </form>
 
-
 <nb-card *ngIf="showSearchCard">
-  <button nbButton size="small" status="primary" type="button" (click)="showAddPerson()">Novo Doador</button>
+
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
@@ -303,7 +302,6 @@
     </nb-card-body>
   </nb-card>
 </form>
-
 
 
 

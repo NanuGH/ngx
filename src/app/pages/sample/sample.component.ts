@@ -102,7 +102,7 @@ export class SampleComponent implements OnInit {
   settings = {
     noDataMessage: "Sem Dados",
     mode: 'external',
-    actions: { columnTitle: 'Ações', add: false },
+    actions: { columnTitle: 'AMOSTRAS', add: false },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -180,7 +180,7 @@ export class SampleComponent implements OnInit {
 
   /******** Get BY ID - Details */
 
-  public onEmploIdSelect($event) {
+  public onSampleSelect($event) {
     this.showResultForm = true;
     this.showSearchCard = false;
 

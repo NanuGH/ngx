@@ -7,6 +7,12 @@
 }
  */
 
+
+ .searcHeader{
+  display: flex;
+  justify-content: flex-end;
+ }
+
  .form-group{
   display: flex;
   flex-direction: column;
@@ -15,19 +21,24 @@
   display: flex;
  }
 
- .headerList{
-  display:  flex;
+ .closeBtn{
+  display: flex;
+  justify-content: flex-end;
+ }
+
+
+ .addCard{
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-left: 22px;
+  padding: 0%;
  }
 
- .personalData{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-weight: bold;
- }
-
- .jobData{
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-weight: bold;
+ .tableCard{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 22px;
+  padding: 0%;
  }
