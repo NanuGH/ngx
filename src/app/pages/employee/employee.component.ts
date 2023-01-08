@@ -333,7 +333,7 @@ export class EmployeeComponent implements OnInit {
       identifNumber: this.addOrEditForm.get("identifNumber").value,
       dmfunction: this.addOrEditForm.get("dmfunction").value,
       email: this.addOrEditForm.get("email").value,
-      pw: this.addOrEditForm.get("pw").value,
+      password: this.addOrEditForm.get("pw").value,
       whoUpdated: "Hernani"
     };
     return viewModelObject;

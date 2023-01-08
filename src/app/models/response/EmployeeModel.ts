@@ -7,7 +7,7 @@ export interface EmployeeModel {
   status: string;
   dmCodeDisabled: string;
   identifNumber: string;
-  pw: string;
+  password: string;
   dmfunction: string;
   idRoles: string;
   email: string;
