@@ -57,7 +57,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Pronto',
         icon: 'done-all-outline',
-        link: '',
+        link: '/pages/stockPronto',
       },
     ],
 

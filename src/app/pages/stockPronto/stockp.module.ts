@@ -5,7 +5,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { PersonService } from '../../service/person/personService';
 
-import { StockRoutingModule,routedComponents} from './stock-routing.module';
+import { StockpRoutingModule,routedComponents} from './stockp-routing.module';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { StockRoutingModule,routedComponents} from './stock-routing.module';
     Ng2SmartTableModule,
     ReactiveFormsModule,
     FormsModule,
-    StockRoutingModule,
+    StockpRoutingModule,
   ],
   declarations: [
     ...routedComponents,
@@ -27,4 +27,4 @@ import { StockRoutingModule,routedComponents} from './stock-routing.module';
   entryComponents:[],
   providers: [PersonService],
 })
-export class StockModule { }
+export class StockpModule { }

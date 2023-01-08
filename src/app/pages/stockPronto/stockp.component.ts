@@ -12,10 +12,10 @@ import { StockService } from '../../service/stock/StockService';
 
 @Component({
   selector: 'ngx-stock',
-  templateUrl: "./stock.component.html",
-  styleUrls: ["./stock.component.scss"],
+  templateUrl: "./stockp.component.html",
+  styleUrls: ["./stockp.component.scss"],
 })
-export class StockComponent implements OnInit {
+export class StockpComponent implements OnInit {
 
   showSearchCard: boolean = true;
   showResultForm: boolean = false;
@@ -149,7 +149,7 @@ export class StockComponent implements OnInit {
   ////////        GET  ALL Stock        ///////
 
   getAll(){
-    this.stockService.getAllBy("q")
+    this.stockService.getAllBy("p")
       .subscribe((data: any) => {
         var filtroStatus = data.details[0].filter(
           function (pesquisa) {
