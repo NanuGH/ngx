@@ -9,6 +9,7 @@ import { PersonModel } from '../../models/response/personModel';
 import { StockModel } from '../../models/response/stockModel';
 import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 import { StockService } from '../../service/stock/StockService';
+import { ButtonChangeStockComponent } from './ButtonUpdatePayment/ButtonChangeStockComponent';
 
 @Component({
   selector: 'ngx-stock',
@@ -142,6 +143,18 @@ export class StockComponent implements OnInit {
         title: 'Funcionário',
         type: 'string',
         valuePrepareFunction: (cell, row) => { return row.collection.idEmployee.identifNumber }
+      },
+
+      envioStockPonto: {
+        title: 'Envio Pronto',
+        renderComponent: ButtonChangeStockComponent,
+        onComponentInitFunction: (instance) => {
+          instance.selectEdit
+            .subscribe((data) => {
+              this.source.remove(data.row);
+            });
+        }
+
       },
     },
   };
@@ -343,6 +356,7 @@ export class StockComponent implements OnInit {
         title: 'Data Colheita',
         type: 'string',
       },
+
     },
   };
 

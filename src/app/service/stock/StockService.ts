@@ -60,6 +60,10 @@ import { SearchStock } from '../../models/request/searchStock';
       return this.http.get<ApiResponse<StockModel>>(`${this.url}stockType/${type}`, this.httpOptions);
     }
 
+    changeStockType(id: String): Observable<ApiResponse<StockModel>> {
+      return this.http.get<ApiResponse<StockModel>>(`${this.url}${id}`, this.httpOptions);
+    }
+
 
 
 
