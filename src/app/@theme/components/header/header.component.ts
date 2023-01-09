@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Perfil' }, { title: 'Sair' } ];
+  userMenu = [ { title: 'Perfil' }, { title: 'Reset Password' }, { title: 'Sair' } ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -97,6 +97,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.authService.logout('email');
             this.router.navigate(['auth/login']);
             localStorage.removeItem('auth_app_token');
+          }
+
+          if(title == 'Reset Password'){
+
+            this.router.navigate(['auth/reset-password']);
+            //localStorage.removeItem('auth_app_token');
           }
       });
 
