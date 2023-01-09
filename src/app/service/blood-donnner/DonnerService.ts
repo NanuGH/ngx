@@ -16,7 +16,6 @@ import { SearchDonner } from "../../models/request/searchDonner";
     constructor(private http: HttpClient) {
      super('blooddonor/')
     }
-
     /* private httpOptions ={
       headers: new HttpHeaders({
         'Content-Type':'application/json',
@@ -35,7 +34,6 @@ import { SearchDonner } from "../../models/request/searchDonner";
       })
     };
 
-
     getDonner() {
       return this.http.get<ApiResponse<DonnerModel[]>>(`${this.url}`, this.httpOptions);
     }
@@ -48,8 +46,6 @@ import { SearchDonner } from "../../models/request/searchDonner";
       return this.http.get<ApiResponse<DonnerModel>>(`${this.url}opts`, options);
     }
 
-
-
     create(donner: DonnerModel,idEmpl:string,idPerson:string): Observable<ApiResponse<DonnerModel>> {
       return this.http.post<ApiResponse<DonnerModel>>(`${this.url}${idEmpl}/${idPerson}`, donner, this.httpOptions);
     }
@@ -57,8 +53,6 @@ import { SearchDonner } from "../../models/request/searchDonner";
     findById(id: String): Observable<ApiResponse<DonnerModel>> {
       return this.http.get<ApiResponse<DonnerModel>>(`${this.url}${id}`, this.httpOptions);
     }
-
-
 
     edit(donner: DonnerModel,idDonner:string,idEmpl:string): Observable<ApiResponse<DonnerModel>> {
       return this.http.put<ApiResponse<DonnerModel>>(`${this.url}${idDonner}/${idEmpl}`, donner, this.httpOptions);
@@ -68,13 +62,8 @@ import { SearchDonner } from "../../models/request/searchDonner";
       return this.http.put<ApiResponse<DonnerModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
     }
 
-
     getByOne(value: string): Observable<ApiResponse<DonnerModel>>{
-      const headerss = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
-
-      let queryParams = new HttpParams().append("value",value);
-      const options = {  params: queryParams, headers: headerss }
-
-      return this.http.get<ApiResponse<DonnerModel>>(`${this.url}getDonnerByOne`, options);
+       return this.http.get<ApiResponse<DonnerModel>>(`${this.url}getDonnerByOne/${value}`, this.httpOptions);
     }
+
   }

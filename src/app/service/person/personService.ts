@@ -72,12 +72,7 @@ import { PersonModel } from "../../models/response/personModel";
     }
 
     getByOne(value: string): Observable<ApiResponse<PersonModel>>{
-      const headerss = new HttpHeaders().set('Authorization','Basic bmFudTpuYW51');
-
-      let queryParams = new HttpParams().append("value",value);
-      const options = {  params: queryParams, headers: headerss }
-
-      return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonByOne`, options);
+      return this.http.get<ApiResponse<PersonModel>>(`${this.url}getPersonByOne/${value}`, this.httpOptions);
     }
 
 
@@ -94,7 +89,7 @@ import { PersonModel } from "../../models/response/personModel";
     }
 
     changeStatus(id: string): Observable<ApiResponse<PersonModel>> {
-      return this.http.put<ApiResponse<PersonModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
+      return this.http.put<ApiResponse<PersonModel>>(`${this.url}changestatus${id}`, null, this.httpOptions);
     }
 
 
