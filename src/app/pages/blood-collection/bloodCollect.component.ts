@@ -319,7 +319,7 @@ export class BloodCollectComponent implements OnInit {
   }
 
 
-  /******************    GET PERSON ********/
+  /******************    GET DONNER ********/
 
   @ViewChild('dialogPerson') dialogPerson: TemplateRef<any>;
 
@@ -346,24 +346,18 @@ export class BloodCollectComponent implements OnInit {
       namePerson: {
         title: 'Nome',
         type: 'string',
-        /* valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' '
-                                                    + row.idPerson.surnamePerson} */
       },
       surnamePerson: {
         title: 'Nome',
         type: 'string',
-        /* valuePrepareFunction: (cell, row) => { return row.idPerson.namePerson + ' '
-                                                    + row.idPerson.surnamePerson} */
       },
       dmBloodCode: {
         title: 'G. Sanguíneo',
         type: 'string',
-        //valuePrepareFunction: (cell, row) => { return row.idPerson.dmBloodCode}
       },
       dmDocIdent: {
         title: 'Doc. Ident.',
         type: 'string',
-        //valuePrepareFunction: (cell, row) => { return row.idPerson.dmDocIdent}
       },
 
     },
@@ -374,8 +368,8 @@ export class BloodCollectComponent implements OnInit {
     this.valueToSearch = this.addForm.get("value").value;
     this.showdonnerTable = true;
     this.showSearchCard=false;
-
     this.dialogRef = this.dialogService.open(this.dialogPerson);
+
     this.personService.getByOne(this.valueToSearch).subscribe(
       (data:any)=>{
         var filtroStatus = data.details.filter(

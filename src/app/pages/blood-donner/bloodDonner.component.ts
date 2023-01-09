@@ -376,7 +376,7 @@ export class BloodDonnerComponent implements OnInit {
     this.personService.getByOne(this.valueToSearch).subscribe(
       (data: any) => {
         //this.sourcePerson = data.details[0];
-        var filtroStatus = data.details[0].filter(
+        var filtroStatus = data.details.filter(
           function (pesquisa) {
            var list = Boolean(pesquisa.status)
            return list == true;
