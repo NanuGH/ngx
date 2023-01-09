@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgxAuthRoutingModule } from './auth-routing.module';
 import { NbAuthModule } from '@nebular/auth';
-import { 
+import {
   NbAlertModule,
   NbButtonModule,
   NbCardModule,
@@ -17,6 +17,7 @@ import {
 
 
 import { NgxLoginComponent } from './login/login.component';
+import { NgxResetComponent } from './reset-password/reset-password.component';
 
 
 
@@ -40,6 +41,7 @@ import { NgxLoginComponent } from './login/login.component';
   declarations: [
     // ... here goes our new components
     NgxLoginComponent,
+    NgxResetComponent,
 /*     NgxRegisterComponent */
 ],
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ButtonChangeStockComponent } from './ButtonUpdatePayment/ButtonChangeStockComponent';
 import { StockComponent } from './stock.component';
 
 
@@ -18,4 +19,5 @@ export class StockRoutingModule { }
 
 export const routedComponents = [
   StockComponent,
+  ButtonChangeStockComponent,
 ];

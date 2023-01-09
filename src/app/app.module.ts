@@ -80,11 +80,29 @@ const formSetting: any = {
                 defaultErrors: ['A combinação de login/e-mail não está correta, tente novamente.'],
                 defaultMessages: ['Você foi logado com sucesso.'],
 
+              },
+
+              resetPass: {
+                // ...
+                endpoint: 'resetPassTes',
+                method: 'put',
+                redirect: {
+                  success: '/',
+                  failure: null,
+                },
+                resetPasswordTokenKey: 'reset_password_token',
+                defaultErrors: ['Something went wrong, please try again.'],
+                defaultMessages: ['Your password has been successfully changed.'],
+
               }
+
         }),
+
+
 
       ],
       forms: {
+        resetPass: formSetting,
         login: formSetting,
         logout: {
           redirectDelay: 0,
