@@ -7,13 +7,13 @@ import { StockService } from '../../../service/stock/StockService';
   selector: 'button-view',
   template: `
     <div style="text-align: center;">
-    <img  src="assets/images/kitten-corporate.png" title="Duc Pago" width="35" height="40">
+    <img  src="assets/images/kitten-corporate.png" title="Confirmar Stock" width="35" height="40">
    </div>
     <ng-template #updateEstadoPago let-data let-ref="dialogRef" >
   <nb-card style="width:35em;">
-    <nb-card-header class="confirm" style="text-align: center">CONFIRMAÇÃO DO PAGAMENTO</nb-card-header>
+    <nb-card-header class="confirm" style="text-align: center">CONFIRMAÇÃO DO ESTADO DE STOCK</nb-card-header>
     <nb-card-body style="text-align: center">
-      Confirmar o Pagamento do Duc nº <span style="font-weight: bold">{{ data }}</span>
+      Confirmar o Mudanco de Stock <span style="font-weight: bold">{{ data }}</span>
     </nb-card-body>
     <nb-card-footer>
       <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
@@ -45,12 +45,12 @@ export class ButtonChangeStockComponent implements ViewCell, OnInit {
   ngOnInit() { }
 
   onClick() {
-    this.dialogRef = this.dialogService.open(this.updateEstadoPago, { context: this.rowData.duc });
+    this.dialogRef = this.dialogService.open(this.updateEstadoPago, { context: this.rowData.collection_number });
   }
 
   updateStatusPayment(event) {
     if (event) {
-      this.stockService.changeStockType(this.rowData.idPayment).subscribe(
+      this.stockService.changeStockType(this.rowData.id).subscribe(
         (data: any) => {
 
           if (data.status) {
