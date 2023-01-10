@@ -323,7 +323,7 @@
       Tens certeza que deseja excluir?
       <span style="font-weight: bold"> {{ data }}</span> ?
     </nb-card-body>
-    <nb-card-footer>
+    <nb-card-footer class="footerConfirm">
       <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
       <button class="btn-action-modal" nbButton status="primary" (click)="onDeleteConfirm()">
         Excluir

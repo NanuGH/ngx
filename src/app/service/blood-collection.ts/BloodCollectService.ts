@@ -35,7 +35,7 @@ import { BloodCollectModel } from '../../models/response/BloodCollectModel';
       })
     };
 
-
+/*
     getBloodColectMultParams(searchBloodCollect: SearchBloodCollect): Observable<ApiResponse<BloodCollectModule>> {
       const headerss = new HttpHeaders().set("Authorization","Basic bmFudTpuYW51" );
 
@@ -58,6 +58,22 @@ import { BloodCollectModel } from '../../models/response/BloodCollectModel';
         const options = { params: queryJustInsertionDate, headers: headerss };
         return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts`,options);
       }
+    } */
+
+    getBloodColectMultParams(searchBloodCollect: SearchBloodCollect): Observable<ApiResponse<BloodCollectModule>> {
+
+      if (searchBloodCollect.collectionNumber != undefined && searchBloodCollect.insertionDate == undefined ) {
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts?collectionNumber=${searchBloodCollect.collectionNumber}`,
+          this.httpOptions);
+      }
+
+      if (searchBloodCollect.collectionNumber == undefined && searchBloodCollect.insertionDate != undefined ) {
+        return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts?insertionDate=${searchBloodCollect.insertionDate}`,
+          this.httpOptions);
+      }
+
+      return this.http.get<ApiResponse<BloodCollectModule>>(`${this.url}getBloodCollectionpts?collectionNumber=${searchBloodCollect.collectionNumber}&insertionDate=${searchBloodCollect.insertionDate}`,
+        this.httpOptions);
     }
 
     findById(id: String): Observable<ApiResponse<BloodCollectModule>> {

@@ -173,8 +173,8 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="form-group">
-              <label for="identifNumber">Número de Identificação</label>
-              <input type="text" class="form-control" id="identifNumber" formControlName="identifNumber" />
+              <label for="identifNumber">Pesquisa</label>
+              <input type="text" class="form-control" id="identifNumber" placeholder="Nome/Nº identificação" formControlName="identifNumber" />
             </div>
           </div>
 
@@ -416,7 +416,7 @@
     <nb-card-body>
       Tens certeza que deseja excluir? <span style="font-weight: bold"> {{ data }}</span> ?
     </nb-card-body>
-    <nb-card-footer>
+    <nb-card-footer class="footerConfirm">
       <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
       <button class="btn-action-modal" nbButton status="primary" (click)="onDeleteConfirm();">Excluir</button>
     </nb-card-footer>

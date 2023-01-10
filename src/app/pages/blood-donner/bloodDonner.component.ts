@@ -151,7 +151,7 @@ export class BloodDonnerComponent implements OnInit {
   onSearchFormSubmit() {
 
     this.showSmartTable = true
-    this.donnerService.getDonnerBy(this.convertFormToModel())
+    this.donnerService.getByOne(this.convertFormToModel().identifNumber)
       .subscribe((data: any) => {
         var filtroStatus = data.details.filter(
           function (pesquisa) {

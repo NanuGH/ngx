@@ -11,6 +11,7 @@ import { PersonModel } from '../../models/response/personModel';
 import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 import { DonnerService } from '../../service/blood-donnner/DonnerService';
 import { DonnerModel } from '../../models/response/donnerModel';
+import { TreHelper } from '../../helpers/helper';
 
 @Component({
   selector: 'ngx-person',
@@ -53,8 +54,8 @@ export class BloodCollectComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        collectionNumber: ["dfg754"],
-        insertionDate: ["2023-01-02"]
+        collectionNumber: ["htre"],
+        insertionDate: [""]
       }),
     });
   }
@@ -153,6 +154,8 @@ export class BloodCollectComponent implements OnInit {
       collectionNumber: this.searchGroup.get("collectionNumber").value,
       insertionDate: this.searchGroup.get("insertionDate").value,
     };
+    TreHelper.removeProperty(viewModelObject);
+
     return viewModelObject;
   }
 
