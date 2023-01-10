@@ -17,7 +17,7 @@ import {
 
 
 import { NgxLoginComponent } from './login/login.component';
-import { NgxResetComponent } from './reset-password/reset-password.component';
+import { NgxResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
@@ -41,7 +41,7 @@ import { NgxResetComponent } from './reset-password/reset-password.component';
   declarations: [
     // ... here goes our new components
     NgxLoginComponent,
-    NgxResetComponent,
+    NgxResetPasswordComponent,
 /*     NgxRegisterComponent */
 ],
 

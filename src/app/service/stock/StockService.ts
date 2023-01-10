@@ -61,14 +61,7 @@ import { SearchStock } from '../../models/request/searchStock';
     }
 
     changeStockType(id: String): Observable<ApiResponse<StockModel>> {
-      return this.http.get<ApiResponse<StockModel>>(`${this.url}${id}`, this.httpOptions);
+      return this.http.put<ApiResponse<StockModel>>(`${this.url}changeType/${id}`,null, this.httpOptions);
     }
-
-
-
-
-
-
-
 
   }

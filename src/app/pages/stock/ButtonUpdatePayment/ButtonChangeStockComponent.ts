@@ -7,7 +7,8 @@ import { StockService } from '../../../service/stock/StockService';
   selector: 'button-view',
   template: `
     <div style="text-align: center;">
-    <img  src="assets/images/kitten-corporate.png" title="Confirmar Stock" width="35" height="40">
+    <!-- <img  src="assets/images/" hint="img" title="Confirmar Stock" width="35" height="40"> -->
+    <button nbButton status="danger">Cancelar</button>
    </div>
     <ng-template #updateEstadoPago let-data let-ref="dialogRef" >
   <nb-card style="width:35em;">

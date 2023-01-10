@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SearchStock } from '../../models/request/searchStock';
 import { BloodCollectModel } from '../../models/response/BloodCollectModel';
@@ -33,13 +33,14 @@ export class StockpComponent implements OnInit {
   idCollect: string;
   employeeResponse: PersonModel;
 
-
+  @ViewChild('dialogConfirm') dialogConfirm: TemplateRef<any>;
 
   constructor(
     private formBuilder: FormBuilder,
     private stockService: StockService,
     private bloodCollService: BloodCollectService,
-    private dialogService: NbDialogService,) {
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService,) {
   }
 
   ngOnInit(): void {
@@ -97,14 +98,14 @@ export class StockpComponent implements OnInit {
   settings = {
     noDataMessage: "Sem Dados",
     mode: 'external',
-    actions: { columnTitle: 'Ações', add: false },
+    actions: { columnTitle: 'Ações', add: false, position: 'right'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
     },
     edit: {
-      editButtonContent: '<i class="nb-edit"></i>',
+      editButtonContent: '<img src="assets/images/arrow-circle-right.svg" width="45" height="30">',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
       //confirmSave: true
@@ -254,36 +255,20 @@ export class StockpComponent implements OnInit {
 
   /************** Edit ***********/
 
-  /* public onEdit($event) {
-     this.idEmpl = $event.data.id;
+  public onEdit($event) {
+    this.idStock = $event.data.id;
+    this.dialogRef = this.dialogService.open(this.dialogConfirm);
+  }
 
-     this.bloodCollectService.findById(this.idEmpl).subscribe(
-       (data: any) => {
-         console.log(data.details[0]);
-
-         //person fields
-         this.employeeResponse = data.details[0];
-         this.addForm.get("name").setValue($event.data.idPerson.namePerson);
-         this.addForm.get("surname").setValue($event.data.idPerson.surnamePerson);
-         this.addForm.get("bloodCode").setValue($event.data.idPerson.dmBloodCode);
-         this.addForm.get("dmDocIdent").setValue($event.data.idPerson.dmDocIdent);
-         this.addForm.get("birthday").setValue($event.data.idPerson.birthday);
-         this.addForm.get("dmSex").setValue($event.data.idPerson.dmSex);
-         this.addForm.get("homeAdd").setValue($event.data.idPerson.dmHomeAdd);
-         this.addForm.get("jobAddress").setValue($event.data.idPerson.jobAddress);
-         this.addForm.get("profession").setValue($event.data.idPerson.profession);
-         this.addForm.get("grade").setValue($event.data.idPerson.grade);
-         //employee fields
-         this.addForm.get("identNumber").setValue($event.data.identNumber);
-         this.addForm.get("dmfunction").setValue($event.data.dmfunction);
-         this.addForm.get("email").setValue($event.data.email);
-       }
-     );
-
-     this.showAddOrEditForm = true; this.showSmartTable = false;
-   }
-
-  */
+  changeStock(){
+    this.stockService.changeStockType(this.idStock).subscribe(
+      (data: any) => {
+        this.toastrService.success('Enviado para Stock "Pronto".', 'Sucesso');
+        this.getAll();
+        this.dialogRef.close();
+      }
+    );
+  }
 
   /**************////// Change Status */
 

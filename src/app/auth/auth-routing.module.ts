@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxLoginComponent } from './login/login.component';
-import { NgxResetComponent } from './reset-password/reset-password.component';
+import { NgxResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -13,7 +13,7 @@ export const routes: Routes = [
 
   {
     path: 'reset-password',
-    component: NgxResetComponent, // <---
+    component: NgxResetPasswordComponent, // <---
 },
 
 

@@ -4,6 +4,7 @@ import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbTreeGridMo
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from '../../@theme/theme.module';
 import { PersonService } from '../../service/person/personService';
+import { ButtonChangeStockComponent } from './ButtonUpdatePayment/ButtonChangeStockComponent';
 
 import { StockRoutingModule,routedComponents} from './stock-routing.module';
 
@@ -24,7 +25,9 @@ import { StockRoutingModule,routedComponents} from './stock-routing.module';
   declarations: [
     ...routedComponents,
   ],
-  entryComponents:[],
+  entryComponents:[
+    ButtonChangeStockComponent,
+  ],
   providers: [PersonService],
 })
 export class StockModule { }

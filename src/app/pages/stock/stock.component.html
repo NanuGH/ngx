@@ -179,3 +179,18 @@
     </nb-card-body>
   </nb-card>
 </ng-template>
+
+<!--                    CONFIRM                   -->
+
+<ng-template #dialogConfirm let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>TRANSFERIR </nb-card-header>
+    <nb-card-body>
+      Transferir para Stock "Pronto"?
+    </nb-card-body>
+    <nb-card-footer class="footerConfirm">
+      <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
+      <button nbButton class="btn-action-modal" status="primary" (click)="changeStock()">ENVIAR</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

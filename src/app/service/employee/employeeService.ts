@@ -78,6 +78,9 @@ export class EmployeeService extends DefaultService {
     return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}changestatus/${id}`, null, this.httpOptions);
   }
 
+  resetPw(email: string,password: string): Observable<ApiResponse<EmployeeModel>> {
+    return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}reset/${email}/${password}`,null, this.httpOptions);
+  }
 
 
   /*
