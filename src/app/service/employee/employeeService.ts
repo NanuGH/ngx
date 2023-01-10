@@ -32,7 +32,7 @@ export class EmployeeService extends DefaultService {
     })
   };
 
-  getEmployeeMultipleParams(searchEmployee: SearchEmployee): Observable<ApiResponse<EmployeeModel>> {
+  /* getEmployeeMultipleParams(searchEmployee: SearchEmployee): Observable<ApiResponse<EmployeeModel>> {
     const headerss = new HttpHeaders().set("Authorization","Basic bmFudTpuYW51" );
 
     let queryParams = new HttpParams().append("identifNumber", searchEmployee.identifNumber)
@@ -59,6 +59,43 @@ export class EmployeeService extends DefaultService {
       const options = { headers: headerss };
       return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}getEmplOpts`,options);
     }
+  } */
+
+  findByOpts(employee: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
+    if (employee.Person.namePerson == undefined && employee.identifNumber != undefined && employee.email != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&email=${employee.email}`,
+        this.httpOptions);
+    }
+
+    if (employee.identifNumber == undefined && employee.email != undefined && employee.identifNumber != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?email=${employee.email}&Person.namePerson=${employee.Person.namePerson}`,
+        this.httpOptions);
+    }
+
+    if (employee.email == undefined && employee.identifNumber != undefined && employee.Person.namePerson != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&Person.namePerson=${employee.Person.namePerson}`,
+        this.httpOptions);
+    }
+
+    /* condição de dois elemento é null* */
+    if (employee.Person.namePerson != undefined && employee.identifNumber == undefined && employee.email == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?namePerson=${employee.Person.namePerson}`,
+        this.httpOptions);
+    }
+
+    if (employee.identifNumber != undefined && employee.email == undefined && employee.Person.namePerson == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}`,
+        this.httpOptions);
+    }
+
+    if (employee.email != undefined && employee.identifNumber == undefined && employee.Person.namePerson == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?email=${employee.email}`,
+        this.httpOptions);
+    }
+
+    return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&namePerson=${employee.Person.namePerson}&email=${employee.email}`,
+      this.httpOptions);
+
   }
 
   findById(id: String): Observable<ApiResponse<EmployeeModel>> {
@@ -82,9 +119,4 @@ export class EmployeeService extends DefaultService {
     return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}reset/${email}/${password}`,null, this.httpOptions);
   }
 
-
-  /*
-    delete(id: string): Observable<ResponseApp<Employee>> {
-      return this.http.delete<ResponseApp<Employee>>(`${this.url}/${id}`);
-    }*/
 }

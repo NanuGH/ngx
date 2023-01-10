@@ -100,7 +100,6 @@
 
 <nb-card *ngIf="showSearchCard">
 
-
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
       <nb-card-header class="searcHeader" >
@@ -108,13 +107,19 @@
       </nb-card-header>
       <nb-card-body>
         <div class="row">
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="namePerson">Nome</label>
+              <input type="text" class="form-control" id="namePerson" formControlName="namePerson" />
+            </div>
+          </div>
           <div class="col-sm-4">
             <div class="form-group">
               <label for="identifNumber">Número de Identificação</label>
               <input type="text" class="form-control" id="identifNumber" formControlName="identifNumber" />
             </div>
           </div>
-
           <div class="col-sm-4">
             <div class="form-group">
               <label for="email">Email</label>
@@ -280,7 +285,6 @@
 </form>
 
 
-
 <ng-template #dialogDelete let-data let-ref="dialogRef">
   <nb-card>
     <nb-card-header>ELIMINAR </nb-card-header>
@@ -312,3 +316,21 @@
     </nb-card-body>
   </nb-card>
 </ng-template>
+
+
+
+
+
+
+<!--
+public get searchGroup((sad) FormGroup {
+  return this.searchForm.get("search") as FormGroup;
+}
+loadSearchForm() {
+  this.searchForm = this.formBuilder.group({
+    search: this.formBuilder.group({
+      tipodoc: [""], codigo: [""], data_apreensao: [""],
+      n_oficio: [""], motivo: [""], nomeTitular: [""]
+    }),
+  });
+} -->

@@ -9,6 +9,7 @@ import { NbDialogRef, NbDialogService } from '@nebular/theme';
 import { RolesService } from '../../service/role/rolesService';
 import { SearchRole } from '../../models/request/searchRole';
 import { RolesModel } from '../../models/response/RolesModel';
+import { TreHelper } from '../../helpers/helper';
 
 @Component({
   selector: 'ngx-employee',
@@ -50,6 +51,7 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
+        namePerson: ["9ZpvEG"],
         identifNumber: ["9ZpvEG"],
         email: ["ady@gmail.com"]
       }),
@@ -65,15 +67,19 @@ export class EmployeeComponent implements OnInit {
 
   convertFormToModel() {
     var viewModelObject = <SearchEmployee>{
+      namePerson: this.searchGroup.get("namePerson").value,
       identifNumber: this.searchGroup.get("identifNumber").value,
       email: this.searchGroup.get("email").value,
     };
+    TreHelper.removeProperty(viewModelObject);
     return viewModelObject;
   }
 
   public get searchGroup(): FormGroup {
     return this.searchForm.get("search") as FormGroup;
   }
+
+
 
   /*********** CLOSE FORMS */
   closeResult() {
@@ -134,21 +140,17 @@ export class EmployeeComponent implements OnInit {
     },
   };
 
-
   ////////        GET  with Params        ///////
 
   onSearchFormSubmit() {
 
     this.showSmartTable = true
-
-    this.employeeService
-      .getEmployeeMultipleParams(this.convertFormToModel())
+    /* this.employeeService
+      .findByOpts()
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
-      });
-
+      }); */
   }
-
 
   clearSearchForm() {
     this.searchForm.reset();
@@ -262,7 +264,6 @@ export class EmployeeComponent implements OnInit {
 
     this.dialogRef.close();
   }
-
 
   /******** ADD  *************** */
 
