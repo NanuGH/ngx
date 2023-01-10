@@ -51,7 +51,7 @@ export class EmployeeComponent implements OnInit {
   loadForms() {
     this.searchForm = this.formBuilder.group({
       search: this.formBuilder.group({
-        namePerson: ["9ZpvEG"],
+        namePerson: ["Adilson"],
         identifNumber: ["9ZpvEG"],
         email: ["ady@gmail.com"]
       }),
@@ -143,13 +143,12 @@ export class EmployeeComponent implements OnInit {
   ////////        GET  with Params        ///////
 
   onSearchFormSubmit() {
-
     this.showSmartTable = true
-    /* this.employeeService
-      .findByOpts()
+       this.employeeService
+      .findByOpts(this.convertFormToModel())
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
-      }); */
+      });
   }
 
   clearSearchForm() {

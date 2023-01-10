@@ -61,39 +61,39 @@ export class EmployeeService extends DefaultService {
     }
   } */
 
-  findByOpts(employee: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
-    if (employee.Person.namePerson == undefined && employee.identifNumber != undefined && employee.email != undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&email=${employee.email}`,
+  findByOpts(employee: SearchEmployee): Observable<ApiResponse<EmployeeModel>> {
+    if (employee.namePerson == undefined && employee.identifNumber != undefined && employee.email != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?identifNumber=${employee.identifNumber}&email=${employee.email}`,
         this.httpOptions);
     }
 
-    if (employee.identifNumber == undefined && employee.email != undefined && employee.identifNumber != undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?email=${employee.email}&Person.namePerson=${employee.Person.namePerson}`,
+    if (employee.identifNumber == undefined && employee.email != undefined && employee.namePerson != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?namePerson=${employee.namePerson}&email=${employee.email}`,
         this.httpOptions);
     }
 
-    if (employee.email == undefined && employee.identifNumber != undefined && employee.Person.namePerson != undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&Person.namePerson=${employee.Person.namePerson}`,
+    if (employee.email == undefined && employee.identifNumber != undefined && employee.namePerson != undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?identifNumber=${employee.identifNumber}&namePerson=${employee.namePerson}`,
         this.httpOptions);
     }
 
     /* condição de dois elemento é null* */
-    if (employee.Person.namePerson != undefined && employee.identifNumber == undefined && employee.email == undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?namePerson=${employee.Person.namePerson}`,
+    if (employee.namePerson != undefined && employee.identifNumber == undefined && employee.email == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?namePerson=${employee.namePerson}`,
         this.httpOptions);
     }
 
-    if (employee.identifNumber != undefined && employee.email == undefined && employee.Person.namePerson == undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}`,
+    if (employee.identifNumber != undefined && employee.email == undefined && employee.namePerson == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?identifNumber=${employee.identifNumber}`,
         this.httpOptions);
     }
 
-    if (employee.email != undefined && employee.identifNumber == undefined && employee.Person.namePerson == undefined) {
-      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?email=${employee.email}`,
+    if (employee.email != undefined && employee.identifNumber == undefined && employee.namePerson == undefined) {
+      return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?email=${employee.email}`,
         this.httpOptions);
     }
 
-    return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}/search?identifNumber=${employee.identifNumber}&namePerson=${employee.Person.namePerson}&email=${employee.email}`,
+    return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}search?identifNumber=${employee.identifNumber}&namePerson=${employee.namePerson}&email=${employee.email}`,
       this.httpOptions);
 
   }
