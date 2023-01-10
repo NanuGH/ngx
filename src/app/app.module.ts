@@ -53,7 +53,7 @@ const formSetting: any = {
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
     
-/*     NbAuthModule.forRoot({
+    NbAuthModule.forRoot({
       strategies: [
         NbPasswordAuthStrategy.setup({
           name: 'email',
@@ -85,7 +85,7 @@ const formSetting: any = {
           redirectDelay: 0,
       },
     },
-  }), */
+  }), 
     
   ],
   bootstrap: [AppComponent],

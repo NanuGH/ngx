@@ -19,9 +19,6 @@ import {
 import { NgxLoginComponent } from './login/login.component';
 
 
-
-
-
 @NgModule({
   imports: [
     CommonModule,
