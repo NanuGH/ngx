@@ -10,6 +10,8 @@ import { RolesService } from '../../service/role/rolesService';
 import { SearchRole } from '../../models/request/searchRole';
 import { RolesModel } from '../../models/response/RolesModel';
 import { TreHelper } from '../../helpers/helper';
+import { NbAuthJWTToken } from '@nebular/auth/services/token/token';
+import { NbAuthService } from '@nebular/auth';
 
 @Component({
   selector: 'ngx-employee',
@@ -31,6 +33,8 @@ export class EmployeeComponent implements OnInit {
   idRole: string;
   employeeResponse: PersonModel;
   roleResponse: RolesModel;
+  user: any;
+  email: string;
 
   dialogRef: NbDialogRef<any>
   @ViewChild('dialogDelete') dialogDelete: TemplateRef<any>;
@@ -40,12 +44,34 @@ export class EmployeeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private employeeService: EmployeeService,
     private rolesService: RolesService,
-    private dialogService: NbDialogService) {
+    private dialogService: NbDialogService,
+    private authService: NbAuthService,) {
 
   }
 
   ngOnInit(): void {
     this.loadForms();
+    this.functionsServicospage();
+    this.getUser();
+  }
+
+  functionsServicospage() {
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.user = token.getPayload();
+        // const requestTokin = localStorage.getItem('auth_app_token');
+        this.email = this.user.sub
+        console.log(this.email);
+      }
+    });
+  }
+
+  getUser() {
+    this.employeeService.findByEmail(this.email).subscribe(
+      (data: any) => {
+        console.log(data);
+      }
+    )
   }
 
   loadForms() {
@@ -123,7 +149,8 @@ export class EmployeeComponent implements OnInit {
         title: 'Nome',
         type: 'string',
         valuePrepareFunction: (cell, row) => {
-          return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson}
+          return row.idPerson.namePerson + ' ' + row.idPerson.surnamePerson
+        }
       },
       dmfunction: {
         title: 'Função',
@@ -144,7 +171,7 @@ export class EmployeeComponent implements OnInit {
 
   onSearchFormSubmit() {
     this.showSmartTable = true
-       this.employeeService
+    this.employeeService
       .findByOpts(this.convertFormToModel())
       .subscribe((data: any) => {
         this.source.load(data.details[0]);
@@ -191,7 +218,7 @@ export class EmployeeComponent implements OnInit {
     }
   }
 
-    /******** GET ROLES  *************** */
+  /******** GET ROLES  *************** */
 
   @ViewChild('dialogRoles') dialogPerson: TemplateRef<any>;
 
@@ -228,10 +255,10 @@ export class EmployeeComponent implements OnInit {
   };
 
   valueToSearch: string;
-  searchRole(){
+  searchRole() {
     this.valueToSearch = this.addOrEditForm.get("dmfunction").value;
     this.showrolesTable = true;
-    this.showSearchCard=false;
+    this.showSearchCard = false;
     this.dialogRef = this.dialogService.open(this.dialogPerson);
     /* this.rolesService.findByRoleName(this.valueToSearch).subscribe(
       (data:any)=>{
@@ -239,20 +266,20 @@ export class EmployeeComponent implements OnInit {
       }
     ); */
     this.rolesService.findAllRole().subscribe(
-      (data:any)=>{
+      (data: any) => {
         this.sourceRoles = data.details[0];
       }
     );
 
   }
 
-  closeRolesTable(){
+  closeRolesTable() {
     this.showrolesTable = false;
-    this.showSearchCard=true;
+    this.showSearchCard = true;
     this.dialogRef.close();
   }
 
-  onRoleSelect($event){
+  onRoleSelect($event) {
     if ($event.data.id) {
       this.idRole = $event.data.id;
       this.roleResponse = $event.data;
@@ -274,7 +301,7 @@ export class EmployeeComponent implements OnInit {
       birthday: ["1991-04-16"], dmSex: ["M"], homeAdd: ["Palmarejo"], jobAddress: ["Plato"],
       profession: ["E. Informático"], grade: ["Mestrado"],
       //
-      identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"],pw: ["125juy"]
+      identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"], pw: ["125juy"]
     });
   }
 
@@ -301,7 +328,7 @@ export class EmployeeComponent implements OnInit {
 
   addEmployee() {
     this.convertFormToModel();
-    this.employeeService.create(this.convertAddOrEditFormToModel(),this.idRole).subscribe(
+    this.employeeService.create(this.convertAddOrEditFormToModel(), this.idRole).subscribe(
       (data: any) => {
         console.log(data);
       }
@@ -310,21 +337,21 @@ export class EmployeeComponent implements OnInit {
 
   }
 
- /*  addForm = this.formBuilder.group({
-    name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
-    birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
-    profession: ["fwrt"], grade: ["herg"],
+  /*  addForm = this.formBuilder.group({
+     name: ["as"], surname: ["asd"], bloodCode: ["s"], dmDocIdent: ["asd"],
+     birthday: ["2022-09-08"], dmSex: ["s"], homeAdd: ["asdf"], jobAddress: ["asf"],
+     profession: ["fwrt"], grade: ["herg"],
 
-    identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
-    pw: ["zdf"]
-  }); */
+     identNumber: ["56256"], dmFunction: ["efwe"], email: ["sdff@ds.com"],
+     pw: ["zdf"]
+   }); */
 
   addOrEditForm = this.formBuilder.group({
     name: ["Adilson"], surname: ["Correia"], bloodCode: ["A+"], dmDocIdent: ["cni1542"],
     birthday: ["1991-04-16"], dmSex: ["M"], homeAdd: ["Palmarejo"], jobAddress: ["Plato"],
     profession: ["E. Informático"], grade: ["Mestrado"],
     //
-    identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"],pw: ["125juy"]
+    identifNumber: ["cd458"], dmfunction: [""], email: ["ady@gmail.com"], pw: ["125juy"]
   });
 
   convertAddOrEditFormToModel() {
@@ -389,14 +416,14 @@ export class EmployeeComponent implements OnInit {
     this.dialogRef = this.dialogService.open(this.dialogDelete);
   }
 
- public onDeleteConfirm() {
+  public onDeleteConfirm() {
 
-      this.employeeService.changeStatus(this.idEmpl).subscribe(
-        (data: any) => {
-          console.log(data);
-          this.dialogRef.close();
-        }
-      );
+    this.employeeService.changeStatus(this.idEmpl).subscribe(
+      (data: any) => {
+        console.log(data);
+        this.dialogRef.close();
+      }
+    );
 
   }
 

@@ -102,6 +102,10 @@ export class EmployeeService extends DefaultService {
     return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}${id}`,this.httpOptions );
   }
 
+  findByEmail(email: String): Observable<ApiResponse<EmployeeModel>> {
+    return this.http.get<ApiResponse<EmployeeModel>>(`${this.url}email/${email}`, this.httpOptions);
+  }
+
   edit(id: String,employee: EmployeeModel): Observable<ApiResponse<EmployeeModel>> {
     return this.http.put<ApiResponse<EmployeeModel>>(`${this.url}${id}`,employee,this.httpOptions);
   }
