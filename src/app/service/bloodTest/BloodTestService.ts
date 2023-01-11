@@ -47,8 +47,8 @@ import { BloodTestModel } from "../../models/response/bloodTestModel";
       return this.http.get<ApiResponse<BloodTestModel>>(`${this.url}test/${searchTest.sampleNumber}`, this.httpOptions);
     }
 
-    create(testModel:BloodTestModel,idEmp:string,idSample:string): Observable<ApiResponse<SampleModel>> {
-      return this.http.post<ApiResponse<SampleModel>>(`${this.url}/${idEmp}/${idSample}`, testModel, this.httpOptions);
+    create(testModel:BloodTestModel,idEmp:string,idSample:string): Observable<ApiResponse<BloodTestModel>> {
+      return this.http.post<ApiResponse<BloodTestModel>>(`${this.url}${idEmp}/${idSample}`, testModel, this.httpOptions);
     }
 
     /* getAll(type: string):Observable<ApiResponse<SampleModel>> {

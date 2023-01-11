@@ -43,7 +43,7 @@ import { SearchSample } from "../../models/request/searchSample";
     }
 
     findBySampleNumber(searchSample: SearchSample): Observable<ApiResponse<SampleModel>> {
-      return this.http.get<ApiResponse<SampleModel>>(`${this.url}getsample/${searchSample.sampleNumber}`, this.httpOptions);
+      return this.http.get<ApiResponse<SampleModel>>(`${this.url}getsample/${searchSample.value}`, this.httpOptions);
     }
 
     create(sample:SampleModel,idCollect:string,idEmp:string): Observable<ApiResponse<SampleModel>> {

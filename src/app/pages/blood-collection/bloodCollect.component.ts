@@ -2,7 +2,7 @@ import { PersonService } from './../../service/person/personService';
 import { BloodCollectModel } from './../../models/response/BloodCollectModel';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { SearchBloodCollect } from '../../models/request/searchbloodCollect';
 import { EmployeeModel } from '../../models/response/EmployeeModel';
@@ -44,7 +44,8 @@ export class BloodCollectComponent implements OnInit {
     private bloodCollectService: BloodCollectService,
     private personService: PersonService,
     private donnerService: DonnerService,
-    private dialogService: NbDialogService,) {
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService) {
   }
 
   ngOnInit(): void {
@@ -169,6 +170,7 @@ export class BloodCollectComponent implements OnInit {
             return list == "true";
           }
         );
+
         this.source.load(filtroStatus);
        //this.source.load(data.details[0]);
        });
@@ -255,10 +257,13 @@ export class BloodCollectComponent implements OnInit {
      this.bloodCollectService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
+        this.toastrService.success('Inserido com sucesso', 'Sucesso');
+        this.showSearchCard = true;
+      },
+      (error)=>{
+        this.toastrService.warning('Erro de Inserção', 'Erro');
       }
-    )
-    this.showSearchCard = true;
-
+    );
   }
 
 

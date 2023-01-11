@@ -2,7 +2,7 @@ import { PersonService } from '../../service/person/personService';
 import { BloodCollectModel } from '../../models/response/BloodCollectModel';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
 
@@ -33,6 +33,7 @@ export class BloodTestComponent implements OnInit {
   idEmpl: string;
   idTest: string;
   idCollection: string;
+  idSample: string;
   personResponse: PersonModel;
   testResponse: BloodTestModel;
   collectResponse: BloodCollectModel;
@@ -44,9 +45,11 @@ export class BloodTestComponent implements OnInit {
     private bloodCollectService: BloodCollectService,
     private personService: PersonService,
     private sampleService: SampleService,
+    private bloodTestService: BloodTestService,
     private bloodService: BloodCollectService,
     private bloodtestService: BloodTestService,
-    private dialogService: NbDialogService,) {
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService) {
   }
 
   ngOnInit(): void {
@@ -169,8 +172,11 @@ export class BloodTestComponent implements OnInit {
           }
         );
         this.source.load(filtroStatus); */
+
         this.source.load(data.details);
-      });
+      }
+
+      );
     this.showAddForm = false;
   }
 
@@ -219,34 +225,43 @@ export class BloodTestComponent implements OnInit {
   }
 
   addForm = this.formBuilder.group({
-    expirationDate: [""], sampleNumber: [""], value: [""]
+    testNumber: [""], aghbs: ["false"], hcv: ["false"],hiv: ["false"], vdrl: ["false"], dmConclusion: ["apto"],amostra: ["dfg45"]
   })
 
   convertAddFormToModel() {
-    var viewModelObject = <SampleModel>{
-      expirationDate: this.addForm.get("expirationDate").value,
-      sampleNumber: this.addForm.get("sampleNumber").value,
+    var viewModelObject = <BloodTestModel>{
+      aghbs: this.addForm.get("aghbs").value,
+      hcv: this.addForm.get("hcv").value,
+      hiv: this.addForm.get("hiv").value,
+      vdrl: this.addForm.get("vdrl").value,
+      dmConclusion: this.addForm.get("dmConclusion").value,
     };
     return viewModelObject;
   }
 
 
-  onCollectSelect($event) {
+  onSampleSelect($event) {
     if ($event.data.id) {
-      this.idCollection = $event.data.id;
+      this.idSample = $event.data.id;
+      this.addForm.get("amostra").setValue($event.data.sampleNumber);
+
       this.collectResponse = $event.data;
-      this.addForm.get("value").setValue(this.collectResponse.collectionNumber);
-      this.addForm.get("expirationDate").setValue($event.data.expirationDate);
+
     }
     this.dialogRef.close();
   }
 
 
-  addCollect() {
+  addTest() {
     this.convertFormToModel();
-    this.sampleService.create(this.convertAddFormToModel(),this.idCollection, 'bbd6c39a-3c69-497c-8ca6-fab04dd51698').subscribe(
+    this.bloodTestService.create(this.convertAddFormToModel(),'bbd6c39a-3c69-497c-8ca6-fab04dd51698',this.idSample ).subscribe(
       (data: any) => {
+        this.toastrService.success('Inserido com sucesso', 'Sucesso');
         console.log(data);
+       // this.showAddForm=false
+      },
+      (error)=>{
+        this.toastrService.warning('Erro de Inserção', 'Erro');
       }
     )
   }
@@ -338,32 +353,48 @@ export class BloodTestComponent implements OnInit {
       collectionNumber: {
         title: 'Nº Colheita',
         type: 'string',
+        valuePrepareFunction: (cell, row) => {
+          return row.idCollection.collectionNumber
+      }
       },
       namePerson: {
         title: 'Doador',
         type: 'string',
         valuePrepareFunction: (cell, row) => {
-                return row.idPerson.namePerson + ' '
-              + row.idPerson.surnamePerson
+                return row.idCollection.idPerson.namePerson + ''+row.idCollection.idPerson.surnamePerson
+
             }
 
       },
       bloodType: {
         title: 'G. Sanguíneo',
         type: 'string',
+        valuePrepareFunction: (cell, row) => {
+          return row.idCollection.bloodType
+
+
+      }
       },
     },
   };
 
-  valueToSearch: string;
+  convertFormValue() {
+    var viewModelObjectValue = <SearchSample>{
+      value: this.addForm.get("amostra").value,
+      //insertionDate: this.searchGroup.get("insertionDate").value,
+    };
+    return viewModelObjectValue;
+  }
+
+
   searchSample() {
-    this.valueToSearch = this.addForm.get("value").value;
     this.showdonnerTable = true;
     this.showSearchCard = false;
     this.dialogRef = this.dialogService.open(this.dialogPerson);
-    this.bloodCollectService.findByCollectionNumber(this.valueToSearch).subscribe(
+    this.sampleService.findBySampleNumber(this.convertFormValue()).subscribe(
       (data: any) => {
         this.sourceCollection = data.details;
+
       }
     );
   }

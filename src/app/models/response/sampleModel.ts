@@ -11,4 +11,5 @@ export interface SampleModel {
   obs: string,
   expirationDate: Date,
   sampleNumber: Date,
+  dmConclusion: string;
 }

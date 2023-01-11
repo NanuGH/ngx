@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonModel } from '../../models/response/personModel';
-import { NbDialogRef, NbDialogService } from '@nebular/theme';
+import { NbDialogRef, NbDialogService, NbToastrService } from '@nebular/theme';
 import { DonnerService } from '../../service/blood-donnner/DonnerService';
 import { SearchDonner } from '../../models/request/searchDonner';
 import { DonnerModel } from '../../models/response/donnerModel';
@@ -42,7 +42,9 @@ export class BloodDonnerComponent implements OnInit {
     private formBuilder: FormBuilder,
     private donnerService: DonnerService,
     private personService: PersonService,
-    private dialogService: NbDialogService) {
+    private dialogService: NbDialogService,
+    private toastrService: NbToastrService
+    ) {
 
   }
 
@@ -442,6 +444,9 @@ export class BloodDonnerComponent implements OnInit {
     this.donnerService.create(this.convertAddFormToModel(), 'bbd6c39a-3c69-497c-8ca6-fab04dd51698', this.idPerson).subscribe(
       (data: any) => {
         console.log(data);
+        this.toastrService.success('Inserido com sucesso', 'Sucesso');
+      },(error)=>{
+        this.toastrService.warning('Erro de Inserção', 'Erro');
       }
     )
   }
