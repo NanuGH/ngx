@@ -109,7 +109,7 @@
   <nb-card-header>
     <div class="headerList">
       STOCK QUARENTENA:
-      <button nbButton size="small" status="primary" type="button" (click)="AddForm()">
+      <button *ngIf="permission" nbButton size="small" status="primary" type="button" (click)="AddForm()">
         Nova Entrada
       </button>
     </div>

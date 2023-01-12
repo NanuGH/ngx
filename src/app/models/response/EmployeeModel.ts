@@ -1,4 +1,5 @@
 import { PersonModel } from "./personModel";
+import { RolesModel } from "./RolesModel";
 
 export interface EmployeeModel {
   Person:PersonModel;
@@ -9,7 +10,7 @@ export interface EmployeeModel {
   identifNumber: string;
   password: string;
   dmfunction: string;
-  idRoles: string;
+  role: RolesModel;
   email: string;
   whoUpdated: string;
 }

@@ -9,7 +9,11 @@ import { PersonModel } from '../../models/response/personModel';
 import { StockModel } from '../../models/response/stockModel';
 import { BloodCollectService } from '../../service/blood-collection.ts/BloodCollectService';
 import { StockService } from '../../service/stock/StockService';
-import { ButtonChangeStockComponent } from './ButtonUpdatePayment/ButtonChangeStockComponent';
+
+
+import { NbAuthJWTToken } from '@nebular/auth/services/token/token';
+import { NbAuthService } from '@nebular/auth';
+import { EmployeeService } from '../../service/employee/employeeService';
 
 @Component({
   selector: 'ngx-stock',
@@ -41,13 +45,51 @@ export class StockComponent implements OnInit {
     private stockService: StockService,
     private bloodCollService: BloodCollectService,
     private dialogService: NbDialogService,
-    private toastrService: NbToastrService,) {
+    private toastrService: NbToastrService,
+    private authService: NbAuthService,
+    private employeeService: EmployeeService,) {
   }
 
   ngOnInit(): void {
     this.loadForms();
     this.getAll();
+    this.functionsServicospage();
   }
+
+  user: any;
+  email: string;
+
+  functionsServicospage() {
+    this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
+      if (token.isValid()) {
+        this.user = token.getPayload();
+        this.email = this.user.sub
+        console.log(this.email);
+      }
+    });
+  }
+
+  employee:EmployeeModel[];
+  permission:boolean=true;
+  idRole: string;
+
+  getUser() {
+    this.employeeService.findByEmail(this.email).subscribe(
+      (data: any) => {
+        this.employee = data.details[0];
+        this.idRole = this.employee[0].role.name;
+        if (this.idRole=="admin" || this.idRole=="enfermeiro") {
+          this.permission=true;
+          const ocultarButton =  this.settings = Object.assign({}, this.settings);
+          ocultarButton.actions.delete = true;
+          ocultarButton.actions.edit = true;
+          this.settings = Object.assign({}, ocultarButton);
+        }
+      }
+    )
+  }
+
+
 
   loadForms() {
     this.searchForm = this.formBuilder.group({
@@ -58,13 +100,10 @@ export class StockComponent implements OnInit {
   }
 
   resultForm = this.formBuilder.group({
-
     //Blood Collection
     collectionNumber: [""], qtdde: [""], insertionDate: [""], expirationDate: [""],
-
     //Donner
     nameDonner: [""], surnameDonner: [""], dmDocIdent: [""], telefone: [""],
-
     //Employee
     nameEmployee: [""], identifNumber: [""]
   });
@@ -99,7 +138,8 @@ export class StockComponent implements OnInit {
   settings = {
     noDataMessage: "Sem Dados",
     mode: 'external',
-    actions: { columnTitle: 'Ações', add: false, position: 'right' },
+    actions: { columnTitle: 'Ações', add: false, delete:true, edit:true, position: 'right'},
+    //actions: { columnTitle: 'Ações', add: false, edit: false, delete: false, position: 'right'},
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -107,13 +147,13 @@ export class StockComponent implements OnInit {
     },
     edit: {
       editButtonContent: '<img src="assets/images/arrow-circle-right.svg" width="45" height="30">',
-      saveButtonContent: '<i class="nb-checkmark"></i>',
-      cancelButtonContent: '<i class="nb-close"></i>',
+      //saveButtonContent: '<i class="nb-checkmark"></i>',
+      // cancelButtonContent: '<i class="nb-close"></i>',
       //confirmSave: true
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
-      confirmDelete: true,
+      //confirmDelete: true,
     },
     columns: {
       insertionDate: {

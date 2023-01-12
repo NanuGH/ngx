@@ -59,20 +59,29 @@ export class EmployeeComponent implements OnInit {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       if (token.isValid()) {
         this.user = token.getPayload();
-        // const requestTokin = localStorage.getItem('auth_app_token');
         this.email = this.user.sub
         console.log(this.email);
       }
     });
   }
 
+  employee:EmployeeModel[];
+  permission:boolean=false;
+
   getUser() {
     this.employeeService.findByEmail(this.email).subscribe(
       (data: any) => {
-        console.log(data);
+        this.employee = data.details[0];
+        this.idRole = this.employee[0].role.name;
+        console.log(this.idRole);
+        if (this.idRole=="admin") {
+          this.permission=true;
+        }
       }
     )
   }
+
+
 
   loadForms() {
     this.searchForm = this.formBuilder.group({

@@ -103,7 +103,7 @@
   <form [formGroup]="searchForm" (ngSubmit)="onSearchFormSubmit()">
     <nb-card formGroupName="search" nbSpinnerStatus="info" nbSpinnerSize="small" accent="primary">
       <nb-card-header class="searcHeader" >
-        <button nbButton size="small" status="primary" type="button" (click)="showAddEmpl()">Novo Funcionário</button>
+        <button *ngIf="permission" nbButton size="small" status="primary" type="button" (click)="showAddEmpl()">Novo Funcionário</button>
       </nb-card-header>
       <nb-card-body>
         <div class="row">
